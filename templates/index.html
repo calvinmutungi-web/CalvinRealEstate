@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calvin Real Estate Agencies</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Calvin Real Estate Agencies</h1>
+        <p>Your trusted partner in finding dream homes</p>
+    </header>
+
+    <section class="gallery">
+        <h2>Featured Properties</h2>
+        <div class="property-grid">
+            <div class="property">
+                <img src="{{ url_for('static', filename='images/house1.jpg') }}" alt="House 1">
+                <p>Modern 3-Bedroom Apartment</p>
+            </div>
+            <div class="property">
+                <img src="{{ url_for('static', filename='images/house2.jpg') }}" alt="House 2">
+                <p>Luxury Villa with Garden</p>
+            </div>
+            <div class="property">
+                <img src="{{ url_for('static', filename='images/house3.jpg') }}" alt="House 3">
+                <p>Affordable Family Home</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="contact">
+        <h2>Contact Us</h2>
+        <p>Phone: <a href="tel:+254796250286">0796 250 286</a></p>
+        <p>Email: info@calvinrealestate.com</p>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 Calvin Real Estate Agencies</p>
+    </footer>
+</body>
+</html>
