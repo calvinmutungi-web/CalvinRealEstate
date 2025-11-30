@@ -3,19 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calvin Real Estate Agencies</title>
+    <title>Calvin Real Estate Agencies – Nairobi Premium Properties</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
 
 <header>
     <nav>
-        <h1>Calvin Real Estate Agencies</h1>
+        <h1>Calvin Real Estate</h1>
         <ul>
             <li><a href="#home">Home</a></li>
-            <li><a href="#about">About Us</a></li>
+            <li><a href="#about">About</a></li>
             <li><a href="#properties">Properties</a></li>
-            <li><a href="#gallery">Gallery</a></li>
+            <li><a href="#gallery">Listings</a></li>
             <li><a href="#contact">Contact</a></li>
         </ul>
     </nav>
@@ -23,13 +23,13 @@
 
 <section class="hero" id="home">
     <h2>Your Dream Home Awaits</h2>
-    <p>Find the perfect property with Calvin Real Estate Agencies.</p>
-    <a href="#properties" class="btn-hero">View Properties</a>
+    <p>Premium properties in Nairobi • Direct owner deals • Zero broker drama</p>
+    <a href="#contact" class="btn-hero">Talk to Calvin Now</a>
 </section>
 
 <section id="about">
     <h2>About Us</h2>
-    <p>We specialize in connecting clients with the best properties in town, offering expert advice and reliable services.</p>
+    <p>We specialize in connecting serious buyers with serious sellers across Nairobi since 2025. No middlemen. No stress. Just results.</p>
 </section>
 
 <section id="properties">
@@ -37,115 +37,96 @@
     <div class="property-grid">
         <article class="property-card">
             <img src="{{ url_for('static', filename='pexels2.jpeg') }}" alt="Luxury Villa">
-            <h3>Luxury Villa</h3>
-            <p>5 Bedrooms • 4 Bathrooms • Swimming Pool</p>
+            <h3>Luxury Villa – Westlands</h3>
+            <p>5 Bed • 4 Bath • Pool • KES 65M</p>
         </article>
         <article class="property-card">
             <img src="{{ url_for('static', filename='pexels3.jpeg') }}" alt="Modern Apartment">
-            <h3>Modern Apartment</h3>
-            <p>3 Bedrooms • 2 Bathrooms • City View</p>
+            <h3>Penthouse – Kileleshwa</h3>
+            <p>3 Bed • City View • KES 28M</p>
         </article>
     </div>
 </section>
 
+<!-- DYNAMIC GALLERY – THIS IS THE NEW ONE -->
 <section id="gallery">
-    <h2>Our Listings</h2>
-    <div class="gallery">
-        <article class="property">
-            <img src="{{ url_for('static', filename='pexels.jpeg') }}" alt="Modern Villa">
-            <h3>Modern Villa</h3>
-            <p>Price: $250,000</p>
-        </article>
-        <article class="property">
-            <img src="{{ url_for('static', filename='pexels1.jpeg') }}" alt="Family House">
-            <h3>Family House</h3>
-            <p>Price: $180,000</p>
-        </article>
-        <article class="property">
-            <img src="{{ url_for('static', filename='pexels2.jpeg') }}" alt="Luxury Apartment">
-            <h3>Luxury Apartment</h3>
-            <p>Price: $320,000</p>
-        </article>
-        <article class="property">
-            <img src="{{ url_for('static', filename='pexels4.jpeg') }}" alt="Countryside Home">
-            <h3>Countryside Home</h3>
-            <p>Price: $150,000</p>
-        </article>
+    <h2>Latest Listings</h2>
+    <div class="gallery" id="property-container">
+        <p style="text-align:center;color:#888;font-size:1.1rem;">Loading latest properties...</p>
     </div>
 </section>
 
 <section id="contact">
-    <h2>Contact Us</h2>
-    <p>📞 Call us at <strong>0796250286</strong></p>
+    <h2>Contact Calvin Directly</h2>
+    <p>📞 <strong>0796 250 286</strong> • Available on WhatsApp</p>
     <form id="contactForm">
-        <label for="name">Your Name</label>
         <input type="text" id="name" placeholder="Your Name" required>
-
-        <label for="email">Your Email</label>
-        <input type="email" id="email" placeholder="Your Email" required>
-
-        <label for="message">Message</label>
-        <textarea id="message" placeholder="Your Message"></textarea>
-
-        <button type="submit">Send Message</button>
+        <input type="email" id="email" placeholder="Your Email or Phone" required>
+        <textarea id="message" placeholder="Tell me what you're looking for..." required></textarea>
+        <button type="submit">Send Message →</button>
     </form>
-
     <div id="toast" class="toast"></div>
 </section>
 
 <footer>
-    <p>&copy; 2025 Calvin Real Estate Agencies | All Rights Reserved</p>
-    <p><address>📍 Nairobi, Kenya</address></p>
+    <p>© 2025 Calvin Real Estate Agencies | Nairobi, Kenya</p>
 </footer>
 
 <script>
-/* Fade-in animation on scroll */
-document.addEventListener('DOMContentLoaded', () => {
-    const faders = document.querySelectorAll('.property, .property-card');
-    const appearOptions = { threshold: 0.1, rootMargin: "0px 0px -50px 0px" };
-    const appearOnScroll = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-            if (!entry.isIntersecting) return;
-            entry.target.style.opacity = 1;
-            entry.target.style.transform = 'translateY(0)';
-            observer.unobserve(entry.target);
-        });
-    }, appearOptions);
-    faders.forEach(fader => appearOnScroll.observe(fader));
-});
+// Dynamic gallery
+fetch('/static/properties.json')
+  .then(r => r.json())
+  .then(props => {
+    const container = document.getElementById('property-container');
+    if (!props || props.length === 0) {
+      container.innerHTML = '<p style="text-align:center;color:#888;">No listings yet — check back soon!</p>';
+      return;
+    }
+    container.innerHTML = props.map(p => `
+      <article class="property">
+        <img src="/static/gallery/${p.img}" alt="${p.title}">
+        <h3>${p.title}</h3>
+        <p>${p.desc}</p>
+        <p style="font-weight:bold;color:gold;font-size:1.5rem;margin-top:10px;">${p.price}</p>
+      </article>
+    `).join('');
+  });
 
-/* Async Contact Form */
+// Contact form + toast
 const form = document.getElementById('contactForm');
 const toast = document.getElementById('toast');
-
 form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const data = {
-        name: document.getElementById('name').value,
-        email: document.getElementById('email').value,
-        message: document.getElementById('message').value
-    };
-    try {
-        const res = await fetch('/contact', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(data)
-        });
-        const result = await res.json();
-        showToast(result.message);
-        form.reset();
-    } catch(err) {
-        showToast('Something went wrong. Try again!', true);
-    }
+  e.preventDefault();
+  const data = {
+    name: document.getElementById('name').value,
+    email: document.getElementById('email').value,
+    message: document.getElementById('message').value
+  };
+  try {
+    const res = await fetch('/contact', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(data)
+    });
+    const json = await res.json();
+    showToast(json.message || 'Sent!', false);
+    form.reset();
+  } catch {
+    showToast('Network error – try again', true);
+  }
 });
-
-function showToast(msg, error=false){
-    toast.textContent = msg;
-    toast.style.background = error ? 'darkred' : '#001f3f';
-    toast.classList.add('show');
-    setTimeout(() => toast.classList.remove('show'), 3000);
+function showToast(msg, error=false) {
+  toast.textContent = msg;
+  toast.style.background = error ? 'darkred' : '#001f3f';
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 4000);
 }
 </script>
+
+<style>
+.toast { position:fixed; bottom:20px; left:50%; transform:translateX(-50%); padding:15px 30px; color:white; border-radius:8px; opacity:0; transition:0.4s; z-index:999; }
+.toast.show { opacity:1; bottom:40px; }
+</style>
 
 </body>
 </html>
