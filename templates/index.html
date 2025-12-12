@@ -42,17 +42,17 @@
         </article>
         <article class="property-card">
             <img src="{{ url_for('static', filename='pexels3.jpeg') }}" alt="Modern Apartment">
-            <h3>Penthouse – Kileleshwa</h3>
+            <h3 Penthouse – Kileleshwa</h3>
             <p>3 Bed • City View • KES 28M</p>
         </article>
     </div>
 </section>
 
-<!-- DYNAMIC GALLERY – THIS IS THE NEW ONE -->
+<!-- DYNAMIC GALLERY – BULLETPROOF VERSION -->
 <section id="gallery">
     <h2>Latest Listings</h2>
     <div class="gallery" id="property-container">
-        <p style="text-align:center;color:#888;font-size:1.1rem;">Loading latest properties...</p>
+        <p style="text-align:center;color:#888;font-size:1.1rem;">Loading properties...</p>
     </div>
 </section>
 
@@ -73,26 +73,40 @@
 </footer>
 
 <script>
-// Dynamic gallery
-fetch('/static/properties.json')
-  .then(r => r.json())
+// BULLETPROOF GALLERY LOADER – FINAL VERSION
+fetch('/static/properties.json?' + new Date().getTime())
+  .then(res => {
+    if (!res.ok) throw new Error('Failed to load properties.json');
+    return res.json();
+  })
   .then(props => {
     const container = document.getElementById('property-container');
+    container.innerHTML = '';
+
     if (!props || props.length === 0) {
-      container.innerHTML = '<p style="text-align:center;color:#888;">No listings yet — check back soon!</p>';
+      container.innerHTML = '<p style="text-align:center;color:#888;">No listings yet — add some in /admin!</p>';
       return;
     }
-    container.innerHTML = props.map(p => `
-      <article class="property">
-        <img src="/static/gallery/${p.img}" alt="${p.title}">
+
+    props.forEach(p => {
+      const article = document.createElement('article');
+      article.className = 'property';
+      article.innerHTML = `
+        <img src="/static/gallery/${p.img}" alt="${p.title}" onerror="this.style.display='none';this.nextElementSibling.style.color='gold';this.nextElementSibling.textContent='Image not found'">
         <h3>${p.title}</h3>
         <p>${p.desc}</p>
         <p style="font-weight:bold;color:gold;font-size:1.5rem;margin-top:10px;">${p.price}</p>
-      </article>
-    `).join('');
+      `;
+      container.appendChild(article);
+    });
+  })
+  .catch(err => {
+    console.error('Gallery error:', err);
+    document.getElementById('property-container').innerHTML = 
+      '<p style="color:red;text-align:center;">Failed to load listings — refresh or contact admin</p>';
   });
 
-// Contact form + toast
+// Contact form toast (unchanged)
 const form = document.getElementById('contactForm');
 const toast = document.getElementById('toast');
 form.addEventListener('submit', async (e) => {
