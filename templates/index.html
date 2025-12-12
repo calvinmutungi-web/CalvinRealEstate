@@ -4,7 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calvin Real Estate Agencies – Nairobi Premium Properties</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"><meta name="description" content="Calvin Real Estate Agencies - Premium houses, apartments & land for sale in Nairobi, Westlands, Kileleshwa, Karen. Direct deals. No agents.">
+<meta property="og:title" content="Calvin Real Estate - Premium Properties Nairobi">
+<meta property="og:description" content="Direct owner deals • Ready titles • Verified properties">
+<meta property="og:image" content="https://calvinrealestate-3.onrender.com/static/hero.jpg">
+<link rel="canonical" href="https://calvinrealestate-3.onrender.com">
+
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-XXXXXXX');  // replace with your real ID later
+</script>
 </head>
 <body>
 
@@ -140,6 +153,21 @@ function showToast(msg, error=false) {
 <style>
 .toast { position:fixed; bottom:20px; left:50%; transform:translateX(-50%); padding:15px 30px; color:white; border-radius:8px; opacity:0; transition:0.4s; z-index:999; }
 .toast.show { opacity:1; bottom:40px; }
+</style><button id="darkModeToggle" style="position:fixed;top:20px;right:20px;z-index:999;background:gold;color:#001f3f;padding:10px 15px;border:none;border-radius:50px;font-weight:bold;box-shadow:0 4px 15px rgba(0,0,0,0.3);cursor:pointer;">🌙 Dark Mode</button>
+
+<script>
+const toggle = document.getElementById('darkModeToggle');
+toggle.onclick = () => {
+  document.body.classList.toggle('dark-mode');
+  toggle.textContent = document.body.classList.contains('dark-mode') ? '☀️ Light' : '🌙 Dark';
+};
+</script>
+
+<style>
+body.dark-mode { background:#121212; color:#eee; }
+body.dark-mode header, body.dark-mode footer { background:#001f3f; }
+body.dark-mode .property, body.dark-mode .property-card { background:#1e1e1e; }
+body.dark-mode section { background:#121212; }
 </style>
 
 </body>

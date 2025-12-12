@@ -33,13 +33,24 @@ def home():
 
 @app.route("/contact", methods=["POST"])
 def contact():
-    data = request.get_json() or {}
-    name = data.get("name", "").strip()
-    email = data.get("email", "").strip()
-    message = data.get("message", "").strip()
+    # ... your existing save code ...
 
-    if not all([name, email, message]) or len(message) > 2000:
-        return jsonify({"status": "error", "message": "Invalid data"}), 400
+    # Auto-reply message
+    auto_reply = f"Thanks {name}! 🙌\nCalvin here from Calvin Real Estate.\nI just got your message and I'm on it.\nI'll call you in the next 30–60 mins to discuss your dream property.\n\nTalk soon!\nCalvin 0796 250 286"
+    try:
+        requests.get(
+            "https://api.callmebot.com/whatsapp.php",
+            params={
+                "phone": "254796250286",  # your number
+                "text": auto_reply,
+                "apikey": "9531589"
+            },
+            timeout=8
+        )
+    except:
+        pass
+
+    return jsonify({"status": "success", "message": "Message received! Calvin will call you within 1 hour 🔥"})
 
     # Save to DB
     lead = Lead(name=name, email=email, message=message)
