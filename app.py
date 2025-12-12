@@ -1,3 +1,4 @@
+from werkzeug.utils import secure_filename
 from flask import Flask, render_template, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
@@ -21,7 +22,11 @@ with app.app_context():
     if not os.path.exists("static/properties.json"):
         with open("static/properties.json", "w") as f:
             f.write("[]")
-
+# After db.create_all()
+os.makedirs("static/gallery", exist_ok=True)
+if not os.path.exists("static/properties.json"):
+    with open("static/properties.json", "w") as f:
+        f.write("[]")
 @app.route("/")
 def home():
     return render_template("index.html")
@@ -49,7 +54,7 @@ def contact():
             params={
                 "phone": "254796250286",
                 "text": wa_text,
-                "apikey": "9531589"   # ← YOUR KEY LOCKED IN
+                "apikey": "9531589"   
             },
             timeout=10
         )
@@ -67,28 +72,34 @@ def admin_add():
     if request.form.get("pw") != "calvin2025":
         return "Wrong password", 403
 
-    title = request.form["title"]
-    price = request.form["price"]
-    desc = request.form["desc"]
-    file = request.files["image"]
+    title = request.form.get("title")
+    price = request.form.get("price")
+    desc = request.form.get("desc")
+    file = request.files.get("image")
 
-    if file and file.filename.lower().endswith(('.png', '.jpg', '.jpeg')):
-        filename = f"{datetime.now().strftime('%Y%m%d%H%M%S')}_{file.filename}"
-        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+    if not all([title, price, desc, file]) or not file.filename:
+        return "All fields required", 400
 
-        import json
-        new_prop = {"title": title, "price": price, "desc": desc, "img": filename}
-        try:
-            with open("static/properties.json", "r+") as f:
-                data = json.load(f)
-                data.append(new_prop)
-                f.seek(0)
-                json.dump(data, f, indent=2)
-        except:
-            with open("static/properties.json", "w") as f:
-                json.dump([new_prop], f, indent=2)
+    # Create gallery folder if missing
+    os.makedirs("static/gallery", exist_ok=True)
 
-    return "Property added – live instantly"
+    # Save image
+    filename = f"{datetime.now().strftime('%Y%m%d%H%M%S')}_{secure_filename(file.filename)}"
+    file.save(os.path.join("static/gallery", filename))
+
+    # Update JSON
+    new_prop = {"title": title, "price": price, "desc": desc, "img": filename}
+    json_path = "static/properties.json"
+    try:
+        with open(json_path, "r") as f:
+            data = json.load(f)
+    except:
+        data = []
+    data.append(new_prop)
+    with open(json_path, "w") as f:
+        json.dump(data, f, indent=2)
+
+    return "Property added — refresh homepage now!"
 
 if __name__ == "__main__":
     app.run()
