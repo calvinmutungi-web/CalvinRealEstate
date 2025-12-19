@@ -41,7 +41,6 @@
 <section id="properties">
     <h2>Featured Properties</h2>
     <div class="property-grid">
-        <!-- Your manual featured cards here -->
         <article class="property-card">
             <img src="{{ url_for('static', filename='pexels2.jpeg') }}" alt="Luxury Villa">
             <h3>Luxury Villa – Westlands</h3>
@@ -60,25 +59,40 @@
     <div class="gallery" id="property-container"></div>
 </section>
 
+<!-- LUXURIOUS TESTIMONIALS -->
 <section id="testimonials">
     <h2>What Clients Say</h2>
-    <div class="testimonials-grid">
+    <div class="testimonials-luxury">
         <div class="testimonial">
-            <p>"Calvin saved me millions with a direct deal — best in Nairobi!"</p>
-            <strong>— John K.</strong>
+            <div class="quote-icon">“</div>
+            <p class="quote-text">Calvin saved me millions with a direct deal — best in Nairobi!</p>
+            <div class="quote-icon end">”</div>
+            <div class="client-info">
+                <img src="{{ url_for('static', filename='client1.jpg') }}" alt="John K." class="client-photo" onerror="this.src='https://via.placeholder.com/60'">
+                <strong>John K., Westlands Buyer</strong>
+            </div>
         </div>
         <div class="testimonial">
-            <p>"Fast, honest, no drama. Sold my property in 2 weeks."</p>
-            <strong>— Sarah M.</strong>
+            <div class="quote-icon">“</div>
+            <p class="quote-text">Fast, honest, no drama. Sold my Karen home in 2 weeks.</p>
+            <div class="quote-icon end">”</div>
+            <div class="client-info">
+                <img src="{{ url_for('static', filename='client2.jpg') }}" alt="Sarah M." class="client-photo" onerror="this.src='https://via.placeholder.com/60'">
+                <strong>Sarah M., Seller</strong>
+            </div>
         </div>
         <div class="testimonial">
-            <p>"Professional and reliable. Highly recommend."</p>
-            <strong>— Mike O.</strong>
+            <div class="quote-icon">“</div>
+            <p class="quote-text">Professional from start to finish. Highly recommend Calvin.</p>
+            <div class="quote-icon end">”</div>
+            <div class="client-info">
+                <img src="{{ url_for('static', filename='client3.jpg') }}" alt="Mike O." class="client-photo" onerror="this.src='https://via.placeholder.com/60'">
+                <strong>Mike O., Kileleshwa Investor</strong>
+            </div>
         </div>
     </div>
 </section>
 
-<!-- CONTACT SECTION - PREMIUM, VISIBLE, WORKING -->
 <section id="contact">
     <h2>Contact Calvin Directly</h2>
     <p>📞 <strong>0796 250 286</strong> • Available on WhatsApp</p>
@@ -95,15 +109,15 @@
     <p>© 2025 Calvin Real Estate | Nairobi, Kenya</p>
 </footer>
 
-<!-- DARK MODE TOGGLE + GALLERY SCRIPT -->
 <script>
+// Dark mode toggle
 const toggle = document.getElementById('themeToggle');
 toggle.onclick = () => {
   document.body.classList.toggle('dark-mode');
   toggle.innerHTML = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
 };
 
-// Gallery load - premium
+// Gallery load
 fetch('/static/properties.json?t=' + Date.now())
   .then(r => r.ok ? r.json() : [])
   .then(props => {
@@ -128,7 +142,7 @@ fetch('/static/properties.json?t=' + Date.now())
     });
   });
 
-// Contact form
+// Contact form toast
 const form = document.getElementById('contactForm');
 const toast = document.getElementById('toast');
 form.addEventListener('submit', async (e) => {
