@@ -1,4 +1,4 @@
-# CalvinRealEstate
+CalvinRealEstate
 
 A real estate property dashboard built for Kenyan agents to showcase listings, manage inquiries, and present a modern, premium-facing web experience.
 
@@ -6,7 +6,7 @@ Live demo: [https://calvinrealestate-3.onrender.com/](https://calvinrealestate-3
 
 ---
 
-## Overview
+Overview
 
 CalvinRealEstate is a Flask-based web application designed to provide a clean, fast, and visually premium platform for real estate listings. It focuses on simplicity, speed, and a polished UI suitable for agents and small firms operating in the Kenyan real estate market.
 
