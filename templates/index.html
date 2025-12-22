@@ -3,37 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calvin Real Estate Agencies</title>
+    <title>Calvin Real Estate | Premium Listings</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        /* Professional Variables for Dark Mode */
+        :root { 
+            --bg: #ffffff; 
+            --text: #333; 
+            --card: #f9f9f9; 
+            --nav: #001f3f;
+        }
+        body.dark-mode { 
+            --bg: #121212; 
+            --text: #e0e0e0; 
+            --card: #1e1e1e; 
+            --nav: #000b14;
+        }
+        
+        body { background-color: var(--bg); color: var(--text); transition: background-color 0.3s, color 0.3s; margin: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        header { background: var(--nav); color: white; padding: 1rem 0; position: sticky; top: 0; z-index: 1000; }
+        nav { display: flex; justify-content: space-around; align-items: center; }
+        nav ul { list-style: none; display: flex; gap: 20px; padding: 0; }
+        nav a { color: white; text-decoration: none; font-weight: bold; }
+        
+        .btn-dark { cursor: pointer; padding: 8px 16px; border-radius: 20px; border: 1px solid #ccc; background: transparent; color: white; font-size: 0.9rem; }
+        
+        .property-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; padding: 40px 20px; }
+        .property-card { background: var(--card); padding: 15px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); transition: transform 0.3s; opacity: 0; transform: translateY(20px); }
+        .property-card:hover { transform: translateY(-5px); }
+        .property-card img { width: 100%; height: 200px; object-fit: cover; border-radius: 8px; }
+        
+        .testimonials { padding: 60px 20px; background: #001f3f; color: white; text-align: center; }
+        .test-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 25px; margin-top: 30px; }
+        .test-card { background: rgba(255,255,255,0.1); padding: 25px; border-radius: 10px; font-style: italic; }
+
+        .hero { text-align: center; padding: 100px 20px; background: linear-gradient(rgba(0,31,63,0.7), rgba(0,31,63,0.7)), url('/static/pexels.jpeg'); background-size: cover; color: white; }
+        .btn-hero { background: #ffcc00; color: #001f3f; padding: 12px 30px; text-decoration: none; border-radius: 5px; font-weight: bold; }
+        
+        form { max-width: 600px; margin: auto; display: flex; flex-direction: column; gap: 15px; padding: 20px; }
+        input, textarea { padding: 12px; border-radius: 5px; border: 1px solid #ccc; background: var(--card); color: var(--text); }
+        button[type="submit"] { background: #001f3f; color: white; padding: 15px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; }
+    </style>
 </head>
 <body>
 
 <header>
     <nav>
-        <h1>Calvin Real Estate Agencies</h1>
+        <h1>Calvin Real Estate</h1>
         <ul>
             <li><a href="#home">Home</a></li>
-            <li><a href="#about">About Us</a></li>
             <li><a href="#properties">Properties</a></li>
             <li><a href="#contact">Contact</a></li>
-            <li><a href="/admin" style="color: #ffcc00;">Admin</a></li>
+            <li><button class="btn-dark" onclick="toggleDark()">🌓 Dark Mode</button></li>
         </ul>
     </nav>
 </header>
 
 <section class="hero" id="home">
     <h2>Your Dream Home Awaits</h2>
-    <p>Find the perfect property with Calvin Real Estate Agencies.</p>
-    <a href="#properties" class="btn-hero">View Properties</a>
-</section>
-
-<section id="about">
-    <h2>About Us</h2>
-    <p>We specialize in connecting clients with the best properties in town, offering expert advice and reliable services.</p>
+    <p>Premium Real Estate Services in Nairobi and Beyond.</p>
+    <br>
+    <a href="#properties" class="btn-hero">Explore Listings</a>
 </section>
 
 <section id="properties">
-    <h2>Featured Properties</h2>
+    <h2 style="text-align: center; padding-top: 40px;">Featured Properties</h2>
     <div class="property-grid">
         {% if properties %}
             {% for p in properties %}
@@ -41,44 +75,52 @@
                 <img src="{{ url_for('static', filename=p.image) }}" alt="{{ p.title }}">
                 <h3>{{ p.title }}</h3>
                 <p>{{ p.details }}</p>
-                <p><strong>{{ p.price }}</strong></p>
-                <a href="/delete-property/{{ p.id }}" style="color:red; font-size:0.7rem; text-decoration:none;">[Remove Listing]</a>
+                <p><strong style="color: #ffcc00; font-size: 1.2rem;">{{ p.price }}</strong></p>
             </article>
             {% endfor %}
         {% else %}
-            <p style="text-align:center;">No listings available. Visit the Admin page to add some!</p>
+            <p style="text-align:center; grid-column: 1 / -1;">No properties listed yet. Check back soon!</p>
         {% endif %}
     </div>
 </section>
 
+<section class="testimonials">
+    <h2>What Our Clients Say</h2>
+    <div class="test-grid">
+        <div class="test-card">"Exceptional service! Found a beautiful family house in Nairobi exactly within our budget."<br><br><strong>- Joyce W.</strong></div>
+        <div class="test-card">"The dark mode makes late-night browsing so much better. Highly professional team."<br><br><strong>- Kevin O.</strong></div>
+        <div class="test-card">"Very transparent process. The villa we bought was even better in person."<br><br><strong>- David L.</strong></div>
+    </div>
+</section>
+
 <section id="contact">
-    <h2>Contact Us</h2>
-    <p>📞 Call us at <strong>0796250286</strong></p>
+    <h2 style="text-align: center; padding-top: 40px;">Contact Us</h2>
+    <p style="text-align: center;">📞 <strong>0796250286</strong> | 📍 Nairobi, Kenya</p>
     <form id="contactForm">
-        <label for="name">Your Name</label>
         <input type="text" id="name" placeholder="Your Name" required>
-
-        <label for="email">Your Email</label>
         <input type="email" id="email" placeholder="Your Email" required>
-
-        <label for="message">Message</label>
-        <textarea id="message" placeholder="Your Message"></textarea>
-
-        <button type="submit">Send Message</button>
+        <textarea id="message" placeholder="How can we help you?" rows="5" required></textarea>
+        <button type="submit">Send Inquiry</button>
     </form>
-    <div id="toast" class="toast"></div>
+    <div id="toast" style="display:none; position:fixed; bottom:20px; right:20px; padding:15px; border-radius:5px; color:white; z-index:2000;"></div>
 </section>
 
 <footer>
-    <p>&copy; 2025 Calvin Real Estate Agencies | All Rights Reserved</p>
-    <p><address>📍 Nairobi, Kenya</address></p>
+    <p style="text-align: center; padding: 40px; background: #000b14; color: white; margin: 0;">
+        &copy; 2025 Calvin Real Estate Agencies | All Rights Reserved
+    </p>
 </footer>
 
 <script>
+/* Dark Mode Toggle */
+function toggleDark() {
+    document.body.classList.toggle('dark-mode');
+}
+
 /* Fade-in animation on scroll */
 document.addEventListener('DOMContentLoaded', () => {
     const faders = document.querySelectorAll('.property-card');
-    const appearOptions = { threshold: 0.1, rootMargin: "0px 0px -50px 0px" };
+    const appearOptions = { threshold: 0.15, rootMargin: "0px 0px -50px 0px" };
     const appearOnScroll = new IntersectionObserver((entries, observer) => {
         entries.forEach(entry => {
             if (!entry.isIntersecting) return;
@@ -107,11 +149,10 @@ form.addEventListener('submit', async (e) => {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data)
         });
-        const result = await res.json();
-        showToast("Message Sent!");
+        showToast("Message Sent Successfully!");
         form.reset();
     } catch(err) {
-        showToast('Something went wrong.', true);
+        showToast('Error sending message.', true);
     }
 });
 
@@ -119,7 +160,7 @@ function showToast(msg, error=false){
     toast.textContent = msg;
     toast.style.display = 'block';
     toast.style.background = error ? 'red' : '#001f3f';
-    setTimeout(() => toast.style.display = 'none', 3000);
+    setTimeout(() => toast.style.display = 'none', 4000);
 }
 </script>
 

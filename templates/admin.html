@@ -1,26 +1,31 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Admin - Add Property</title>
-    <style>
-        body { font-family: 'Segoe UI', sans-serif; padding: 40px; max-width: 500px; margin: auto; background: #f4f4f9; }
-        form { background: white; padding: 25px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-        input, textarea { width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; }
-        button { width: 100%; padding: 12px; background: #001f3f; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; }
-        button:hover { background: #003366; }
-    </style>
+    <title>Admin Dashboard</title>
+    <style>body{font-family:sans-serif; padding:20px; max-width:800px; margin:auto;}</style>
 </head>
 <body>
-    <h1>Property Manager</h1>
-    <p>Use the password <strong>calvin2025</strong> to authorize changes.</p>
-    <form action="/admin-add" method="POST">
-        <input type="password" name="pw" placeholder="Admin Password" required>
-        <input type="text" name="title" placeholder="Property Title (e.g. Luxury Villa)" required>
-        <input type="text" name="price" placeholder="Price (e.g. KES 15,000,000)" required>
-        <textarea name="desc" placeholder="Property Details (Bedrooms, Baths, etc.)" rows="3" required></textarea>
-        <input type="text" name="image_name" placeholder="Image Name (e.g. pexels1.jpeg)" required>
-        <button type="submit">Publish Listing</button>
+    <h1>Property Management</h1>
+    <form action="/admin-add" method="POST" style="background:#eee; padding:20px; border-radius:10px;">
+        <h3>Add New Listing</h3>
+        <input type="password" name="pw" placeholder="Admin Password" required><br><br>
+        <input type="text" name="title" placeholder="Title" required>
+        <input type="text" name="price" placeholder="Price" required>
+        <input type="text" name="image_name" placeholder="Image Name (e.g. pexels5.jpeg)" required><br><br>
+        <textarea name="desc" placeholder="Details" required></textarea><br><br>
+        <button type="submit">Upload Property</button>
     </form>
+
+    <hr>
+    <h2>Existing Listings (Manage)</h2>
+    {% for p in properties %}
+    <div style="border-bottom: 1px solid #ccc; padding: 10px; display: flex; justify-content: space-between;">
+        <span>{{ p.title }} - {{ p.price }}</span>
+        <form action="/delete-property/{{ p.id }}" method="POST">
+            <input type="password" name="pw" placeholder="Password" style="width:80px;" required>
+            <button type="submit" style="color:red;">Delete</button>
+        </form>
+    </div>
+    {% endfor %}
 </body>
 </html>

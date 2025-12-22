@@ -4,8 +4,6 @@ from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 
-# --- DATABASE CONFIGURATION ---
-# Connects to your Render PostgreSQL database
 database_url = os.environ.get('DATABASE_URL')
 if database_url and database_url.startswith("postgres://"):
     database_url = database_url.replace("postgres://", "postgresql://", 1)
@@ -15,13 +13,12 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
 
-# --- MODELS ---
 class Listing(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100), nullable=False)
     price = db.Column(db.String(50), nullable=False)
     details = db.Column(db.String(200))
-    image = db.Column(db.String(100)) # Stores names like 'pexels1.jpeg'
+    image = db.Column(db.String(100))
 
 class Lead(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -29,30 +26,24 @@ class Lead(db.Model):
     email = db.Column(db.String(100))
     message = db.Column(db.Text)
 
-# --- ROUTES ---
-
 @app.route("/")
 def home():
     try:
-        # Pulls all houses from the PostgreSQL database
         properties = Listing.query.all()
         return render_template("index.html", properties=properties)
     except Exception:
-        # Fallback if the database tables aren't created yet
-        return "Site is initializing. Please visit /setup-db to prepare the database."
+        return "Initializing... visit /setup-db"
 
 @app.route("/admin")
 def admin_page():
-    return render_template("admin.html")
+    # We pass properties here so you can delete them from the admin panel
+    properties = Listing.query.all()
+    return render_template("admin.html", properties=properties)
 
 @app.route("/admin-add", methods=["POST"])
 def admin_add():
-    # Verify the password 'calvin2025' from your form
-    password = request.form.get("pw")
-    if password != "calvin2025":
-        return "Unauthorized Access", 401
-
-    # Create the new house object from form data
+    if request.form.get("pw") != "calvin2025":
+        return "Unauthorized", 401
     new_house = Listing(
         title=request.form.get("title"),
         price=request.form.get("price"),
@@ -61,28 +52,28 @@ def admin_add():
     )
     db.session.add(new_house)
     db.session.commit()
-    return redirect(url_for('home'))
+    return redirect(url_for('admin_page'))
 
-@app.route("/delete-property/<int:id>")
+@app.route("/delete-property/<int:id>", methods=["POST"])
 def delete_property(id):
+    if request.form.get("pw") != "calvin2025":
+        return "Unauthorized", 401
     prop = Listing.query.get_or_404(id)
     db.session.delete(prop)
     db.session.commit()
-    return redirect(url_for('home'))
+    return redirect(url_for('admin_page'))
 
 @app.route("/setup-db")
 def setup_db():
-    # Force creates the 'listing' and 'lead' tables
     db.create_all()
-    return "Database Ready! You can now go to /admin to add your properties."
+    return "Database Ready!"
 
 @app.route("/contact", methods=["POST"])
 def contact():
     data = request.json
-    new_lead = Lead(name=data.get('name'), email=data.get('email'), message=data.get('message'))
-    db.session.add(new_lead)
+    db.session.add(Lead(name=data.get('name'), email=data.get('email'), message=data.get('message')))
     db.session.commit()
-    return jsonify({"status": "success", "message": "Inquiry received!"})
+    return jsonify({"status": "success"})
 
 if __name__ == "__main__":
     app.run(debug=True)
