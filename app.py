@@ -38,3 +38,9 @@ if __name__ == "__main__":
     with app.app_context():
         db.create_all() # This creates the tables on Render automatically
     app.run(debug=True)
+if __name__ == "__main__":
+    with app.app_context():
+        # This is the magic line that fixes the "UndefinedTable" error
+        db.create_all() 
+        print("Database tables created successfully!")
+    app.run(debug=True)
