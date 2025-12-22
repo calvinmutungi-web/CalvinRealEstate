@@ -41,17 +41,15 @@
 <section id="properties">
     <h2>Featured Properties</h2>
     <div class="property-grid">
-        <article class="property-card">
-            <img src="{{ url_for('static', filename='pexels2.jpeg') }}" alt="Luxury Villa">
-            <h3>Luxury Villa – Westlands</h3>
-            <p>5 Bed • Pool • KES 65M</p>
-        </article>
-        <article class="property-card">
-            <img src="{{ url_for('static', filename='pexels3.jpeg') }}" alt="Penthouse">
-            <h3>Penthouse – Kileleshwa</h3>
-            <p>3 Bed • City View • KES 28M</p>
-        </article>
-    </div>
+    {% for p in properties %}
+    <article class="property-card">
+        <img src="{{ url_for('static', filename=p.image) }}" alt="{{ p.title }}">
+        <h3>{{ p.title }}</h3>
+        <p>{{ p.details }}</p>
+        <p><strong>{{ p.price }}</strong></p>
+    </article>
+    {% endfor %}
+</div>
 </section>
 
 <section id="gallery">
