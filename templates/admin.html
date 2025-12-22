@@ -1,20 +1,26 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  <title>Add Property – Admin</title>
-  <style>body{font-family:sans-serif;padding:40px;max-width:600px;margin:auto;background:#f8f9fa}</style>
+    <meta charset="UTF-8">
+    <title>Admin - Add Property</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; padding: 40px; max-width: 500px; margin: auto; background: #f4f4f9; }
+        form { background: white; padding: 25px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        input, textarea { width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; }
+        button { width: 100%; padding: 12px; background: #001f3f; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; }
+        button:hover { background: #003366; }
+    </style>
 </head>
 <body>
-  <h1>Add New Property</h1>
-  <p><strong>Password:</strong> calvin2025</p>
-  <form method="post" action="/admin-add" enctype="multipart/form-data">
-    <input type="password" name="pw" placeholder="Password" required><br><br>
-    <input type="text" name="title" placeholder="Title" required><br><br>
-    <input type="text" name="price" placeholder="Price (e.g. KES 25M)" required><br><br>
-    <textarea name="desc" placeholder="Short description" rows="4" required></textarea><br><br>
-    <input type="file" name="image" accept="image/*" required><br><br>
-    <button type="submit" style="padding:12px 24px;background:gold;color:#001f;color:#001f3f;font-weight:bold;border:none;border-radius:8px;cursor:pointer">Add Property</button>
-  </form>
+    <h1>Property Manager</h1>
+    <p>Use the password <strong>calvin2025</strong> to authorize changes.</p>
+    <form action="/admin-add" method="POST">
+        <input type="password" name="pw" placeholder="Admin Password" required>
+        <input type="text" name="title" placeholder="Property Title (e.g. Luxury Villa)" required>
+        <input type="text" name="price" placeholder="Price (e.g. KES 15,000,000)" required>
+        <textarea name="desc" placeholder="Property Details (Bedrooms, Baths, etc.)" rows="3" required></textarea>
+        <input type="text" name="image_name" placeholder="Image Name (e.g. pexels1.jpeg)" required>
+        <button type="submit">Publish Listing</button>
+    </form>
 </body>
 </html>

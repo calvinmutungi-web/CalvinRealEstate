@@ -1,10 +1,11 @@
 import os
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 
-# --- DATABASE CONFIG ---
+# --- DATABASE CONFIGURATION ---
+# Connects to your Render PostgreSQL database
 database_url = os.environ.get('DATABASE_URL')
 if database_url and database_url.startswith("postgres://"):
     database_url = database_url.replace("postgres://", "postgresql://", 1)
@@ -20,7 +21,7 @@ class Listing(db.Model):
     title = db.Column(db.String(100), nullable=False)
     price = db.Column(db.String(50), nullable=False)
     details = db.Column(db.String(200))
-    image = db.Column(db.String(100))
+    image = db.Column(db.String(100)) # Stores names like 'pexels1.jpeg'
 
 class Lead(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -28,33 +29,52 @@ class Lead(db.Model):
     email = db.Column(db.String(100))
     message = db.Column(db.Text)
 
-# --- THE SECRET FIX ROUTE ---
-@app.route("/setup-db")
-def setup_db():
-    try:
-        db.create_all()
-        # Check if we already have listings so we don't double-add
-        if Listing.query.count() == 0:
-            sample_houses = [
-                Listing(title='Luxury Villa', price='$250,000', details='5 Beds • 4 Baths', image='pexels2.jpeg'),
-                Listing(title='Modern Apartment', price='$120,000', details='3 Beds • 2 Baths', image='pexels3.jpeg'),
-                Listing(title='Family House', price='$180,000', details='4 Beds • 3 Baths', image='pexels1.jpeg'),
-                Listing(title='Countryside Home', price='$150,000', details='2 Beds • 1 Bath', image='pexels4.jpeg')
-            ]
-            db.session.add_all(sample_houses)
-            db.session.commit()
-        return "Database tables created and seeded successfully! Go back to the home page."
-    except Exception as e:
-        return f"Setup Error: {e}"
+# --- ROUTES ---
 
 @app.route("/")
 def home():
     try:
+        # Pulls all houses from the PostgreSQL database
         properties = Listing.query.all()
         return render_template("index.html", properties=properties)
     except Exception:
-        # If the DB isn't ready, show a friendly message or redirect to setup
+        # Fallback if the database tables aren't created yet
         return "Site is initializing. Please visit /setup-db to prepare the database."
+
+@app.route("/admin")
+def admin_page():
+    return render_template("admin.html")
+
+@app.route("/admin-add", methods=["POST"])
+def admin_add():
+    # Verify the password 'calvin2025' from your form
+    password = request.form.get("pw")
+    if password != "calvin2025":
+        return "Unauthorized Access", 401
+
+    # Create the new house object from form data
+    new_house = Listing(
+        title=request.form.get("title"),
+        price=request.form.get("price"),
+        details=request.form.get("desc"),
+        image=request.form.get("image_name")
+    )
+    db.session.add(new_house)
+    db.session.commit()
+    return redirect(url_for('home'))
+
+@app.route("/delete-property/<int:id>")
+def delete_property(id):
+    prop = Listing.query.get_or_404(id)
+    db.session.delete(prop)
+    db.session.commit()
+    return redirect(url_for('home'))
+
+@app.route("/setup-db")
+def setup_db():
+    # Force creates the 'listing' and 'lead' tables
+    db.create_all()
+    return "Database Ready! You can now go to /admin to add your properties."
 
 @app.route("/contact", methods=["POST"])
 def contact():

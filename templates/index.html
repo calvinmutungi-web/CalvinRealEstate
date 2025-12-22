@@ -3,171 +3,123 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Calvin Real Estate - Direct deals on premium Nairobi properties. Trusted since 2025.">
-    <title>Calvin Real Estate - Nairobi Direct Deals</title>
+    <title>Calvin Real Estate Agencies</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
 
 <header>
     <nav>
-        <h1>Calvin Real Estate</h1>
+        <h1>Calvin Real Estate Agencies</h1>
         <ul>
             <li><a href="#home">Home</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#properties">Featured</a></li>
-            <li><a href="#gallery">Listings</a></li>
+            <li><a href="#about">About Us</a></li>
+            <li><a href="#properties">Properties</a></li>
             <li><a href="#contact">Contact</a></li>
+            <li><a href="/admin" style="color: #ffcc00;">Admin</a></li>
         </ul>
     </nav>
-    <button id="themeToggle">🌙</button>
 </header>
 
 <section class="hero" id="home">
-    <div class="hero-overlay"></div>
-    <div class="hero-content">
-        <h2>Nairobi's Direct Deal King</h2>
-        <p class="subline">Since 2025 • 100+ Properties Closed • Trusted in Westlands, Karen & Kileleshwa</p>
-        <p class="claim">Zero Hidden Fees • Close in 30 Days or I Work for Free</p>
-        <a href="#gallery" class="btn-hero">Browse All Listings</a>
-    </div>
+    <h2>Your Dream Home Awaits</h2>
+    <p>Find the perfect property with Calvin Real Estate Agencies.</p>
+    <a href="#properties" class="btn-hero">View Properties</a>
 </section>
 
 <section id="about">
-    <h2>About Calvin</h2>
-    <p>Direct deals. Real results. No middlemen. I connect serious buyers with verified properties across Nairobi.</p>
+    <h2>About Us</h2>
+    <p>We specialize in connecting clients with the best properties in town, offering expert advice and reliable services.</p>
 </section>
 
 <section id="properties">
     <h2>Featured Properties</h2>
     <div class="property-grid">
-    {% for p in properties %}
-    <article class="property-card">
-        <img src="{{ url_for('static', filename=p.image) }}" alt="{{ p.title }}">
-        <h3>{{ p.title }}</h3>
-        <p>{{ p.details }}</p>
-        <p><strong>{{ p.price }}</strong></p>
-    </article>
-    {% endfor %}
-</div>
-</section>
-
-<section id="gallery">
-    <h2>Latest Listings</h2>
-    <div class="gallery" id="property-container"></div>
-</section>
-
-<!-- LUXURIOUS TESTIMONIALS -->
-<section id="testimonials">
-    <h2>What Clients Say</h2>
-    <div class="testimonials-luxury">
-        <div class="testimonial">
-            <div class="quote-icon">“</div>
-            <p class="quote-text">Calvin saved me millions with a direct deal — best in Nairobi!</p>
-            <div class="quote-icon end">”</div>
-            <div class="client-info">
-                <img src="{{ url_for('static', filename='client1.jpg') }}" alt="John K." class="client-photo" onerror="this.src='https://via.placeholder.com/60'">
-                <strong>John K., Westlands Buyer</strong>
-            </div>
-        </div>
-        <div class="testimonial">
-            <div class="quote-icon">“</div>
-            <p class="quote-text">Fast, honest, no drama. Sold my Karen home in 2 weeks.</p>
-            <div class="quote-icon end">”</div>
-            <div class="client-info">
-                <img src="{{ url_for('static', filename='client2.jpg') }}" alt="Sarah M." class="client-photo" onerror="this.src='https://via.placeholder.com/60'">
-                <strong>Sarah M., Seller</strong>
-            </div>
-        </div>
-        <div class="testimonial">
-            <div class="quote-icon">“</div>
-            <p class="quote-text">Professional from start to finish. Highly recommend Calvin.</p>
-            <div class="quote-icon end">”</div>
-            <div class="client-info">
-                <img src="{{ url_for('static', filename='client3.jpg') }}" alt="Mike O." class="client-photo" onerror="this.src='https://via.placeholder.com/60'">
-                <strong>Mike O., Kileleshwa Investor</strong>
-            </div>
-        </div>
+        {% if properties %}
+            {% for p in properties %}
+            <article class="property-card">
+                <img src="{{ url_for('static', filename=p.image) }}" alt="{{ p.title }}">
+                <h3>{{ p.title }}</h3>
+                <p>{{ p.details }}</p>
+                <p><strong>{{ p.price }}</strong></p>
+                <a href="/delete-property/{{ p.id }}" style="color:red; font-size:0.7rem; text-decoration:none;">[Remove Listing]</a>
+            </article>
+            {% endfor %}
+        {% else %}
+            <p style="text-align:center;">No listings available. Visit the Admin page to add some!</p>
+        {% endif %}
     </div>
 </section>
 
 <section id="contact">
-    <h2>Contact Calvin Directly</h2>
-    <p>📞 <strong>0796 250 286</strong> • Available on WhatsApp</p>
+    <h2>Contact Us</h2>
+    <p>📞 Call us at <strong>0796250286</strong></p>
     <form id="contactForm">
+        <label for="name">Your Name</label>
         <input type="text" id="name" placeholder="Your Name" required>
-        <input type="email" id="email" placeholder="Your Email or Phone" required>
-        <textarea id="message" placeholder="Tell me what you're looking for..." required></textarea>
-        <button type="submit">Send Message →</button>
+
+        <label for="email">Your Email</label>
+        <input type="email" id="email" placeholder="Your Email" required>
+
+        <label for="message">Message</label>
+        <textarea id="message" placeholder="Your Message"></textarea>
+
+        <button type="submit">Send Message</button>
     </form>
     <div id="toast" class="toast"></div>
 </section>
 
 <footer>
-    <p>© 2025 Calvin Real Estate | Nairobi, Kenya</p>
+    <p>&copy; 2025 Calvin Real Estate Agencies | All Rights Reserved</p>
+    <p><address>📍 Nairobi, Kenya</address></p>
 </footer>
 
 <script>
-// Dark mode toggle
-const toggle = document.getElementById('themeToggle');
-toggle.onclick = () => {
-  document.body.classList.toggle('dark-mode');
-  toggle.innerHTML = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
-};
+/* Fade-in animation on scroll */
+document.addEventListener('DOMContentLoaded', () => {
+    const faders = document.querySelectorAll('.property-card');
+    const appearOptions = { threshold: 0.1, rootMargin: "0px 0px -50px 0px" };
+    const appearOnScroll = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (!entry.isIntersecting) return;
+            entry.target.style.opacity = 1;
+            entry.target.style.transform = 'translateY(0)';
+            observer.unobserve(entry.target);
+        });
+    }, appearOptions);
+    faders.forEach(fader => appearOnScroll.observe(fader));
+});
 
-// Gallery load
-fetch('/static/properties.json?t=' + Date.now())
-  .then(r => r.ok ? r.json() : [])
-  .then(props => {
-    const c = document.getElementById('property-container');
-    if (!props.length) {
-      c.innerHTML = '<p style="text-align:center;color:gold;">New listings coming soon</p>';
-      return;
-    }
-    props.forEach(p => {
-      const hot = p.price && p.price.includes('M') && parseFloat(p.price) < 30;
-      c.innerHTML += `
-        <article class="property">
-          ${hot ? '<span class="badge hot">HOT DEAL</span>' : ''}
-          <img src="/static/gallery/${p.img}" alt="${p.title}">
-          <div class="overlay">
-            <a href="https://wa.me/254796250286?text=Hi Calvin, interested in ${encodeURIComponent(p.title + ' - ' + p.price)}" class="quick-cta">Quick Inquiry</a>
-          </div>
-          <h3>${p.title}</h3>
-          <p>${p.desc}</p>
-          <p class="price">${p.price}</p>
-        </article>`;
-    });
-  });
-
-// Contact form toast
+/* Async Contact Form */
 const form = document.getElementById('contactForm');
 const toast = document.getElementById('toast');
+
 form.addEventListener('submit', async (e) => {
-  e.preventDefault();
-  const data = {
-    name: document.getElementById('name').value,
-    email: document.getElementById('email').value,
-    message: document.getElementById('message').value
-  };
-  try {
-    const res = await fetch('/contact', {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify(data)
-    });
-    const json = await res.json();
-    showToast(json.message || 'Sent!', false);
-    form.reset();
-  } catch {
-    showToast('Error — try again', true);
-  }
+    e.preventDefault();
+    const data = {
+        name: document.getElementById('name').value,
+        email: document.getElementById('email').value,
+        message: document.getElementById('message').value
+    };
+    try {
+        const res = await fetch('/contact', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        });
+        const result = await res.json();
+        showToast("Message Sent!");
+        form.reset();
+    } catch(err) {
+        showToast('Something went wrong.', true);
+    }
 });
-function showToast(msg, error=false) {
-  toast.textContent = msg;
-  toast.style.background = error ? 'darkred' : '#001f3f';
-  toast.classList.add('show');
-  setTimeout(() => toast.classList.remove('show'), 4000);
+
+function showToast(msg, error=false){
+    toast.textContent = msg;
+    toast.style.display = 'block';
+    toast.style.background = error ? 'red' : '#001f3f';
+    setTimeout(() => toast.style.display = 'none', 3000);
 }
 </script>
 
