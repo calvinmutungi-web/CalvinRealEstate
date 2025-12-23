@@ -1,31 +1,55 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Admin Dashboard</title>
-    <style>body{font-family:sans-serif; padding:20px; max-width:800px; margin:auto;}</style>
+    <title>Private Admin Dashboard</title>
+    <style>
+        body { font-family: sans-serif; padding: 30px; max-width: 900px; margin: auto; background: #f4f4f4; }
+        section { background: white; padding: 20px; border-radius: 10px; margin-bottom: 30px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        input, textarea { width: 100%; padding: 10px; margin: 10px 0; box-sizing: border-box; }
+        .listing-item, .lead-item { border-bottom: 1px solid #eee; padding: 15px 0; display: flex; justify-content: space-between; align-items: center; }
+        button { cursor: pointer; padding: 10px; border: none; border-radius: 5px; }
+        .btn-add { background: #001f3f; color: white; width: 100%; }
+        .btn-del { background: #ff4d4d; color: white; }
+    </style>
 </head>
 <body>
-    <h1>Property Management</h1>
-    <form action="/admin-add" method="POST" style="background:#eee; padding:20px; border-radius:10px;">
-        <h3>Add New Listing</h3>
-        <input type="password" name="pw" placeholder="Admin Password" required><br><br>
-        <input type="text" name="title" placeholder="Title" required>
-        <input type="text" name="price" placeholder="Price" required>
-        <input type="text" name="image_name" placeholder="Image Name (e.g. pexels5.jpeg)" required><br><br>
-        <textarea name="desc" placeholder="Details" required></textarea><br><br>
-        <button type="submit">Upload Property</button>
-    </form>
+    <h1>Secret Admin Dashboard</h1>
 
-    <hr>
-    <h2>Existing Listings (Manage)</h2>
-    {% for p in properties %}
-    <div style="border-bottom: 1px solid #ccc; padding: 10px; display: flex; justify-content: space-between;">
-        <span>{{ p.title }} - {{ p.price }}</span>
-        <form action="/delete-property/{{ p.id }}" method="POST">
-            <input type="password" name="pw" placeholder="Password" style="width:80px;" required>
-            <button type="submit" style="color:red;">Delete</button>
+    <section>
+        <h2>Add New Listing</h2>
+        <form action="/admin-add" method="POST">
+            <input type="password" name="pw" placeholder="Confirm Admin Password" required>
+            <input type="text" name="title" placeholder="Property Title" required>
+            <input type="text" name="price" placeholder="Price (e.g. $250,000)" required>
+            <input type="text" name="image_name" placeholder="Image Name (e.g. pexels5.jpeg)" required>
+            <textarea name="desc" placeholder="Details (Beds, Baths, etc.)" required></textarea>
+            <button type="submit" class="btn-add">Publish Listing</button>
         </form>
-    </div>
-    {% endfor %}
+    </section>
+
+    <section>
+        <h2>Customer Inquiries (Leads)</h2>
+        {% for lead in leads %}
+        <div class="lead-item">
+            <div>
+                <strong>From:</strong> {{ lead.name }} ({{ lead.email }})<br>
+                <strong>Message:</strong> {{ lead.message }}
+            </div>
+        </div>
+        {% endfor %}
+    </section>
+
+    <section>
+        <h2>Manage Current Listings</h2>
+        {% for p in properties %}
+        <div class="listing-item">
+            <span>{{ p.title }} - <strong>{{ p.price }}</strong></span>
+            <form action="/delete-property/{{ p.id }}" method="POST">
+                <input type="password" name="pw" placeholder="Password" style="width:100px; margin:0 5px;" required>
+                <button type="submit" class="btn-del">Delete</button>
+            </form>
+        </div>
+        {% endfor %}
+    </section>
 </body>
 </html>

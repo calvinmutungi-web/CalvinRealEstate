@@ -4,6 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 
+# --- DATABASE CONFIG ---
 database_url = os.environ.get('DATABASE_URL')
 if database_url and database_url.startswith("postgres://"):
     database_url = database_url.replace("postgres://", "postgresql://", 1)
@@ -13,6 +14,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
 
+# --- MODELS ---
 class Listing(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100), nullable=False)
@@ -26,19 +28,21 @@ class Lead(db.Model):
     email = db.Column(db.String(100))
     message = db.Column(db.Text)
 
+# --- ROUTES ---
 @app.route("/")
 def home():
     try:
         properties = Listing.query.all()
         return render_template("index.html", properties=properties)
     except Exception:
-        return "Initializing... visit /setup-db"
+        return "Site is initializing. Please visit /setup-db"
 
 @app.route("/admin")
 def admin_page():
-    # We pass properties here so you can delete them from the admin panel
+    # Pass properties and leads to the secret admin dashboard
     properties = Listing.query.all()
-    return render_template("admin.html", properties=properties)
+    leads = Lead.query.all()
+    return render_template("admin.html", properties=properties, leads=leads)
 
 @app.route("/admin-add", methods=["POST"])
 def admin_add():
@@ -71,7 +75,8 @@ def setup_db():
 @app.route("/contact", methods=["POST"])
 def contact():
     data = request.json
-    db.session.add(Lead(name=data.get('name'), email=data.get('email'), message=data.get('message')))
+    new_lead = Lead(name=data.get('name'), email=data.get('email'), message=data.get('message'))
+    db.session.add(new_lead)
     db.session.commit()
     return jsonify({"status": "success"})
 
