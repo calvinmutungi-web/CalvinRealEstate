@@ -39,7 +39,6 @@ def home():
 
 @app.route("/admin")
 def admin_page():
-    # Pass properties and leads to the secret admin dashboard
     properties = Listing.query.all()
     leads = Lead.query.all()
     return render_template("admin.html", properties=properties, leads=leads)
@@ -78,7 +77,7 @@ def contact():
     new_lead = Lead(name=data.get('name'), email=data.get('email'), message=data.get('message'))
     db.session.add(new_lead)
     db.session.commit()
-    return jsonify({"status": "success"})
+    return jsonify({"status": "success", "message": "Inquiry Sent Successfully!"})
 
 if __name__ == "__main__":
     app.run(debug=True)

@@ -1,55 +1,56 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Private Admin Dashboard</title>
+    <title>Management Dashboard | Calvin Real Estate</title>
     <style>
-        body { font-family: sans-serif; padding: 30px; max-width: 900px; margin: auto; background: #f4f4f4; }
-        section { background: white; padding: 20px; border-radius: 10px; margin-bottom: 30px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        input, textarea { width: 100%; padding: 10px; margin: 10px 0; box-sizing: border-box; }
-        .listing-item, .lead-item { border-bottom: 1px solid #eee; padding: 15px 0; display: flex; justify-content: space-between; align-items: center; }
-        button { cursor: pointer; padding: 10px; border: none; border-radius: 5px; }
-        .btn-add { background: #001f3f; color: white; width: 100%; }
-        .btn-del { background: #ff4d4d; color: white; }
+        body { font-family: sans-serif; padding: 40px; background: #f4f4f4; }
+        .card { background: white; padding: 25px; border-radius: 12px; margin-bottom: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        h2 { border-bottom: 2px solid #001f3f; padding-bottom: 10px; color: #001f3f; }
+        input, textarea { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; }
+        .btn { background: #001f3f; color: white; padding: 12px 20px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; width: 100%; }
+        .item { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding: 15px 0; }
+        .btn-del { background: #d9534f; width: auto; padding: 8px 15px; }
     </style>
 </head>
 <body>
-    <h1>Secret Admin Dashboard</h1>
+    <div style="max-width: 900px; margin: auto;">
+        <h1>Luxury Real Estate Manager</h1>
 
-    <section>
-        <h2>Add New Listing</h2>
-        <form action="/admin-add" method="POST">
-            <input type="password" name="pw" placeholder="Confirm Admin Password" required>
-            <input type="text" name="title" placeholder="Property Title" required>
-            <input type="text" name="price" placeholder="Price (e.g. $250,000)" required>
-            <input type="text" name="image_name" placeholder="Image Name (e.g. pexels5.jpeg)" required>
-            <textarea name="desc" placeholder="Details (Beds, Baths, etc.)" required></textarea>
-            <button type="submit" class="btn-add">Publish Listing</button>
-        </form>
-    </section>
-
-    <section>
-        <h2>Customer Inquiries (Leads)</h2>
-        {% for lead in leads %}
-        <div class="lead-item">
-            <div>
-                <strong>From:</strong> {{ lead.name }} ({{ lead.email }})<br>
-                <strong>Message:</strong> {{ lead.message }}
-            </div>
-        </div>
-        {% endfor %}
-    </section>
-
-    <section>
-        <h2>Manage Current Listings</h2>
-        {% for p in properties %}
-        <div class="listing-item">
-            <span>{{ p.title }} - <strong>{{ p.price }}</strong></span>
-            <form action="/delete-property/{{ p.id }}" method="POST">
-                <input type="password" name="pw" placeholder="Password" style="width:100px; margin:0 5px;" required>
-                <button type="submit" class="btn-del">Delete</button>
+        <div class="card">
+            <h2>Add New Property</h2>
+            <form action="/admin-add" method="POST">
+                <input type="password" name="pw" placeholder="Admin Password" required>
+                <div style="display: flex; gap: 10px;">
+                    <input type="text" name="title" placeholder="Title (e.g. Modern Runda Villa)" required>
+                    <input type="text" name="price" placeholder="Price (KES) (e.g. 45,000,000)" required>
+                </div>
+                <input type="text" name="image_name" placeholder="Image Name (e.g. pexels2.jpeg)" required>
+                <textarea name="desc" placeholder="Details (Rooms, Baths, sqft...)" rows="3" required></textarea>
+                <button type="submit" class="btn">Publish Listing</button>
             </form>
         </div>
-        {% endfor %}
-    </section>
+
+        <div class="card">
+            <h2>Inbox (Leads)</h2>
+            {% for lead in leads %}
+            <div class="item">
+                <div><strong>{{ lead.name }}</strong> ({{ lead.email }})<br><small>{{ lead.message }}</small></div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="card">
+            <h2>Manage Listings</h2>
+            {% for p in properties %}
+            <div class="item">
+                <span>{{ p.title }} — <strong>KES {{ p.price }}</strong></span>
+                <form action="/delete-property/{{ p.id }}" method="POST">
+                    <input type="password" name="pw" placeholder="Password" style="width:100px; margin-right: 5px;" required>
+                    <button type="submit" class="btn btn-del">Delete</button>
+                </form>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
 </body>
 </html>
