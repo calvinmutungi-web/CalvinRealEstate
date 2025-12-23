@@ -3,71 +3,142 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="google-site-verification" content="CZF4cbUIZkEh4c6cZWN-GXDnurC9WBuOGvL7wPvTq3s" />
-    <title>Calvin Agencies | Elite Real Estate</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@200;400;600&display=swap" rel="stylesheet">
+    <title>CALVIN | The Signature Collection</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@200;300;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
     <style>
-        :root { --gold: #C5A059; --bg: #050505; --glass: rgba(20, 20, 20, 0.8); }
-        
-        * { box-sizing: border-box; transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1); }
+        :root {
+            --gold: #D4AF37;
+            --gold-glow: rgba(212, 175, 55, 0.3);
+            --dark: #080808;
+            --glass: rgba(255, 255, 255, 0.03);
+            --border: rgba(255, 255, 255, 0.1);
+            --transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         html { scroll-behavior: smooth; }
-        body { font-family: 'Montserrat', sans-serif; background: var(--bg); color: #fff; margin: 0; overflow-x: hidden; }
-
-        /* Butter-Smooth Nav */
-        nav { 
-            position: fixed; top: 0; width: 100%; z-index: 1000; 
-            padding: 20px 6%; display: flex; justify-content: space-between; align-items: center;
-            background: var(--glass); backdrop-filter: blur(15px); border-bottom: 1px solid rgba(197, 160, 89, 0.1);
-        }
-        .logo { font-family: 'Cinzel'; color: var(--gold); text-decoration: none; font-weight: 700; letter-spacing: 5px; font-size: 1.2rem; }
-        .admin-btn { border: 1px solid var(--gold); color: var(--gold); padding: 8px 18px; text-decoration: none; font-size: 0.7rem; letter-spacing: 2px; }
-        .admin-btn:hover { background: var(--gold); color: #000; }
-
-        /* Cinematic Hero */
-        .hero { 
-            height: 80vh; display: flex; flex-direction: column; justify-content: center; align-items: center;
-            background: linear-gradient(rgba(0,0,0,0.6), var(--bg)), url('https://images.pexels.com/photos/323780/pexels-photo-323780.jpeg');
-            background-size: cover; background-position: center; text-align: center;
-        }
-        .hero h1 { font-family: 'Cinzel'; font-size: clamp(2rem, 8vw, 4.5rem); margin: 0; letter-spacing: 10px; }
-        .hero p { color: var(--gold); letter-spacing: 5px; text-transform: uppercase; font-size: 0.8rem; margin-top: 20px; }
-
-        /* Smart Search Bar */
-        .search-tray { 
-            max-width: 900px; width: 90%; margin: -50px auto 80px; background: #0f0f0f; 
-            padding: 30px; border: 1px solid rgba(197, 160, 89, 0.2); display: flex; flex-wrap: wrap; gap: 15px;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
-        }
-        input, select { flex: 1; min-width: 150px; background: #151515; border: 1px solid #222; color: #fff; padding: 15px; font-size: 0.9rem; }
-        input:focus { border-color: var(--gold); outline: none; }
-        .btn-search { background: var(--gold); color: #000; border: none; padding: 0 40px; font-weight: 700; cursor: pointer; text-transform: uppercase; }
-        .btn-search:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(197, 160, 89, 0.3); }
-
-        /* Property Cards */
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 40px; padding: 0 6% 100px; }
-        .card { background: #0a0a0a; border: 1px solid #1a1a1a; overflow: hidden; position: relative; }
-        .card:hover { border-color: var(--gold); transform: translateY(-10px); }
-        .card img { width: 100%; height: 400px; object-fit: cover; filter: brightness(0.8); transition: 1s; }
-        .card:hover img { filter: brightness(1); transform: scale(1.05); }
         
-        .card-info { padding: 30px; position: relative; z-index: 2; }
-        .card-info h3 { margin: 0; font-family: 'Cinzel'; letter-spacing: 2px; font-size: 1.4rem; }
-        .price-tag { color: var(--gold); font-size: 1.6rem; font-weight: 200; margin: 15px 0; }
-        .loc { color: #666; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; }
+        body { 
+            background-color: var(--dark); 
+            color: #fff; 
+            margin: 0; 
+            font-family: 'Montserrat', sans-serif;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
 
-        /* Inverted "Money" Map */
-        .map-frame { padding: 80px 6%; background: #000; text-align: center; }
-        iframe { width: 100%; height: 500px; border: none; filter: invert(90%) hue-rotate(180deg) contrast(1.2); }
+        /* --- BUTTERY SMOOTH NAVIGATION --- */
+        nav {
+            position: fixed; top: 0; width: 100%; z-index: 1000;
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 25px 6%;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+        }
+        .logo { 
+            font-family: 'Cinzel'; font-size: 1.5rem; letter-spacing: 6px; 
+            color: var(--gold); text-decoration: none; font-weight: 700;
+        }
+        .nav-links a {
+            color: #fff; text-decoration: none; font-size: 0.75rem; 
+            letter-spacing: 2px; margin-left: 30px; opacity: 0.8;
+            transition: var(--transition);
+        }
+        .nav-links a:hover { opacity: 1; color: var(--gold); }
 
-        footer { padding: 100px; text-align: center; border-top: 1px solid #111; color: #333; font-size: 0.7rem; letter-spacing: 3px; }
+        /* --- CINEMATIC HERO SECTION --- */
+        .hero {
+            height: 90vh;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            background: linear-gradient(rgba(0,0,0,0.4), var(--dark)), 
+                        url('https://images.pexels.com/photos/1732414/pexels-photo-1732414.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2');
+            background-attachment: fixed; background-size: cover; background-position: center;
+            text-align: center; padding: 0 20px;
+        }
+        .hero h1 { 
+            font-family: 'Cinzel'; font-size: clamp(2.5rem, 10vw, 5rem); 
+            margin: 0; letter-spacing: 12px; font-weight: 400;
+            animation: fadeInUp 1.5s ease-out;
+        }
+        .hero p { 
+            color: var(--gold); font-weight: 300; letter-spacing: 6px; 
+            text-transform: uppercase; font-size: 0.9rem; margin-top: 20px;
+            animation: fadeInUp 2s ease-out;
+        }
 
-        /* Responsive Fixes */
+        /* --- FLOATING SEARCH TRAY --- */
+        .search-wrapper {
+            max-width: 1000px; width: 90%; margin: -60px auto 100px;
+            padding: 35px; background: rgba(15, 15, 15, 0.95);
+            border: 1px solid var(--border);
+            box-shadow: 0 40px 100px rgba(0,0,0,0.8);
+            display: flex; flex-wrap: wrap; gap: 15px;
+            backdrop-filter: blur(20px);
+        }
+        .search-group { flex: 1; min-width: 200px; position: relative; }
+        .search-group input, .search-group select {
+            width: 100%; background: #1a1a1a; border: 1px solid #333;
+            color: #fff; padding: 15px 15px 15px 45px; font-family: inherit;
+        }
+        .search-group i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: var(--gold); }
+        .btn-search {
+            background: var(--gold); color: #000; border: none;
+            padding: 0 45px; font-weight: 700; cursor: pointer;
+            text-transform: uppercase; letter-spacing: 2px;
+            transition: var(--transition);
+        }
+        .btn-search:hover { transform: translateY(-5px); box-shadow: 0 10px 20px var(--gold-glow); }
+
+        /* --- PROPERTY GALLERY --- */
+        .collection-title { text-align: center; font-family: 'Cinzel'; font-size: 2rem; letter-spacing: 4px; margin-bottom: 60px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); gap: 50px; padding: 0 6% 120px; }
+        
+        .card { 
+            background: #0d0d0d; border: 1px solid var(--border); 
+            position: relative; transition: var(--transition);
+        }
+        .card:hover { border-color: var(--gold); transform: translateY(-15px); }
+        
+        .img-container { width: 100%; height: 450px; overflow: hidden; position: relative; }
+        .card img { width: 100%; height: 100%; object-fit: cover; transition: 1.5s cubic-bezier(0.16, 1, 0.3, 1); }
+        .card:hover img { transform: scale(1.1) rotate(1deg); filter: brightness(1.1); }
+        
+        .card-content { padding: 35px; background: linear-gradient(to top, #000, transparent); margin-top: -100px; position: relative; z-index: 2; }
+        .card-content .loc { color: var(--gold); font-size: 0.75rem; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 10px; }
+        .card-content h3 { font-family: 'Cinzel'; margin: 0; font-size: 1.6rem; font-weight: 400; }
+        .price { font-size: 1.8rem; font-weight: 200; margin: 15px 0; color: #fff; }
+        
+        /* --- HIGH-END CONTACT SECTION --- */
+        .contact-wrap { 
+            background: #000; padding: 120px 6%; border-top: 1px solid var(--border);
+            display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;
+        }
+        .contact-info h2 { font-family: 'Cinzel'; font-size: 3rem; margin-bottom: 20px; }
+        .contact-form input, .contact-form textarea {
+            width: 100%; background: transparent; border: none; border-bottom: 1px solid #333;
+            padding: 20px 0; margin-bottom: 30px; color: #fff; font-size: 1rem; transition: var(--transition);
+        }
+        .contact-form input:focus { border-color: var(--gold); outline: none; }
+
+        footer { padding: 80px; text-align: center; font-size: 0.7rem; letter-spacing: 4px; color: #444; border-top: 1px solid #111; }
+
+        /* --- ANIMATIONS --- */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- MOBILE OPTIMIZATION --- */
         @media (max-width: 768px) {
-            .grid { grid-template-columns: 1fr; }
-            .hero h1 { font-size: 2.5rem; }
-            .search-tray { margin-top: 20px; }
+            .grid { grid-template-columns: 1fr; gap: 30px; }
+            .hero h1 { font-size: 2.8rem; }
+            .contact-wrap { grid-template-columns: 1fr; text-align: center; }
+            .search-wrapper { margin-top: 20px; }
+            .img-container { height: 350px; }
         }
     </style>
 </head>
@@ -75,52 +146,70 @@
 
 <nav>
     <a href="/" class="logo">CALVIN</a>
-    <div style="display: flex; gap: 20px; align-items: center;">
-        <a href="#properties" style="color:#fff; text-decoration:none; font-size:0.7rem; letter-spacing:1px;">PORTFOLIO</a>
-        <a href="/login" class="admin-btn">VAULT</a>
+    <div class="nav-links">
+        <a href="#collection">COLLECTION</a>
+        <a href="#contact">ENQUIRE</a>
+        <a href="/login" style="border: 1px solid var(--gold); padding: 8px 15px;">THE VAULT</a>
     </div>
 </nav>
 
 <section class="hero">
-    <h1>THE SIGNATURE</h1>
-    <p>Nairobi's Most Exclusive Addresses</p>
+    <h1>ESTATE OF MIND</h1>
+    <p>Curating Kenya's Finest Living</p>
 </section>
 
-<form action="/" method="GET" class="search-tray">
-    <input type="text" name="q" placeholder="Enter Location (e.g. Runda)">
-    <select name="category">
-        <option value="">All Properties</option>
-        <option value="Villa">Executive Villas</option>
-        <option value="Apartment">Modern Penthouses</option>
-    </select>
-    <button type="submit" class="btn-search">Explore</button>
+<form action="/" method="GET" class="search-wrapper">
+    <div class="search-group">
+        <i class="fas fa-map-marker-alt"></i>
+        <input type="text" name="q" placeholder="Location...">
+    </div>
+    <div class="search-group">
+        <i class="fas fa-home"></i>
+        <select name="category">
+            <option value="">All Asset Classes</option>
+            <option value="Villa">Executive Villas</option>
+            <option value="Apartment">Modern Penthouses</option>
+        </select>
+    </div>
+    <button type="submit" class="btn-search">View Portfolio</button>
 </form>
 
-<div class="grid" id="properties">
+<h2 class="collection-title" id="collection">THE COLLECTION</h2>
+
+<div class="grid">
     {% for p in properties %}
     <div class="card">
-        <img src="{{ url_for('static', filename=p.image) }}" loading="lazy" onerror="this.src='https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg'">
-        <div class="card-info">
-            <div class="loc"><i class="fas fa-map-marker-alt"></i> {{ p.location }}</div>
-            <h3>{{ p.title }}</h3>
-            <div class="price-tag">KES {{ "{:,}".format(p.price) }}</div>
-            <p style="color: #888; font-size: 0.85rem; line-height: 1.6;">{{ p.details[:120] }}...</p>
+        <div class="img-container">
+            <img src="{{ url_for('static', filename=p.image) }}" loading="lazy" alt="{{ p.title }}">
         </div>
-    </div>
-    {% else %}
-    <div style="grid-column: 1/-1; text-align: center; padding: 100px;">
-        <p style="color: var(--gold); letter-spacing: 3px;">PRIVATE COLLECTION CURRENTLY UNDER UPDATE</p>
+        <div class="card-content">
+            <div class="loc">{{ p.location }}</div>
+            <h3>{{ p.title }}</h3>
+            <div class="price">KES {{ "{:,}".format(p.price) }}</div>
+            <p style="color: #888; font-size: 0.8rem; font-weight: 300;">{{ p.details[:100] }}...</p>
+        </div>
     </div>
     {% endfor %}
 </div>
 
-<div class="map-frame">
-    <h2 style="font-family: 'Cinzel'; margin-bottom: 40px;">STRATEGIC HUB</h2>
-    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15955.279930869757!2d36.804929!3d-1.266269!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x182f173c0a1f9de7%3A0xad2c84df1f7f2ec8!2sWestlands%2C%20Nairobi!5e0!3m2!1sen!2ske!4v1700000000000"></iframe>
-</div>
+<section class="contact-wrap" id="contact">
+    <div class="contact-info">
+        <p style="color: var(--gold); letter-spacing: 3px;">CONCIERGE</p>
+        <h2>Begin Your Journey</h2>
+        <p style="opacity: 0.6; font-weight: 200;">Our agents are ready to assist you with a private viewing or an investment consultation.</p>
+    </div>
+    <div class="contact-form">
+        <form action="/contact" method="POST">
+            <input type="text" name="name" placeholder="YOUR NAME" required>
+            <input type="email" name="email" placeholder="YOUR EMAIL" required>
+            <textarea name="message" placeholder="TELL US ABOUT YOUR REQUIREMENTS" rows="3"></textarea>
+            <button type="submit" class="btn-search" style="width: 100%; height: 60px;">Request a Callback</button>
+        </form>
+    </div>
+</section>
 
 <footer>
-    <p>CALVIN REAL ESTATE AGENCIES | © 2025 | EXCELLENCE DEFINED</p>
+    <p>CALVIN AGENCIES &copy; 2025 | EXCLUSIVITY DEFINED</p>
 </footer>
 
 </body>
