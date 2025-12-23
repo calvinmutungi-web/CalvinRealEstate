@@ -1,123 +1,88 @@
 import os
-from flask import Flask, render_template, request, jsonify, redirect, url_for, session
+from flask import Flask, render_template, request, redirect, url_for, session, flash, jsonify
 from flask_sqlalchemy import SQLAlchemy
-from functools import wraps
+from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
-app.secret_key = "luxury_calvin_2025_secret"
-
-# --- DATABASE ---
-database_url = os.environ.get('DATABASE_URL')
-if database_url and database_url.startswith("postgres://"):
-    database_url = database_url.replace("postgres://", "postgresql://", 1)
-
-app.config['SQLALCHEMY_DATABASE_URI'] = database_url or 'sqlite:///local.db'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.secret_key = 'luxury_secret_key'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///properties.db'
+app.config['UPLOAD_FOLDER'] = 'static/uploads'
+app.config['MAX_CONTENT_LENGTH'] = 5 * 1024 * 1024  # 5MB limit for speed
 
 db = SQLAlchemy(app)
 
-# --- MODELS ---
+# Ensure upload folder exists
+if not os.path.exists(app.config['UPLOAD_FOLDER']):
+    os.makedirs(app.config['UPLOAD_FOLDER'])
+
 class Listing(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100), nullable=False)
-    price = db.Column(db.BigInteger, nullable=False) # BigInt for large KES amounts
-    details = db.Column(db.String(500))
-    image = db.Column(db.String(100))
-    category = db.Column(db.String(50))
-    location = db.Column(db.String(100)) # Added for better SEO
+    price = db.Column(db.Integer, nullable=False)
+    location = db.Column(db.String(100), nullable=True)
+    category = db.Column(db.String(50), nullable=True) # Villa or Apartment
+    details = db.Column(db.Text, nullable=False)
+    image = db.Column(db.String(200), nullable=False)
 
-class Lead(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100))
-    email = db.Column(db.String(100))
-    message = db.Column(db.Text)
-
-# --- AUTH ---
-def login_required(f):
-    @wraps(f)
-    def decorated_function(*args, **kwargs):
-        if 'logged_in' not in session: return redirect(url_for('login_page'))
-        return f(*args, **kwargs)
-    return decorated_function
-
-# --- ROUTES ---
-@app.route("/")
-def home():
-    q = request.args.get('q', '')
-    max_p = request.args.get('price', type=int)
-    cat = request.args.get('category', '')
-    
-    query = Listing.query
-    if q: query = query.filter(Listing.title.ilike(f'%{q}%') | Listing.location.ilike(f'%{q}%'))
-    if max_p: query = query.filter(Listing.price <= max_p)
-    if cat: query = query.filter(Listing.category == cat)
-    
-    properties = query.all()
-    return render_template("index.html", properties=properties)
-
-@app.route("/login", methods=["GET", "POST"])
-def login_page():
-    if request.method == "POST":
-        if request.form.get("password") == "calvin2025":
-            session['logged_in'] = True
-            return redirect(url_for('admin_dashboard'))
-    return render_template("login.html")
-
-@app.route("/logout")
-def logout():
-    session.pop('logged_in', None)
-    return redirect(url_for('home'))
-
-@app.route("/admin")
-@login_required
-def admin_dashboard():
-    properties = Listing.query.all()
-    leads = Lead.query.all()
-    return render_template("admin.html", properties=properties, leads=leads)
-
-@app.route("/admin-add", methods=["POST"])
-@login_required
-def admin_add():
-    try:
-        raw_price = request.form.get("price").replace(",", "").strip()
-        new_item = Listing(
-            title=request.form.get("title"),
-            price=int(raw_price),
-            details=request.form.get("desc"),
-            image=request.form.get("image_name"),
-            category=request.form.get("category"),
-            location=request.form.get("location")
-        )
-        db.session.add(new_item)
-        db.session.commit()
-    except Exception as e: print(e)
-    return redirect(url_for('admin_dashboard'))
-
-@app.route("/delete/<int:id>", methods=["POST"])
-@login_required
-def delete_property(id):
-    prop = Listing.query.get_or_404(id)
-    db.session.delete(prop)
-    db.session.commit()
-    return redirect(url_for('admin_dashboard'))
-
-@app.route("/setup-db")
+# --- DATABASE REPAIR ROUTE ---
+@app.route('/setup-db')
 def setup_db():
     db.drop_all()
     db.create_all()
-    return "Database Rebuilt Successfully."
-from flask import send_from_directory
+    return "Database Optimized & Reset! You can now use the Admin panel."
 
-@app.route('/sitemap.xml')
-def static_from_root():
-    return send_from_directory(app.static_folder, 'sitemap.xml')
+@app.route('/')
+def index():
+    q = request.args.get('q', '')
+    cat = request.args.get('category', '')
+    max_p = request.args.get('price')
+    
+    query = Listing.query
+    if q: query = query.filter(Listing.location.contains(q) | Listing.title.contains(q))
+    if cat: query = query.filter_by(category=cat)
+    if max_p: query = query.filter(Listing.price <= int(max_p))
+    
+    properties = query.all()
+    return render_template('index.html', properties=properties)
 
-@app.route("/contact", methods=["POST"])
-def contact():
-    data = request.json
-    db.session.add(Lead(name=data['name'], email=data['email'], message=data['message']))
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        if request.form['username'] == 'calvin' and request.form['password'] == 'vault2025':
+            session['logged_in'] = True
+            return redirect(url_for('admin'))
+    return render_template('login.html')
+
+@app.route('/admin', methods=['GET', 'POST'])
+def admin():
+    if not session.get('logged_in'): return redirect(url_for('login'))
+    
+    if request.method == 'POST':
+        file = request.files['image']
+        if file:
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            new_prop = Listing(
+                title=request.form['title'],
+                price=int(request.form['price']),
+                location=request.form['location'],
+                category=request.form['category'],
+                details=request.form['details'],
+                image=f'uploads/{filename}'
+            )
+            db.session.add(new_prop)
+            db.session.commit()
+            return redirect(url_for('admin'))
+            
+    properties = Listing.query.all()
+    return render_template('admin.html', properties=properties)
+
+@app.route('/delete/<int:id>')
+def delete(id):
+    p = Listing.query.get(id)
+    db.session.delete(p)
     db.session.commit()
-    return jsonify({"status": "success", "message": "Inquiry Received."})
+    return redirect(url_for('admin'))
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     app.run(debug=True)

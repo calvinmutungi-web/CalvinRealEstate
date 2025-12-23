@@ -2,145 +2,72 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="google-site-verification" content="CZF4cbUIZkEh4c6cZWN-GXDnurC9WBuOGvL7wPvTq3s" />
-
-    <title>Calvin Agencies | Exclusive Luxury Real Estate Nairobi</title>
-    <meta name="description" content="Nairobi's most prestigious property portfolio. Discover elite villas in Runda, Muthaiga, and luxury penthouses in Westlands. Ranked #1 for high-end Kenyan real estate.">
-    <meta name="keywords" content="Luxury Homes Nairobi, Runda Villas for Sale, Westlands Penthouses, Calvin Agencies Kenya, Real Estate Nairobi 2025">
-    
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-CHECK_ANALYTICS"></script>
-    <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-CHECK_ANALYTICS');</script>
-
+    <title>Calvin Agencies | Elite Real Estate</title>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@200;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
     <style>
-        :root {
-            --gold: #D4AF37; /* Champagne Gold */
-            --gold-glow: rgba(212, 175, 55, 0.4);
-            --dark: #050505; /* Deep Obsidian */
-            --card-bg: #0F0F0F;
-            --text-light: #FDFDFD;
-            --text-dim: #888888;
-        }
-
-        /* Smooth Scroll & Selection */
+        :root { --gold: #C5A059; --bg: #050505; --glass: rgba(20, 20, 20, 0.8); }
+        
+        * { box-sizing: border-box; transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1); }
         html { scroll-behavior: smooth; }
-        ::selection { background: var(--gold); color: var(--dark); }
+        body { font-family: 'Montserrat', sans-serif; background: var(--bg); color: #fff; margin: 0; overflow-x: hidden; }
 
-        body { 
-            font-family: 'Montserrat', sans-serif; 
-            background: var(--dark); 
-            color: var(--text-light); 
-            margin: 0; 
-            overflow-x: hidden;
-        }
-
-        h1, h2, h3, .luxury-text { font-family: 'Cinzel', serif; letter-spacing: 4px; text-transform: uppercase; }
-
-        /* Navigation - Ultra Slim & Glass */
+        /* Butter-Smooth Nav */
         nav { 
-            display: flex; justify-content: space-between; align-items: center; 
-            padding: 15px 6%; background: rgba(5, 5, 5, 0.9); 
-            position: fixed; width: 88%; top: 0; z-index: 2000; 
-            border-bottom: 1px solid rgba(212, 175, 55, 0.1);
-            backdrop-filter: blur(15px);
+            position: fixed; top: 0; width: 100%; z-index: 1000; 
+            padding: 20px 6%; display: flex; justify-content: space-between; align-items: center;
+            background: var(--glass); backdrop-filter: blur(15px); border-bottom: 1px solid rgba(197, 160, 89, 0.1);
         }
-        .logo { color: var(--gold); font-size: 1.2rem; text-decoration: none; font-weight: 700; letter-spacing: 6px; }
-        .nav-links a { 
-            color: var(--text-light); text-decoration: none; margin-left: 30px; 
-            font-size: 0.7rem; letter-spacing: 2px; transition: 0.5s ease;
-        }
-        .nav-links a:hover { color: var(--gold); text-shadow: 0 0 10px var(--gold-glow); }
+        .logo { font-family: 'Cinzel'; color: var(--gold); text-decoration: none; font-weight: 700; letter-spacing: 5px; font-size: 1.2rem; }
+        .admin-btn { border: 1px solid var(--gold); color: var(--gold); padding: 8px 18px; text-decoration: none; font-size: 0.7rem; letter-spacing: 2px; }
+        .admin-btn:hover { background: var(--gold); color: #000; }
 
-        /* Hero - Cinematic Entrance */
+        /* Cinematic Hero */
         .hero { 
-            height: 100vh; 
-            background: linear-gradient(to bottom, rgba(5,5,5,0.2), var(--dark)), 
-                        url('https://images.pexels.com/photos/323780/pexels-photo-323780.jpeg'); 
-            background-size: cover; background-position: center;
-            display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; 
+            height: 80vh; display: flex; flex-direction: column; justify-content: center; align-items: center;
+            background: linear-gradient(rgba(0,0,0,0.6), var(--bg)), url('https://images.pexels.com/photos/323780/pexels-photo-323780.jpeg');
+            background-size: cover; background-position: center; text-align: center;
         }
-        .hero h1 { font-size: 5rem; margin-bottom: 0; animation: fadeInDown 1.5s ease; }
-        .hero p { font-size: 0.9rem; color: var(--gold); letter-spacing: 8px; margin-top: 15px; animation: fadeInUp 2s ease; }
+        .hero h1 { font-family: 'Cinzel'; font-size: clamp(2rem, 8vw, 4.5rem); margin: 0; letter-spacing: 10px; }
+        .hero p { color: var(--gold); letter-spacing: 5px; text-transform: uppercase; font-size: 0.8rem; margin-top: 20px; }
 
-        /* The "Magnet" Search - Floating Minimalist */
-        .search-container { 
-            max-width: 1000px; width: 90%; margin: -80px auto 100px; 
-            background: var(--card-bg); padding: 30px; 
-            border: 1px solid rgba(212, 175, 55, 0.3); 
-            box-shadow: 0 40px 100px rgba(0,0,0,0.8);
-            display: flex; gap: 15px; flex-wrap: wrap; justify-content: center;
-            z-index: 10; position: relative;
+        /* Smart Search Bar */
+        .search-tray { 
+            max-width: 900px; width: 90%; margin: -50px auto 80px; background: #0f0f0f; 
+            padding: 30px; border: 1px solid rgba(197, 160, 89, 0.2); display: flex; flex-wrap: wrap; gap: 15px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
         }
-        .search-container input, .search-container select { 
-            background: #151515; border: 1px solid #222; color: white; padding: 15px 25px; 
-            flex: 1; min-width: 200px; transition: 0.4s;
-        }
-        .search-container input:focus { border-color: var(--gold); outline: none; }
-        .btn-gold { 
-            background: var(--gold); color: #000; border: none; font-weight: 700; 
-            padding: 15px 40px; cursor: pointer; text-transform: uppercase; transition: 0.4s;
-        }
-        .btn-gold:hover { background: #fff; transform: scale(1.05); box-shadow: 0 0 20px var(--gold-glow); }
+        input, select { flex: 1; min-width: 150px; background: #151515; border: 1px solid #222; color: #fff; padding: 15px; font-size: 0.9rem; }
+        input:focus { border-color: var(--gold); outline: none; }
+        .btn-search { background: var(--gold); color: #000; border: none; padding: 0 40px; font-weight: 700; cursor: pointer; text-transform: uppercase; }
+        .btn-search:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(197, 160, 89, 0.3); }
 
-        /* Portfolio - Clean Masonry Feel */
-        .container { padding: 0 6%; margin-bottom: 120px; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 50px; }
+        /* Property Cards */
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 40px; padding: 0 6% 100px; }
+        .card { background: #0a0a0a; border: 1px solid #1a1a1a; overflow: hidden; position: relative; }
+        .card:hover { border-color: var(--gold); transform: translateY(-10px); }
+        .card img { width: 100%; height: 400px; object-fit: cover; filter: brightness(0.8); transition: 1s; }
+        .card:hover img { filter: brightness(1); transform: scale(1.05); }
         
-        .card { 
-            background: #0A0A0A; position: relative; overflow: hidden; 
-            transition: 0.8s cubic-bezier(0.2, 1, 0.3, 1);
-        }
-        .card img { 
-            width: 100%; height: 500px; object-fit: cover; 
-            transition: 1.2s ease; filter: brightness(0.7) grayscale(0.2);
-        }
-        .card:hover img { transform: scale(1.08); filter: brightness(1) grayscale(0); }
-        
-        .card-overlay { 
-            position: absolute; bottom: 0; left: 0; width: 100%; padding: 40px;
-            background: linear-gradient(transparent, rgba(0,0,0,0.9));
-        }
-        .card-overlay h3 { margin: 0; font-size: 1.5rem; }
-        .card-price { color: var(--gold); font-size: 1.3rem; margin: 10px 0; font-weight: 600; }
-        .card-loc { font-size: 0.7rem; letter-spacing: 2px; color: var(--text-dim); }
+        .card-info { padding: 30px; position: relative; z-index: 2; }
+        .card-info h3 { margin: 0; font-family: 'Cinzel'; letter-spacing: 2px; font-size: 1.4rem; }
+        .price-tag { color: var(--gold); font-size: 1.6rem; font-weight: 200; margin: 15px 0; }
+        .loc { color: #666; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; }
 
-        /* Maps - The Inverted Luxury Look */
-        .map-section { padding: 100px 6%; text-align: center; background: #080808; }
-        iframe { 
-            width: 100%; height: 550px; border: none; 
-            filter: invert(90%) hue-rotate(180deg) brightness(0.8);
-            margin-top: 50px; border: 1px solid rgba(212, 175, 55, 0.1);
-        }
+        /* Inverted "Money" Map */
+        .map-frame { padding: 80px 6%; background: #000; text-align: center; }
+        iframe { width: 100%; height: 500px; border: none; filter: invert(90%) hue-rotate(180deg) contrast(1.2); }
 
-        /* Lead Form - Intimate & Professional */
-        .consultation { 
-            max-width: 700px; margin: 100px auto; padding: 80px; 
-            border: 1px solid rgba(212, 175, 55, 0.2); background: #0A0A0A;
-        }
-        .consultation input, .consultation textarea { 
-            width: 100%; padding: 18px; background: transparent; 
-            border: none; border-bottom: 1px solid #222; color: white; margin-bottom: 30px;
-        }
-        .consultation input:focus { border-bottom-color: var(--gold); outline: none; }
+        footer { padding: 100px; text-align: center; border-top: 1px solid #111; color: #333; font-size: 0.7rem; letter-spacing: 3px; }
 
-        footer { 
-            padding: 100px; text-align: center; font-size: 0.65rem; 
-            color: #444; letter-spacing: 3px; border-top: 1px solid #111; 
-        }
-
-        /* Animations */
-        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-
-        /* Mobile Adjustments */
+        /* Responsive Fixes */
         @media (max-width: 768px) {
-            .hero h1 { font-size: 2.8rem; }
             .grid { grid-template-columns: 1fr; }
-            nav { width: 90%; padding: 15px 5%; }
+            .hero h1 { font-size: 2.5rem; }
+            .search-tray { margin-top: 20px; }
         }
     </style>
 </head>
@@ -148,94 +75,53 @@
 
 <nav>
     <a href="/" class="logo">CALVIN</a>
-    <div class="nav-links">
-        <a href="#properties">COLLECTION</a>
-        <a href="#contact">INQUIRY</a>
-        <a href="/login" style="border: 1px solid var(--gold); padding: 8px 20px;">VAULT</a>
+    <div style="display: flex; gap: 20px; align-items: center;">
+        <a href="#properties" style="color:#fff; text-decoration:none; font-size:0.7rem; letter-spacing:1px;">PORTFOLIO</a>
+        <a href="/login" class="admin-btn">VAULT</a>
     </div>
 </nav>
 
 <section class="hero">
-    <p>Defined by Excellence</p>
-    <h1>The Signature</h1>
+    <h1>THE SIGNATURE</h1>
+    <p>Nairobi's Most Exclusive Addresses</p>
 </section>
 
-<div class="container">
-    <form action="/" method="GET" class="search-container">
-        <input type="text" name="q" placeholder="Search Location...">
-        <select name="category">
-            <option value="">Type</option>
-            <option value="Villa">Villa</option>
-            <option value="Apartment">Apartment</option>
-        </select>
-        <input type="number" name="price" placeholder="Max Budget (KES)">
-        <button type="submit" class="btn-gold">Explore</button>
-    </form>
+<form action="/" method="GET" class="search-tray">
+    <input type="text" name="q" placeholder="Enter Location (e.g. Runda)">
+    <select name="category">
+        <option value="">All Properties</option>
+        <option value="Villa">Executive Villas</option>
+        <option value="Apartment">Modern Penthouses</option>
+    </select>
+    <button type="submit" class="btn-search">Explore</button>
+</form>
 
-    <div id="properties">
-        <h2 style="text-align: center; margin-bottom: 60px; font-weight: 400;">Current Curations</h2>
-        <div class="grid">
-            {% for p in properties %}
-            <div class="card">
-                <img src="{{ url_for('static', filename=p.image) }}" onerror="this.src='https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg'">
-                <div class="card-overlay">
-                    <span class="card-loc"><i class="fas fa-map-marker-alt"></i> {{ p.location or 'NAIROBI' }}</span>
-                    <h3>{{ p.title }}</h3>
-                    <div class="card-price">KES {{ "{:,}".format(p.price) }}</div>
-                    <p style="font-size: 0.8rem; color: #bbb;">{{ p.details[:100] }}...</p>
-                </div>
-            </div>
-            {% else %}
-            <div style="grid-column: 1/-1; text-align: center; padding: 100px; color: var(--gold);">
-                <p>The collection is being updated. Contact us for private listings.</p>
-            </div>
-            {% endfor %}
+<div class="grid" id="properties">
+    {% for p in properties %}
+    <div class="card">
+        <img src="{{ url_for('static', filename=p.image) }}" loading="lazy" onerror="this.src='https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg'">
+        <div class="card-info">
+            <div class="loc"><i class="fas fa-map-marker-alt"></i> {{ p.location }}</div>
+            <h3>{{ p.title }}</h3>
+            <div class="price-tag">KES {{ "{:,}".format(p.price) }}</div>
+            <p style="color: #888; font-size: 0.85rem; line-height: 1.6;">{{ p.details[:120] }}...</p>
         </div>
     </div>
+    {% else %}
+    <div style="grid-column: 1/-1; text-align: center; padding: 100px;">
+        <p style="color: var(--gold); letter-spacing: 3px;">PRIVATE COLLECTION CURRENTLY UNDER UPDATE</p>
+    </div>
+    {% endfor %}
 </div>
 
-<section class="map-section">
-    <h2 class="luxury-text">Our Presence</h2>
-    <p style="color: var(--text-dim); margin-top: 10px;">Visit our Private Client Office in Westlands</p>
-    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15955.364487891!2d36.8043907!3d-1.2644864!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x182f173c0a1f9de7%3A0xad2c84df1f7f2ec8!2sWestlands%2C%20Nairobi!5e0!3m2!1sen!2ske!4v1625000000000!5m2!1sen!2ske" allowfullscreen="" loading="lazy"></iframe>
-</section>
-
-<section id="contact" class="consultation">
-    <h2 style="text-align: center; margin-bottom: 50px;">Private Inquiry</h2>
-    <form id="contactForm">
-        <input type="text" id="name" placeholder="YOUR NAME" required>
-        <input type="email" id="email" placeholder="EMAIL ADDRESS" required>
-        <textarea id="message" rows="4" placeholder="HOW MAY WE ASSIST YOU?" required></textarea>
-        <button type="submit" class="btn-gold" style="width: 100%;">Submit Inquiry</button>
-    </form>
-</section>
+<div class="map-frame">
+    <h2 style="font-family: 'Cinzel'; margin-bottom: 40px;">STRATEGIC HUB</h2>
+    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15955.279930869757!2d36.804929!3d-1.266269!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x182f173c0a1f9de7%3A0xad2c84df1f7f2ec8!2sWestlands%2C%20Nairobi!5e0!3m2!1sen!2ske!4v1700000000000"></iframe>
+</div>
 
 <footer>
-    <p>CALVIN REAL ESTATE AGENCIES | © 2025 | NAIROBI, KENYA</p>
-    <div style="margin-top: 30px; font-size: 1rem;">
-        <i class="fab fa-instagram" style="margin: 0 20px; cursor: pointer;"></i>
-        <i class="fab fa-whatsapp" style="margin: 0 20px; cursor: pointer;"></i>
-    </div>
+    <p>CALVIN REAL ESTATE AGENCIES | © 2025 | EXCELLENCE DEFINED</p>
 </footer>
-
-<script>
-    document.getElementById('contactForm').onsubmit = async (e) => {
-        e.preventDefault();
-        const data = {
-            name: document.getElementById('name').value,
-            email: document.getElementById('email').value,
-            message: document.getElementById('message').value
-        };
-        const res = await fetch('/contact', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(data)
-        });
-        const result = await res.json();
-        alert("Inquiry Logged. Our team will contact you shortly.");
-        e.target.reset();
-    };
-</script>
 
 </body>
 </html>
