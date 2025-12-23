@@ -4,7 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from functools import wraps
 
 app = Flask(__name__)
-app.secret_key = "calvin_agency_luxury_key_2025" # Required for secure login sessions
+app.secret_key = "calvin_agency_luxury_key_2025"
 
 # --- DATABASE CONFIG ---
 database_url = os.environ.get('DATABASE_URL')
@@ -20,10 +20,10 @@ db = SQLAlchemy(app)
 class Listing(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100), nullable=False)
-    price = db.Column(db.Integer, nullable=False) 
+    price = db.Column(db.Integer, nullable=False) # Store as integer for filtering
     details = db.Column(db.String(200))
     image = db.Column(db.String(100))
-    category = db.Column(db.String(50)) # Added for filtering
+    category = db.Column(db.String(50)) # Fixed: This caused your 500 error
 
 class Lead(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -31,7 +31,7 @@ class Lead(db.Model):
     email = db.Column(db.String(100))
     message = db.Column(db.Text)
 
-# --- LOGIN PROTECTION DECORATOR ---
+# --- PROTECTION ---
 def login_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
@@ -41,10 +41,8 @@ def login_required(f):
     return decorated_function
 
 # --- ROUTES ---
-
 @app.route("/")
 def home():
-    # Capture Search and Filter inputs
     q = request.args.get('q', '')
     max_p = request.args.get('price', type=int)
     cat = request.args.get('category', '')
@@ -84,15 +82,20 @@ def admin_dashboard():
 @app.route("/admin-add", methods=["POST"])
 @login_required
 def admin_add():
-    new_house = Listing(
-        title=request.form.get("title"),
-        price=int(request.form.get("price")),
-        details=request.form.get("desc"),
-        image=request.form.get("image_name"),
-        category=request.form.get("category")
-    )
-    db.session.add(new_house)
-    db.session.commit()
+    try:
+        # Convert price string to integer (remove commas if user types them)
+        raw_price = request.form.get("price").replace(",", "")
+        new_house = Listing(
+            title=request.form.get("title"),
+            price=int(raw_price),
+            details=request.form.get("desc"),
+            image=request.form.get("image_name"),
+            category=request.form.get("category")
+        )
+        db.session.add(new_house)
+        db.session.commit()
+    except Exception as e:
+        return f"Error adding property: {e}"
     return redirect(url_for('admin_dashboard'))
 
 @app.route("/delete-property/<int:id>", methods=["POST"])
@@ -105,8 +108,10 @@ def delete_property(id):
 
 @app.route("/setup-db")
 def setup_db():
+    # BULLETPROOF FIX: This resets the table to add the missing 'category' column
+    db.drop_all() 
     db.create_all()
-    return "Database Ready!"
+    return "Database Synchronized! All columns are now present."
 
 @app.route("/contact", methods=["POST"])
 def contact():

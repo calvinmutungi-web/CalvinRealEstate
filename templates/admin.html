@@ -1,52 +1,48 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Management Dashboard | Calvin Real Estate</title>
+    <title>Admin Dashboard</title>
     <style>
-        body { font-family: sans-serif; padding: 40px; background: #f4f4f4; }
-        .card { background: white; padding: 25px; border-radius: 12px; margin-bottom: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-        h2 { border-bottom: 2px solid #001f3f; padding-bottom: 10px; color: #001f3f; }
-        input, textarea { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; }
-        .btn { background: #001f3f; color: white; padding: 12px 20px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; width: 100%; }
-        .item { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding: 15px 0; }
-        .btn-del { background: #d9534f; width: auto; padding: 8px 15px; }
+        body { font-family: sans-serif; background: #f0f2f5; padding: 30px; }
+        .container { max-width: 900px; margin: auto; }
+        .card { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 30px; }
+        input, select, textarea { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; }
+        .btn { background: #001f3f; color: white; padding: 12px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; width: 100%; }
+        .listing-row { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding: 10px 0; }
     </style>
 </head>
 <body>
-    <div style="max-width: 900px; margin: auto;">
-        <h1>Luxury Real Estate Manager</h1>
+    <div class="container">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+            <h1>Agency Dashboard</h1>
+            <a href="/logout" style="color:#d9534f; text-decoration:none; font-weight:bold;">Logout</a>
+        </div>
 
         <div class="card">
             <h2>Add New Property</h2>
             <form action="/admin-add" method="POST">
-                <input type="password" name="pw" placeholder="Admin Password" required>
-                <div style="display: flex; gap: 10px;">
-                    <input type="text" name="title" placeholder="Title (e.g. Modern Runda Villa)" required>
-                    <input type="text" name="price" placeholder="Price (KES) (e.g. 45,000,000)" required>
+                <input type="text" name="title" placeholder="Property Title" required>
+                <div style="display:flex; gap:10px;">
+                    <input type="number" name="price" placeholder="Price (KES) (e.g. 45000000)" required>
+                    <select name="category" required>
+                        <option value="Villa">Villa</option>
+                        <option value="Apartment">Apartment</option>
+                        <option value="Office">Office Space</option>
+                    </select>
                 </div>
-                <input type="text" name="image_name" placeholder="Image Name (e.g. pexels2.jpeg)" required>
-                <textarea name="desc" placeholder="Details (Rooms, Baths, sqft...)" rows="3" required></textarea>
-                <button type="submit" class="btn">Publish Listing</button>
+                <input type="text" name="image_name" placeholder="Image Filename (e.g. pexels2.jpeg)" required>
+                <textarea name="desc" placeholder="Details (e.g. 4 Beds, 3 Baths)" rows="3" required></textarea>
+                <button type="submit" class="btn">Add Listing</button>
             </form>
         </div>
 
         <div class="card">
-            <h2>Inbox (Leads)</h2>
-            {% for lead in leads %}
-            <div class="item">
-                <div><strong>{{ lead.name }}</strong> ({{ lead.email }})<br><small>{{ lead.message }}</small></div>
-            </div>
-            {% endfor %}
-        </div>
-
-        <div class="card">
-            <h2>Manage Listings</h2>
+            <h2>Active Listings</h2>
             {% for p in properties %}
-            <div class="item">
-                <span>{{ p.title }} — <strong>KES {{ p.price }}</strong></span>
+            <div class="listing-row">
+                <span>{{ p.title }} (KES {{ "{:,}".format(p.price) }})</span>
                 <form action="/delete-property/{{ p.id }}" method="POST">
-                    <input type="password" name="pw" placeholder="Password" style="width:100px; margin-right: 5px;" required>
-                    <button type="submit" class="btn btn-del">Delete</button>
+                    <button type="submit" style="background:#ff4d4d; color:white; border:none; padding:5px 10px; border-radius:4px; cursor:pointer;">Delete</button>
                 </form>
             </div>
             {% endfor %}
