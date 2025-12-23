@@ -4,9 +4,9 @@ from flask_sqlalchemy import SQLAlchemy
 from functools import wraps
 
 app = Flask(__name__)
-app.secret_key = "calvin_agency_luxury_key_2025"
+app.secret_key = "luxury_calvin_2025_secret"
 
-# --- DATABASE CONFIG ---
+# --- DATABASE ---
 database_url = os.environ.get('DATABASE_URL')
 if database_url and database_url.startswith("postgres://"):
     database_url = database_url.replace("postgres://", "postgresql://", 1)
@@ -20,10 +20,11 @@ db = SQLAlchemy(app)
 class Listing(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100), nullable=False)
-    price = db.Column(db.Integer, nullable=False) # Store as integer for filtering
-    details = db.Column(db.String(200))
+    price = db.Column(db.BigInteger, nullable=False) # BigInt for large KES amounts
+    details = db.Column(db.String(500))
     image = db.Column(db.String(100))
-    category = db.Column(db.String(50)) # Fixed: This caused your 500 error
+    category = db.Column(db.String(50))
+    location = db.Column(db.String(100)) # Added for better SEO
 
 class Lead(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -31,12 +32,11 @@ class Lead(db.Model):
     email = db.Column(db.String(100))
     message = db.Column(db.Text)
 
-# --- PROTECTION ---
+# --- AUTH ---
 def login_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
-        if 'logged_in' not in session:
-            return redirect(url_for('login_page'))
+        if 'logged_in' not in session: return redirect(url_for('login_page'))
         return f(*args, **kwargs)
     return decorated_function
 
@@ -46,14 +46,11 @@ def home():
     q = request.args.get('q', '')
     max_p = request.args.get('price', type=int)
     cat = request.args.get('category', '')
-
+    
     query = Listing.query
-    if q:
-        query = query.filter(Listing.title.ilike(f'%{q}%'))
-    if max_p:
-        query = query.filter(Listing.price <= max_p)
-    if cat:
-        query = query.filter(Listing.category == cat)
+    if q: query = query.filter(Listing.title.ilike(f'%{q}%') | Listing.location.ilike(f'%{q}%'))
+    if max_p: query = query.filter(Listing.price <= max_p)
+    if cat: query = query.filter(Listing.category == cat)
     
     properties = query.all()
     return render_template("index.html", properties=properties)
@@ -64,7 +61,6 @@ def login_page():
         if request.form.get("password") == "calvin2025":
             session['logged_in'] = True
             return redirect(url_for('admin_dashboard'))
-        return "Invalid Credentials"
     return render_template("login.html")
 
 @app.route("/logout")
@@ -83,22 +79,21 @@ def admin_dashboard():
 @login_required
 def admin_add():
     try:
-        # Convert price string to integer (remove commas if user types them)
-        raw_price = request.form.get("price").replace(",", "")
-        new_house = Listing(
+        raw_price = request.form.get("price").replace(",", "").strip()
+        new_item = Listing(
             title=request.form.get("title"),
             price=int(raw_price),
             details=request.form.get("desc"),
             image=request.form.get("image_name"),
-            category=request.form.get("category")
+            category=request.form.get("category"),
+            location=request.form.get("location")
         )
-        db.session.add(new_house)
+        db.session.add(new_item)
         db.session.commit()
-    except Exception as e:
-        return f"Error adding property: {e}"
+    except Exception as e: print(e)
     return redirect(url_for('admin_dashboard'))
 
-@app.route("/delete-property/<int:id>", methods=["POST"])
+@app.route("/delete/<int:id>", methods=["POST"])
 @login_required
 def delete_property(id):
     prop = Listing.query.get_or_404(id)
@@ -108,18 +103,21 @@ def delete_property(id):
 
 @app.route("/setup-db")
 def setup_db():
-    # BULLETPROOF FIX: This resets the table to add the missing 'category' column
-    db.drop_all() 
+    db.drop_all()
     db.create_all()
-    return "Database Synchronized! All columns are now present."
+    return "Database Rebuilt Successfully."
+from flask import send_from_directory
+
+@app.route('/sitemap.xml')
+def static_from_root():
+    return send_from_directory(app.static_folder, 'sitemap.xml')
 
 @app.route("/contact", methods=["POST"])
 def contact():
     data = request.json
-    new_lead = Lead(name=data.get('name'), email=data.get('email'), message=data.get('message'))
-    db.session.add(new_lead)
+    db.session.add(Lead(name=data['name'], email=data['email'], message=data['message']))
     db.session.commit()
-    return jsonify({"status": "success", "message": "Inquiry Sent Successfully!"})
+    return jsonify({"status": "success", "message": "Inquiry Received."})
 
 if __name__ == "__main__":
     app.run(debug=True)

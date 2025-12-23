@@ -1,52 +1,43 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Admin Dashboard</title>
+    <title>Admin Vault | Calvin Agencies</title>
     <style>
-        body { font-family: sans-serif; background: #f0f2f5; padding: 30px; }
-        .container { max-width: 900px; margin: auto; }
-        .card { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 30px; }
-        input, select, textarea { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; }
-        .btn { background: #001f3f; color: white; padding: 12px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; width: 100%; }
-        .listing-row { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding: 10px 0; }
+        body { font-family: sans-serif; background: #0F1115; color: white; padding: 40px; }
+        .card { background: #16191E; padding: 30px; border-radius: 8px; border: 1px solid #C5A059; margin-bottom: 30px; }
+        input, select, textarea { width: 100%; padding: 12px; margin: 10px 0; background: #000; border: 1px solid #333; color: white; }
+        .btn { background: #C5A059; color: black; padding: 12px 20px; border: none; cursor: pointer; font-weight: bold; }
+        .listing { display: flex; justify-content: space-between; padding: 15px; border-bottom: 1px solid #333; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div style="display:flex; justify-content:space-between; align-items:center;">
-            <h1>Agency Dashboard</h1>
-            <a href="/logout" style="color:#d9534f; text-decoration:none; font-weight:bold;">Logout</a>
-        </div>
+    <h1>Executive Management</h1>
+    <a href="/logout" style="color: #C5A059;">Logout</a>
 
-        <div class="card">
-            <h2>Add New Property</h2>
-            <form action="/admin-add" method="POST">
-                <input type="text" name="title" placeholder="Property Title" required>
-                <div style="display:flex; gap:10px;">
-                    <input type="number" name="price" placeholder="Price (KES) (e.g. 45000000)" required>
-                    <select name="category" required>
-                        <option value="Villa">Villa</option>
-                        <option value="Apartment">Apartment</option>
-                        <option value="Office">Office Space</option>
-                    </select>
-                </div>
-                <input type="text" name="image_name" placeholder="Image Filename (e.g. pexels2.jpeg)" required>
-                <textarea name="desc" placeholder="Details (e.g. 4 Beds, 3 Baths)" rows="3" required></textarea>
-                <button type="submit" class="btn">Add Listing</button>
-            </form>
-        </div>
+    <div class="card" style="margin-top: 20px;">
+        <h2>Add Property</h2>
+        <form action="/admin-add" method="POST">
+            <input type="text" name="title" placeholder="Listing Title (e.g. Modern Runda Villa)" required>
+            <input type="text" name="location" placeholder="Specific Location (e.g. Runda, Westlands)" required>
+            <input type="number" name="price" placeholder="Price (KES)" required>
+            <select name="category">
+                <option value="Villa">Villa</option>
+                <option value="Apartment">Apartment</option>
+            </select>
+            <input type="text" name="image_name" placeholder="Image Filename (pexels5.jpeg)" required>
+            <textarea name="desc" placeholder="Details..." rows="3"></textarea>
+            <button type="submit" class="btn">Publish Listing</button>
+        </form>
+    </div>
 
-        <div class="card">
-            <h2>Active Listings</h2>
-            {% for p in properties %}
-            <div class="listing-row">
-                <span>{{ p.title }} (KES {{ "{:,}".format(p.price) }})</span>
-                <form action="/delete-property/{{ p.id }}" method="POST">
-                    <button type="submit" style="background:#ff4d4d; color:white; border:none; padding:5px 10px; border-radius:4px; cursor:pointer;">Delete</button>
-                </form>
-            </div>
-            {% endfor %}
+    <div class="card">
+        <h2>Inquiries Received</h2>
+        {% for lead in leads %}
+        <div class="listing">
+            <span><strong>{{ lead.name }}</strong> ({{ lead.email }})</span>
+            <span>{{ lead.message }}</span>
         </div>
+        {% endfor %}
     </div>
 </body>
 </html>
