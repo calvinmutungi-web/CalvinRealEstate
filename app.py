@@ -1,8 +1,10 @@
 import os
-from flask import Flask, render_template, request, jsonify, redirect, url_for
+from flask import Flask, render_template, request, jsonify, redirect, url_for, session
 from flask_sqlalchemy import SQLAlchemy
+from functools import wraps
 
 app = Flask(__name__)
+app.secret_key = "calvin_agency_luxury_key_2025" # Required for secure login sessions
 
 # --- DATABASE CONFIG ---
 database_url = os.environ.get('DATABASE_URL')
@@ -18,9 +20,10 @@ db = SQLAlchemy(app)
 class Listing(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100), nullable=False)
-    price = db.Column(db.String(50), nullable=False)
+    price = db.Column(db.Integer, nullable=False) 
     details = db.Column(db.String(200))
     image = db.Column(db.String(100))
+    category = db.Column(db.String(50)) # Added for filtering
 
 class Lead(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -28,43 +31,77 @@ class Lead(db.Model):
     email = db.Column(db.String(100))
     message = db.Column(db.Text)
 
+# --- LOGIN PROTECTION DECORATOR ---
+def login_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if 'logged_in' not in session:
+            return redirect(url_for('login_page'))
+        return f(*args, **kwargs)
+    return decorated_function
+
 # --- ROUTES ---
+
 @app.route("/")
 def home():
-    try:
-        properties = Listing.query.all()
-        return render_template("index.html", properties=properties)
-    except Exception:
-        return "Site is initializing. Please visit /setup-db"
+    # Capture Search and Filter inputs
+    q = request.args.get('q', '')
+    max_p = request.args.get('price', type=int)
+    cat = request.args.get('category', '')
+
+    query = Listing.query
+    if q:
+        query = query.filter(Listing.title.ilike(f'%{q}%'))
+    if max_p:
+        query = query.filter(Listing.price <= max_p)
+    if cat:
+        query = query.filter(Listing.category == cat)
+    
+    properties = query.all()
+    return render_template("index.html", properties=properties)
+
+@app.route("/login", methods=["GET", "POST"])
+def login_page():
+    if request.method == "POST":
+        if request.form.get("password") == "calvin2025":
+            session['logged_in'] = True
+            return redirect(url_for('admin_dashboard'))
+        return "Invalid Credentials"
+    return render_template("login.html")
+
+@app.route("/logout")
+def logout():
+    session.pop('logged_in', None)
+    return redirect(url_for('home'))
 
 @app.route("/admin")
-def admin_page():
+@login_required
+def admin_dashboard():
     properties = Listing.query.all()
     leads = Lead.query.all()
     return render_template("admin.html", properties=properties, leads=leads)
 
 @app.route("/admin-add", methods=["POST"])
+@login_required
 def admin_add():
-    if request.form.get("pw") != "calvin2025":
-        return "Unauthorized", 401
     new_house = Listing(
         title=request.form.get("title"),
-        price=request.form.get("price"),
+        price=int(request.form.get("price")),
         details=request.form.get("desc"),
-        image=request.form.get("image_name")
+        image=request.form.get("image_name"),
+        category=request.form.get("category")
     )
     db.session.add(new_house)
     db.session.commit()
-    return redirect(url_for('admin_page'))
+    return redirect(url_for('admin_dashboard'))
 
 @app.route("/delete-property/<int:id>", methods=["POST"])
+@login_required
 def delete_property(id):
-    if request.form.get("pw") != "calvin2025":
-        return "Unauthorized", 401
     prop = Listing.query.get_or_404(id)
     db.session.delete(prop)
     db.session.commit()
-    return redirect(url_for('admin_page'))
+    return redirect(url_for('admin_dashboard'))
 
 @app.route("/setup-db")
 def setup_db():

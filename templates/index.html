@@ -79,7 +79,22 @@
 <div class="section-header">
     <h2>Featured Collection</h2>
     <p>Curated listings for the discerning investor.</p>
-</div>
+</div><section class="filter-container" style="max-width: 1200px; margin: -40px auto 40px; padding: 25px; background: var(--card-bg); border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); position: relative; z-index: 10;">
+    <form action="/" method="GET" style="display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 15px;">
+        <input type="text" name="q" placeholder="Search by location or title..." style="margin: 0;">
+        
+        <select name="category" style="padding: 12px; border-radius: 6px; border: 1px solid #ddd;">
+            <option value="">All Categories</option>
+            <option value="Villa">Villa</option>
+            <option value="Apartment">Apartment</option>
+            <option value="Office">Office Space</option>
+        </select>
+
+        <input type="number" name="price" placeholder="Max Price (KES)" style="margin: 0;">
+        
+        <button type="submit" class="btn-toggle" style="background: var(--primary); color: white; border: none; font-weight: bold;">Apply Filters</button>
+    </form>
+</section>
 
 <section class="property-grid" id="properties">
     {% for p in properties %}
