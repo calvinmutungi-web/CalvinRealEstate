@@ -28,6 +28,18 @@
             <button type="submit">UPLOAD TO COLLECTION</button>
         </form>
     </div>
+    <form method="POST" enctype="multipart/form-data">
+    <input type="text" name="title" placeholder="Title" required>
+    <input type="number" name="price" placeholder="Price (KES)" required>
+    <input type="text" name="location" placeholder="Location">
+    <input type="text" name="category" placeholder="Category (Villa/Apartment)">
+    <input type="number" name="beds" placeholder="Beds">
+    <input type="number" name="baths" placeholder="Baths">
+    <input type="text" name="sqft" placeholder="SqFt (e.g., 4,500)">
+    <textarea name="details" placeholder="Description"></textarea>
+    <input type="file" name="image" required>
+    <button type="submit">UPLOAD PROPERTY</button>
+</form>
 
     <div class="box">
         <h3>Customer Inquiries (Leads)</h3>

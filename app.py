@@ -3,11 +3,11 @@ import requests
 from flask import Flask, render_template, request, redirect, url_for, session
 
 app = Flask(__name__)
-app.secret_key = 'calvin_ultra_premium_2025'
+app.secret_key = 'calvin_signature_vault_2025'
 
-# --- DATABASE SETUP (FIXES ERROR 500) ---
+# --- DATABASE & PATHING ---
 basedir = os.path.abspath(os.path.dirname(__file__))
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'calvin_hq.db')
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'calvin_luxury.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['UPLOAD_FOLDER'] = os.path.join('static', 'uploads')
 
@@ -37,14 +37,12 @@ class Lead(db.Model):
 def notify_calvin(name, phone, message):
     api_key = "9531589"
     my_phone = "254796250286"
-    text = f"*New High-End Lead!*\n\n*Name:* {name}\n*Phone:* {phone}\n*Inquiry:* {message}"
+    text = f"*Calvin Agencies Lead*\n\n*Name:* {name}\n*Phone:* {phone}\n*Inquiry:* {message}"
     url = f"https://api.callmebot.com/whatsapp.php?phone={my_phone}&text={text.replace(' ', '+')}&apikey={api_key}"
-    try:
-        requests.get(url, timeout=5)
-    except:
-        pass
+    try: requests.get(url, timeout=5)
+    except: pass
 
-# --- INITIALIZE SYSTEM ---
+# --- AUTO-SYNC (KILLS ERROR 500) ---
 with app.app_context():
     os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
     db.create_all()
@@ -63,7 +61,11 @@ def inquire():
     db.session.add(new_lead)
     db.session.commit()
     notify_calvin(name, phone, msg)
-    return "SUCCESS"
+    return redirect(url_for('success'))
+
+@app.route('/success')
+def success():
+    return render_template('success.html')
 
 @app.route('/secret-vault-login', methods=['GET', 'POST'])
 def login():
@@ -98,17 +100,11 @@ def admin():
             return redirect(url_for('admin'))
     return render_template('admin.html', properties=Property.query.all(), leads=Lead.query.all())
 
-@app.route('/delete/<int:id>')
-def delete(id):
-    Property.query.filter_by(id=id).delete()
-    db.session.commit()
-    return redirect(url_for('admin'))
-
 @app.route('/rebuild-db')
 def rebuild():
     db.drop_all()
     db.create_all()
-    return "<h1>Database Cleared & Synchronized.</h1><p>The Error 500 is gone. <a href='/admin'>Go to Admin</a></p>"
+    return "<h1>Database Ready.</h1><p><a href='/admin'>Go to Admin</a></p>"
 
 if __name__ == '__main__':
     app.run(debug=True)
