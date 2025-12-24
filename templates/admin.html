@@ -1,54 +1,78 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Calvin Admin | The Vault</title>
+    <meta charset="UTF-8">
+    <title>CALVIN | Management Vault</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        body { font-family: sans-serif; background: #000; color: #fff; padding: 50px; }
-        .box { background: #111; padding: 30px; border: 1px solid #d4af37; margin-bottom: 30px; }
-        input, textarea, select { width: 100%; padding: 10px; margin: 10px 0; background: #222; color: #fff; border: 1px solid #333; }
-        button { background: #d4af37; color: #000; padding: 15px; border: none; cursor: pointer; width: 100%; font-weight: bold; }
+        :root { --gold: #D4AF37; --dark: #050505; --glass: rgba(255,255,255,0.03); }
+        body { background: var(--dark); color: #fff; font-family: 'Montserrat'; margin: 0; padding: 40px; }
+        .header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #222; padding-bottom: 20px; margin-bottom: 40px; }
+        h1 { font-family: 'Cinzel'; letter-spacing: 5px; color: var(--gold); margin: 0; }
+        
+        .grid { display: grid; grid-template-columns: 1fr 2fr; gap: 40px; }
+        .card { background: var(--glass); border: 1px solid #222; padding: 30px; border-radius: 4px; }
+        
+        input, select, textarea { 
+            width: 100%; background: transparent; border: 1px solid #333; 
+            color: #fff; padding: 12px; margin-top: 10px; margin-bottom: 20px; outline: none;
+        }
+        .btn { background: var(--gold); color: #000; border: none; padding: 15px 30px; font-weight: 700; cursor: pointer; width: 100%; letter-spacing: 2px; }
+        
         table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        th, td { border: 1px solid #222; padding: 15px; text-align: left; }
+        th { text-align: left; color: var(--gold); font-size: 0.7rem; letter-spacing: 2px; padding: 10px; border-bottom: 1px solid #222; }
+        td { padding: 15px 10px; border-bottom: 1px solid #111; font-size: 0.85rem; }
+        .logout { color: #666; text-decoration: none; font-size: 0.7rem; letter-spacing: 2px; }
     </style>
 </head>
 <body>
-    <h1>Property Vault</h1>
-    <div class="box">
-        <h3>Add New Property</h3>
-        <form method="POST" enctype="multipart/form-data">
-            <input type="text" name="title" placeholder="Property Name (e.g. Runda Palace)" required>
-            <input type="number" name="price" placeholder="Price (KES)" required>
-            <input type="text" name="location" placeholder="Location (e.g. Westlands)">
-            <select name="category">
-                <option value="Villa">Villa</option>
-                <option value="Apartment">Apartment</option>
-            </select>
-            <textarea name="details" placeholder="Luxury description..."></textarea>
-            <input type="file" name="image" required>
-            <button type="submit">UPLOAD TO COLLECTION</button>
-        </form>
+    <div class="header">
+        <h1>THE VAULT</h1>
+        <a href="/" class="logout">EXIT TO SITE</a>
     </div>
-    <form method="POST" enctype="multipart/form-data">
-    <input type="text" name="title" placeholder="Title" required>
-    <input type="number" name="price" placeholder="Price (KES)" required>
-    <input type="text" name="location" placeholder="Location">
-    <input type="text" name="category" placeholder="Category (Villa/Apartment)">
-    <input type="number" name="beds" placeholder="Beds">
-    <input type="number" name="baths" placeholder="Baths">
-    <input type="text" name="sqft" placeholder="SqFt (e.g., 4,500)">
-    <textarea name="details" placeholder="Description"></textarea>
-    <input type="file" name="image" required>
-    <button type="submit">UPLOAD PROPERTY</button>
-</form>
 
-    <div class="box">
-        <h3>Customer Inquiries (Leads)</h3>
-        <table>
-            <tr><th>Name</th><th>Email</th><th>Message</th></tr>
-            {% for l in leads %}
-            <tr><td>{{ l.name }}</td><td>{{ l.email }}</td><td>{{ l.message }}</td></tr>
-            {% endfor %}
-        </table>
+    <div class="grid">
+        <div class="card">
+            <h3 style="margin-top:0; letter-spacing: 2px;">NEW ASSET</h3>
+            <form method="POST" enctype="multipart/form-data">
+                <input type="text" name="title" placeholder="Property Title" required>
+                <input type="number" name="price" placeholder="Price (KES)" required>
+                <input type="text" name="location" placeholder="Location (e.g. Runda)" required>
+                <select name="category">
+                    <option value="Villa">Villa</option>
+                    <option value="Penthouse">Penthouse</option>
+                    <option value="Land">Land</option>
+                </select>
+                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+                    <input type="number" name="beds" placeholder="Beds">
+                    <input type="number" name="baths" placeholder="Baths">
+                </div>
+                <input type="text" name="sqft" placeholder="SQ.FT">
+                <textarea name="details" placeholder="Architectural Details" rows="4"></textarea>
+                <label style="font-size: 0.7rem; color: #666;">IMAGE (High Res Only)</label>
+                <input type="file" name="image" required>
+                <button type="submit" class="btn">DEPLOY ASSET</button>
+            </form>
+        </div>
+
+        <div class="card">
+            <h3 style="margin-top:0; letter-spacing: 2px;">ACTIVE LEADS (WhatsApp Tracked)</h3>
+            <table>
+                <thead>
+                    <tr><th>DATE</th><th>NAME</th><th>PHONE</th><th>REQUIREMENTS</th></tr>
+                </thead>
+                <tbody>
+                    {% for lead in leads %}
+                    <tr>
+                        <td>{{ lead.timestamp.strftime('%d %b') }}</td>
+                        <td style="color: var(--gold);">{{ lead.name }}</td>
+                        <td>{{ lead.phone }}</td>
+                        <td style="opacity: 0.7;">{{ lead.message }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
 </body>
 </html>

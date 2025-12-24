@@ -3,158 +3,183 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CALVIN | Signature Real Estate</title>
+    <title>CALVIN AGENCIES | Private Office</title>
     
     <script async src="https://www.googletagmanager.com/gtag/js?id=CZF4cbUIZkEh4c6cZWN-GXDnurC9WBuOGvL7wPvTq3s"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-      gtag('config', 'CZF4cbUIZkEh4c6cZWN-GXDnurC9WBuOGvL7wPvTq3s', { 'anonymize_ip': true });
+      gtag('config', 'CZF4cbUIZkEh4c6cZWN-GXDnurC9WBuOGvL7wPvTq3s');
     </script>
 
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@100;200;300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@100;200;300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 
     <style>
-        :root { --gold: #D4AF37; --dark: #050505; --light: #ffffff; --glass: rgba(255, 255, 255, 0.05); }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background: var(--dark); color: var(--light); font-family: 'Montserrat'; overflow-x: hidden; line-height: 1.6; }
-
-        /* NAVIGATION: FLOATING LUXE */
-        nav { 
-            position: fixed; width: 100%; padding: 35px 8%; display: flex; 
-            justify-content: space-between; align-items: center; z-index: 1000;
-            background: linear-gradient(to bottom, rgba(5,5,5,0.8), transparent);
-            backdrop-filter: blur(10px);
+        :root { 
+            --gold: #D4AF37; 
+            --dark: #050505; 
+            --light: #ffffff;
+            --transition: 1.2s cubic-bezier(0.19, 1, 0.22, 1);
         }
-        .logo { font-family: 'Cinzel'; font-size: 1.8rem; letter-spacing: 12px; color: var(--light); text-decoration: none; font-weight: 700; }
 
-        /* HERO: ELITE PARALLAX SECTION */
-        .hero-wrapper { position: relative; height: 100vh; width: 100%; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: var(--dark); color: var(--light); font-family: 'Montserrat', sans-serif; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+
+        /* HEADER: RESTORED NAV BUTTONS */
+        nav { 
+            position: fixed; width: 100%; padding: clamp(20px, 4vw, 45px) 8%; 
+            display: flex; justify-content: space-between; align-items: center; 
+            z-index: 1000; mix-blend-mode: difference;
+        }
+        .logo { font-family: 'Cinzel'; font-size: 1.8rem; letter-spacing: 15px; color: var(--light); text-decoration: none; font-weight: 700; }
+        .nav-links { display: flex; gap: 40px; }
+        .nav-links a { text-decoration: none; color: var(--light); font-size: 0.65rem; letter-spacing: 4px; text-transform: uppercase; font-weight: 500; transition: 0.3s; }
+        .nav-links a:hover { color: var(--gold); }
+
+        /* HERO: ULTRA-HIGH END PARALLAX */
+        .hero-section { position: relative; height: 110vh; width: 100%; overflow: hidden; }
         .hero-bg { 
-            position: absolute; top: 0; left: 0; width: 100%; height: 130%; 
-            background: linear-gradient(to bottom, rgba(5,5,5,0.2), var(--dark)), 
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
+            background: linear-gradient(to bottom, rgba(5,5,5,0.2) 0%, var(--dark) 95%), 
                         url('https://images.pexels.com/photos/323780/pexels-photo-323780.jpeg?auto=compress&cs=tinysrgb&w=1600');
             background-size: cover; background-position: center; z-index: -1;
+            transform: scale(1.1);
         }
-        .hero-content { text-align: center; width: 90%; max-width: 1200px; }
-        .hero-content h1 { font-family: 'Cinzel'; font-size: clamp(3rem, 10vw, 8rem); letter-spacing: 20px; margin-bottom: 20px; font-weight: 400; }
-        .hero-content p { color: var(--gold); letter-spacing: 10px; text-transform: uppercase; font-size: 0.8rem; margin-bottom: 50px; }
+        .hero-content { 
+            height: 100vh; display: flex; flex-direction: column; 
+            justify-content: center; align-items: center; text-align: center;
+        }
+        .hero-content h1 { font-family: 'Cinzel'; font-size: clamp(3rem, 12vw, 9rem); letter-spacing: clamp(10px, 3vw, 40px); font-weight: 400; margin-bottom: 20px; text-indent: clamp(10px, 3vw, 40px); }
+        .hero-content p { color: var(--gold); letter-spacing: 12px; text-transform: uppercase; font-size: 0.75rem; margin-bottom: 50px; opacity: 0.8; }
 
-        /* SEARCH CONCIERGE (COMBINED FEATURE) */
+        /* SEARCH BAR: LUXURY MATTE GLASS */
         .search-row { 
-            display: inline-flex; gap: 30px; background: var(--glass); 
-            padding: 30px 40px; backdrop-filter: blur(25px); border: 1px solid rgba(255,255,255,0.1);
-            text-align: left; border-radius: 2px;
+            display: flex; background: rgba(255,255,255,0.03); 
+            padding: 25px 40px; border: 1px solid rgba(255,255,255,0.1);
+            backdrop-filter: blur(30px); gap: 40px;
         }
-        .filter-group { display: flex; flex-direction: column; }
-        .filter-group label { font-size: 0.6rem; letter-spacing: 3px; color: var(--gold); text-transform: uppercase; margin-bottom: 8px; }
+        .filter-group { display: flex; flex-direction: column; text-align: left; }
+        .filter-group label { font-size: 0.55rem; letter-spacing: 3px; color: var(--gold); text-transform: uppercase; margin-bottom: 8px; }
         .filter-group input, .filter-group select { 
-            background: transparent; border: none; border-bottom: 1px solid #444; 
-            color: #fff; padding: 5px 0; outline: none; font-family: inherit; min-width: 200px; font-size: 0.85rem;
+            background: transparent; border: none; border-bottom: 1px solid #333; 
+            color: #fff; padding: 5px 0; outline: none; font-family: inherit; font-size: 0.8rem; min-width: 180px;
         }
-        .btn-gold { background: var(--gold); color: #000; border: none; padding: 0 40px; text-transform: uppercase; letter-spacing: 3px; font-weight: 700; cursor: pointer; transition: 0.4s; }
-        .btn-gold:hover { background: #fff; }
+        .btn-gold { background: var(--gold); color: #000; border: none; padding: 0 45px; text-transform: uppercase; letter-spacing: 3px; font-weight: 700; cursor: pointer; transition: 0.4s; }
 
-        /* GALLERY: EDITORIAL LAYOUT */
-        .gallery { padding: 150px 8%; }
-        .prop-card { display: flex; gap: 80px; align-items: center; margin-bottom: 200px; }
-        .prop-card:nth-child(even) { flex-direction: row-reverse; }
-        .prop-img-box { flex: 1.2; height: 700px; overflow: hidden; border: 1px solid #1a1a1a; }
-        .prop-img-box img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(1); transition: 1.5s cubic-bezier(0.19, 1, 0.22, 1); }
-        .prop-card:hover img { filter: grayscale(0); transform: scale(1.05); }
+        /* GALLERY: THE MARVEL CARDS */
+        .gallery-container { padding: 100px 8% 200px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 120px 80px; }
+        .prop-card { position: relative; text-decoration: none; color: inherit; display: block; }
+        .prop-img-wrapper { 
+            width: 100%; aspect-ratio: 4/5; overflow: hidden; 
+            background: #111; border: 1px solid rgba(255,255,255,0.05);
+        }
+        .prop-img-wrapper img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(1); transition: var(--transition); }
+        .prop-card:hover .prop-img-wrapper img { filter: grayscale(0); transform: scale(1.04); }
         
-        .prop-text { flex: 0.8; padding: 40px; }
-        .prop-text h2 { font-family: 'Cinzel'; font-size: 3.5rem; margin: 20px 0; font-weight: 400; }
-        .prop-text .price { color: var(--gold); font-size: 2rem; font-weight: 200; margin-bottom: 30px; }
-        .specs { display: flex; gap: 30px; font-size: 0.7rem; color: #666; letter-spacing: 2px; text-transform: uppercase; }
-
-        /* MAP: ARCHITECTURAL BLUEPRINT (RESTORED BEAUTY) */
-        .map-section { height: 80vh; position: relative; background: #000; display: flex; align-items: center; justify-content: center; overflow: hidden; }
-        .map-bg-frame { 
-            position: absolute; width: 100%; height: 100%; 
-            filter: invert(1) grayscale(1) contrast(1.2) opacity(0.2); 
-            pointer-events: none; border: none; transform: scale(1.1);
+        .prop-meta { margin-top: 30px; }
+        .prop-meta span { color: var(--gold); letter-spacing: 5px; font-size: 0.65rem; text-transform: uppercase; }
+        .prop-meta h3 { font-family: 'Cinzel'; font-size: 2.2rem; margin: 15px 0; font-weight: 400; }
+        .prop-price { font-size: 1.5rem; font-weight: 200; opacity: 0.9; border-bottom: 1px solid #222; display: inline-block; padding-bottom: 10px; margin-bottom: 20px; }
+        
+        /* THE MAP: FIXED ARCHITECTURAL BEAUTY */
+        .map-section { 
+            position: relative; height: 100vh; width: 100%; background: #000; 
+            display: flex; align-items: center; justify-content: center; overflow: hidden;
         }
-        .map-overlay { position: relative; z-index: 2; text-align: center; }
-        .map-overlay h2 { font-family: 'Cinzel'; font-size: 5rem; letter-spacing: 30px; margin-bottom: 10px; }
+        .map-iframe { 
+            position: absolute; width: 100%; height: 100%; 
+            filter: invert(1) grayscale(1) contrast(1.4) brightness(0.7); 
+            opacity: 0.25; z-index: 1; border: none; pointer-events: none;
+        }
+        .map-overlay { position: relative; z-index: 2; text-align: center; pointer-events: none; }
+        .map-overlay h2 { font-family: 'Cinzel'; font-size: clamp(3rem, 15vw, 10rem); letter-spacing: 30px; text-indent: 30px; line-height: 1; }
+        .map-overlay p { color: var(--gold); letter-spacing: 15px; margin-bottom: 20px; font-size: 0.9rem; }
 
-        /* CONTACT & SUCCESS MODAL */
-        .contact-luxe { padding: 150px 8%; display: grid; grid-template-columns: 1fr 1fr; gap: 100px; background: #000; }
-        .contact-form { display: flex; flex-direction: column; gap: 30px; }
+        /* CONTACT SECTION */
+        .contact-luxe { padding: 150px 8%; display: grid; grid-template-columns: 1fr 1fr; gap: 100px; border-top: 1px solid #111; }
+        .contact-text h2 { font-family: 'Cinzel'; font-size: 4rem; margin-bottom: 30px; line-height: 1.1; }
+        .contact-form { display: flex; flex-direction: column; gap: 40px; }
         .contact-form input, .contact-form textarea {
             background: transparent; border: none; border-bottom: 1px solid #222;
-            color: #fff; padding: 20px 0; font-size: 1rem; outline: none; transition: 0.5s;
+            color: #fff; padding: 20px 0; font-size: 1.1rem; outline: none; transition: 0.5s;
         }
         .contact-form input:focus { border-color: var(--gold); }
-        
-        #success-modal { 
-            position: fixed; inset: 0; background: #050505; z-index: 9999; 
+
+        #success-overlay { 
+            position: fixed; inset: 0; background: #000; z-index: 2000; 
             display: none; flex-direction: column; justify-content: center; align-items: center;
-            text-align: center;
         }
 
         @media (max-width: 1024px) {
-            .prop-card { flex-direction: column !important; }
-            .search-row { flex-direction: column; width: 100%; padding: 30px; }
+            .gallery-container { grid-template-columns: 1fr; }
+            .search-row { flex-direction: column; gap: 20px; }
             .contact-luxe { grid-template-columns: 1fr; }
-            .hero-content h1 { font-size: 3rem; }
+            nav { padding: 30px 5%; }
+            .nav-links { display: none; }
         }
     </style>
 </head>
 <body>
 
-<div id="success-modal">
-    <h1 style="font-family: 'Cinzel'; font-size: 3.5rem; color: var(--gold);">RECEIVED</h1>
-    <p style="letter-spacing: 10px; margin-top: 20px; font-weight: 200;">ACQUISITION CONCIERGE NOTIFIED</p>
-    <button onclick="location.reload()" class="btn-gold" style="margin-top: 50px; height: 65px; padding: 0 50px;">RETURN</button>
+<div id="success-overlay">
+    <h1 style="font-family: 'Cinzel'; font-size: clamp(2rem, 8vw, 4rem); color: var(--gold);">SUCCESS</h1>
+    <p style="letter-spacing: 10px; margin-top: 20px;">ACQUISITION TEAM NOTIFIED</p>
+    <button onclick="location.reload()" class="btn-gold" style="margin-top: 50px; height: 60px;">BACK TO SITE</button>
 </div>
 
 <nav>
     <a href="/" class="logo">CALVIN</a>
-    <div style="letter-spacing: 5px; font-size: 0.65rem; color: var(--gold); font-weight: 600;">NAIROBI PRIVATE OFFICE</div>
+    <div class="nav-links">
+        <a href="#collection">Collection</a>
+        <a href="#inquiry">Private Inquiry</a>
+        <a href="/vault/login" style="border: 1px solid var(--gold); padding: 8px 20px;">Partner Login</a>
+    </div>
 </nav>
 
-<div class="hero-wrapper">
-    <div class="hero-bg"></div>
+<section class="hero-section">
+    <div class="hero-bg" id="heroBg"></div>
     <div class="hero-content">
-        <p>A Standard of Excellence Since 2025</p>
+        <p>Prestige Real Estate Concierge</p>
         <h1>SIGNATURE</h1>
         
         <form class="search-row" action="/" method="GET">
             <div class="filter-group">
-                <label>Geography</label>
-                <input type="text" name="q" placeholder="Enter Region...">
+                <label>Location</label>
+                <input type="text" name="q" placeholder="Explore Kenya...">
             </div>
             <div class="filter-group">
                 <label>Asset Class</label>
                 <select name="category">
-                    <option value="">All Assets</option>
-                    <option value="Villa">Exclusive Villa</option>
-                    <option value="Penthouse">Penthouse</option>
-                    <option value="Land">Strategic Land</option>
+                    <option value="">All Categories</option>
+                    <option value="Villa">Executive Villas</option>
+                    <option value="Penthouse">Penthouses</option>
+                    <option value="Land">Acreage</option>
                 </select>
             </div>
-            <button type="submit" class="btn-gold">Search</button>
+            <button type="submit" class="btn-gold">Consult Portfolio</button>
         </form>
     </div>
-</div>
+</section>
 
-<section class="gallery">
+<section class="gallery-container" id="collection">
     {% for p in properties %}
     <div class="prop-card">
-        <div class="prop-img-box">
+        <div class="prop-img-wrapper">
             <img src="{{ url_for('static', filename=p.image) }}" alt="{{ p.title }}">
         </div>
-        <div class="prop-text">
-            <span style="color: var(--gold); letter-spacing: 5px; font-size: 0.7rem; text-transform: uppercase;">{{ p.location }}</span>
-            <h2>{{ p.title }}</h2>
-            <div class="price">KES {{ "{:,}".format(p.price) }}</div>
-            <div class="specs">
-                <span>{{ p.beds }} BEDS</span> | <span>{{ p.baths }} BATHS</span> | <span>{{ p.sqft }} SQFT</span>
+        <div class="prop-meta">
+            <span>{{ p.location }}</span>
+            <h3>{{ p.title }}</h3>
+            <div class="prop-price">KES {{ "{:,}".format(p.price) }}</div>
+            <div style="display: flex; gap: 30px; font-size: 0.65rem; letter-spacing: 3px; color: #555;">
+                <p>{{ p.beds }} BEDS</p>
+                <p>{{ p.baths }} BATHS</p>
+                <p>{{ p.sqft }} SQ.FT</p>
             </div>
         </div>
     </div>
@@ -162,60 +187,78 @@
 </section>
 
 <section class="map-section">
-    <iframe class="map-bg-frame" src="http://googleusercontent.com/maps.google.com/6"></iframe>
+    <iframe class="map-iframe" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d127641.16839556885!2d36.7610115!3d-1.286389!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x182f1172d84d49a7%3A0xf7cf0254b297924c!2sNairobi!5e0!3m2!1sen!2ske!4v1710000000000!5m2!1sen!2ske"></iframe>
     <div class="map-overlay">
-        <p style="color: var(--gold); letter-spacing: 15px; margin-bottom: 20px;">LOCAL FOOTPRINT</p>
+        <p>DOMAIN OF EXPERTISE</p>
         <h2>NAIROBI</h2>
     </div>
 </section>
 
-<section class="contact-luxe">
-    <div>
-        <h2 style="font-family: 'Cinzel'; font-size: 3.5rem; margin-bottom: 30px; line-height: 1.1;">Secure Your Legacy.</h2>
-        <p style="color: #444; font-size: 1.1rem; line-height: 2; font-weight: 300;">Discreet representation for high-net-worth individuals and corporate entities seeking Kenya's most prestigious primary residential assets.</p>
+<section class="contact-luxe" id="inquiry">
+    <div class="contact-text">
+        <p style="color: var(--gold); letter-spacing: 5px; font-size: 0.7rem; margin-bottom: 20px;">PRIVATE OFFICE</p>
+        <h2>Acquisition Concierge.</h2>
+        <p style="color: #444; font-size: 1.1rem; line-height: 2.2; font-weight: 300;">Discreet representation for high-net-worth individuals seeking the region's most exclusive off-market opportunities.</p>
     </div>
     <form class="contact-form" id="leadForm">
-        <input type="text" name="name" placeholder="FULL NAME" required>
+        <input type="text" name="name" placeholder="LEGAL NAME" required>
         <input type="text" name="phone" placeholder="PRIVATE PHONE (254...)" required>
         <textarea name="message" placeholder="ACQUISITION REQUIREMENTS" rows="3"></textarea>
-        <button type="submit" class="btn-gold" style="height: 70px;">Request Consultation</button>
+        <button type="submit" class="btn-gold" style="height: 75px;">Initialize Inquiry</button>
     </form>
 </section>
 
 <script>
     gsap.registerPlugin(ScrollTrigger);
 
-    // 1. Hero Parallax Effect
-    gsap.to(".hero-bg", {
-        yPercent: 25,
+    // Mathematical Parallax for Hero
+    gsap.to("#heroBg", {
+        yPercent: 30,
+        scale: 1.3,
         ease: "none",
         scrollTrigger: {
-            trigger: ".hero-wrapper",
+            trigger: ".hero-section",
             start: "top top",
             end: "bottom top",
             scrub: true
         }
     });
 
-    // 2. Animated Entry
-    gsap.from(".hero-content h1", { opacity: 0, y: 70, duration: 2, ease: "expo.out" });
-    gsap.from(".search-row", { opacity: 0, y: 30, delay: 0.8, duration: 1.5 });
-
-    // 3. Property Reveal Logic
-    gsap.utils.toArray('.prop-card').forEach(card => {
+    // Weighted Reveal for Cards
+    gsap.utils.toArray('.prop-card').forEach((card, i) => {
         gsap.from(card, {
-            scrollTrigger: { trigger: card, start: "top 85%" },
-            y: 100, opacity: 0, duration: 1.5, ease: "power3.out"
+            scrollTrigger: {
+                trigger: card,
+                start: "top 90%",
+            },
+            y: 150,
+            opacity: 0,
+            duration: 1.8,
+            ease: "power4.out",
+            delay: i % 2 * 0.2 // Staggered grid reveal
         });
     });
 
-    // 4. AJAX Lead Capture (WhatsApp Integration)
+    // Map Ghosting Transition
+    gsap.from(".map-overlay h2", {
+        scale: 0.8,
+        opacity: 0,
+        letterSpacing: "0px",
+        scrollTrigger: {
+            trigger: ".map-section",
+            start: "top center",
+            end: "bottom center",
+            scrub: 1
+        }
+    });
+
+    // Success Handling
     document.getElementById('leadForm').onsubmit = async (e) => {
         e.preventDefault();
         const res = await fetch('/inquire', { method: 'POST', body: new FormData(e.target) });
         if(res.ok) {
-            document.getElementById('success-modal').style.display = 'flex';
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            document.getElementById('success-overlay').style.display = 'flex';
+            gsap.from("#success-overlay h1", { opacity: 0, y: 50, duration: 1 });
         }
     };
 </script>
