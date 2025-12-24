@@ -3,170 +3,172 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CALVIN | Private Collection</title>
+    <title>CALVIN | High-End Property Portfolio</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@200;300;400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@200;300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 
     <style>
-        :root { --gold: #C5A059; --dark: #050505; --accent: #111; }
+        :root { --gold: #D4AF37; --dark: #050505; --soft: #111; --glass: rgba(255, 255, 255, 0.03); }
         
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background: var(--dark); color: #fff; font-family: 'Montserrat', sans-serif; overflow-x: hidden; }
+        body { background: var(--dark); color: #fff; font-family: 'Montserrat'; overflow-x: hidden; }
 
-        /* HEADER: GHOST STYLE */
+        /* BUTTER SMOOTH NAV */
         nav { 
-            position: fixed; width: 100%; padding: 40px 6%; display: flex; 
+            position: fixed; width: 100%; padding: 35px 8%; display: flex; 
             justify-content: space-between; align-items: center; z-index: 1000;
-            background: linear-gradient(to bottom, rgba(5,5,5,0.8), transparent);
+            background: linear-gradient(to bottom, rgba(5,5,5,0.9), transparent);
+            backdrop-filter: blur(10px); border-bottom: 1px solid var(--glass);
         }
         .logo { font-family: 'Cinzel'; font-size: 1.8rem; letter-spacing: 12px; color: var(--gold); text-decoration: none; font-weight: 700; }
-        .nav-links { display: flex; gap: 40px; font-size: 0.7rem; letter-spacing: 4px; text-transform: uppercase; }
 
-        /* HERO: CINEMATIC ENTRANCE */
+        /* HERO SECTION */
         .hero { 
-            height: 100vh; display: flex; flex-direction: column; justify-content: center; 
-            align-items: center; text-align: center; position: relative;
-            background: linear-gradient(rgba(0,0,0,0.5), var(--dark)), url('https://images.pexels.com/photos/323780/pexels-photo-323780.jpeg');
-            background-size: cover; background-position: center; background-attachment: fixed;
+            height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;
+            background: radial-gradient(circle at center, rgba(212,175,55,0.05) 0%, transparent 70%), var(--dark);
         }
-        .hero h1 { font-family: 'Cinzel'; font-size: clamp(3rem, 10vw, 7rem); letter-spacing: 25px; line-height: 1.2; margin-bottom: 20px; }
-        .hero p { color: var(--gold); letter-spacing: 10px; font-size: 0.9rem; text-transform: uppercase; opacity: 0.8; }
-        .scroll-indicator { position: absolute; bottom: 40px; font-size: 0.6rem; letter-spacing: 5px; color: var(--gold); animation: bounce 2s infinite; }
+        .hero h1 { font-family: 'Cinzel'; font-size: clamp(3rem, 10vw, 8rem); letter-spacing: 20px; line-height: 1; margin-bottom: 20px; }
+        .hero p { color: var(--gold); letter-spacing: 8px; font-size: 0.9rem; text-transform: uppercase; margin-bottom: 50px; }
 
-        /* COLLECTION: EDITORIAL PRESENTATION */
-        .collection-wrap { padding: 150px 0; }
-        .property-card { 
-            display: flex; height: 90vh; margin-bottom: 100px; padding: 0 6%;
-            gap: 60px; align-items: center;
+        /* SEARCH CONCIERGE */
+        .search-bar { 
+            background: var(--glass); padding: 30px; border: 1px solid #222; 
+            width: 80%; max-width: 1000px; display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 20px;
+            backdrop-filter: blur(20px); border-radius: 2px;
         }
-        .property-card:nth-child(even) { flex-direction: row-reverse; }
+        .search-bar input, .search-bar select { 
+            background: transparent; border: none; border-bottom: 1px solid #333; 
+            color: #fff; padding: 10px; font-family: inherit; font-size: 0.8rem; outline: none;
+        }
+        .btn-search { background: var(--gold); color: #000; border: none; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; cursor: pointer; }
 
-        .prop-image { flex: 1.2; height: 100%; border: 1px solid rgba(197,160,89,0.2); overflow: hidden; }
-        .prop-image img { width: 100%; height: 100%; object-fit: cover; transition: 1.5s transform ease; filter: grayscale(40%); }
-        .property-card:hover .prop-image img { transform: scale(1.05); filter: grayscale(0%); }
-
-        .prop-details { flex: 0.8; padding: 40px; }
-        .prop-details .location { color: var(--gold); letter-spacing: 6px; font-size: 0.7rem; text-transform: uppercase; margin-bottom: 20px; display: block; }
-        .prop-details h2 { font-family: 'Cinzel'; font-size: 3.5rem; margin-bottom: 25px; font-weight: 400; line-height: 1.1; }
-        .prop-details .price { font-size: 2.2rem; font-weight: 200; margin-bottom: 40px; border-bottom: 1px solid var(--accent); display: inline-block; padding-bottom: 10px; }
+        /* GRID: THE PORTFOLIO */
+        .portfolio { padding: 150px 8%; display: grid; grid-template-columns: repeat(auto-fill, minmax(450px, 1fr)); gap: 80px; }
+        .card { position: relative; overflow: hidden; height: 650px; border: 1px solid #111; transition: 0.7s cubic-bezier(0.19, 1, 0.22, 1); }
+        .card img { width: 100%; height: 100%; object-fit: cover; transition: 1.5s; filter: brightness(0.7) grayscale(0.5); }
+        .card:hover img { transform: scale(1.1); filter: brightness(1) grayscale(0); }
         
-        .prop-specs { display: flex; gap: 40px; color: #666; font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase; }
-        .prop-specs b { color: var(--gold); }
+        .card-overlay { 
+            position: absolute; bottom: 0; left: 0; width: 100%; padding: 50px;
+            background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+        }
+        .card-overlay h3 { font-family: 'Cinzel'; font-size: 2.2rem; margin-bottom: 10px; }
+        .card-overlay .price { color: var(--gold); font-size: 1.5rem; font-weight: 200; }
 
-        /* MAP: THE INTELLIGENCE HUB */
-        .map-section { padding: 150px 6%; background: var(--accent); text-align: center; }
-        .map-section h2 { font-family: 'Cinzel'; font-size: 3rem; letter-spacing: 15px; margin-bottom: 60px; }
-        .map-frame { width: 100%; height: 650px; border: none; filter: invert(90%) hue-rotate(180deg) brightness(0.7); box-shadow: 0 30px 60px rgba(0,0,0,0.5); }
+        /* MAP CARD - LUXURY PLACEMENT */
+        .map-section { padding: 100px 8%; }
+        .map-card { 
+            background: var(--soft); border: 1px solid #222; padding: 10px; 
+            box-shadow: 0 50px 100px rgba(0,0,0,0.8); overflow: hidden;
+        }
+        .map-frame { width: 100%; height: 600px; border: none; filter: invert(90%) hue-rotate(180deg) brightness(0.8); }
 
-        /* CONTACT: THE PRIVACY SUITE */
-        .contact-grid { display: grid; grid-template-columns: 1fr 1fr; min-height: 80vh; background: #000; border-top: 1px solid #111; }
-        .contact-info { padding: 100px 15%; display: flex; flex-direction: column; justify-content: center; }
-        .contact-info h2 { font-family: 'Cinzel'; font-size: 4rem; margin-bottom: 30px; }
-        
-        .contact-form { padding: 100px 15%; background: var(--accent); display: flex; flex-direction: column; justify-content: center; }
+        /* SUCCESS MODAL */
+        #success-modal { 
+            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            background: #000; border: 1px solid var(--gold); padding: 60px; z-index: 2000;
+            text-align: center; display: none; box-shadow: 0 0 100px rgba(212,175,55,0.2);
+        }
+
+        /* CONTACT FORM */
+        .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 100px; padding: 150px 8%; background: #000; }
         .contact-form input, .contact-form textarea {
-            width: 100%; background: transparent; border: none; border-bottom: 1px solid #333;
-            color: #fff; padding: 25px 0; margin-bottom: 40px; font-size: 1rem; outline: none; transition: 0.5s;
+            width: 100%; background: transparent; border: none; border-bottom: 1px solid #222;
+            color: #fff; padding: 25px 0; margin-bottom: 30px; font-size: 1rem; outline: none; transition: 0.5s;
         }
         .contact-form input:focus { border-bottom-color: var(--gold); }
-        .btn-luxury { 
-            background: transparent; color: var(--gold); border: 1px solid var(--gold);
-            padding: 20px 50px; text-transform: uppercase; letter-spacing: 5px; 
-            font-weight: 600; cursor: pointer; transition: 0.5s; align-self: flex-start;
-        }
-        .btn-luxury:hover { background: var(--gold); color: #000; }
 
-        @keyframes bounce { 0%, 20%, 50%, 80%, 100% {transform: translateY(0);} 40% {transform: translateY(-10px);} 60% {transform: translateY(-5px);} }
-
-        @media (max-width: 1024px) {
-            .property-card { flex-direction: column !important; height: auto; padding: 80px 6%; }
-            .prop-image { height: 400px; width: 100%; }
+        @media (max-width: 768px) {
+            .portfolio { grid-template-columns: 1fr; }
+            .search-bar { grid-template-columns: 1fr; }
             .contact-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
 
+<div id="success-modal">
+    <h1 style="font-family: 'Cinzel'; color: var(--gold); margin-bottom: 20px;">ACQUISITION INITIATED</h1>
+    <p style="letter-spacing: 3px;">Calvin will reach out to you via WhatsApp shortly.</p>
+    <button onclick="this.parentElement.style.display='none'" style="margin-top: 30px; background: transparent; color: #fff; border: 1px solid #333; padding: 10px 30px; cursor: pointer;">CLOSE</button>
+</div>
+
 <nav>
     <a href="/" class="logo">CALVIN</a>
-    <div class="nav-links">
-        <a href="#collection" style="color:#fff; text-decoration:none">Collection</a>
-        <a href="#inquire" style="color:#fff; text-decoration:none">Private Inquiry</a>
-    </div>
+    <div style="letter-spacing: 5px; font-size: 0.6rem; color: var(--gold);">EXCELLENCE DEFINED</div>
 </nav>
 
 <section class="hero">
-    <div class="hero-content">
-        <p>A Life Without Compromise</p>
-        <h1>ESTATE OF MIND</h1>
-    </div>
-    <div class="scroll-indicator">DISCOVER THE COLLECTION</div>
+    <p>Nairobi's #1 Premium Curator</p>
+    <h1>The Signature Collection</h1>
+    <form class="search-bar" action="/" method="GET">
+        <input type="text" name="q" placeholder="Enter Location (e.g. Westlands, Runda)">
+        <select name="category">
+            <option value="">Asset Type</option>
+            <option value="Villa">Exclusive Villa</option>
+            <option value="Penthouse">Penthouse</option>
+            <option value="Land">Strategic Land</option>
+        </select>
+        <button type="submit" class="btn-search">Find Asset</button>
+    </form>
 </section>
 
-<section class="collection-wrap" id="collection">
+<div class="portfolio">
     {% for p in properties %}
-    <div class="property-card">
-        <div class="prop-image">
-            <img src="{{ url_for('static', filename=p.image) }}" alt="{{ p.title }}">
-        </div>
-        <div class="prop-details">
-            <span class="location">{{ p.location }}</span>
-            <h2>{{ p.title }}</h2>
+    <div class="card">
+        <img src="{{ url_for('static', filename=p.image) }}" alt="{{ p.title }}">
+        <div class="card-overlay">
+            <div style="font-size: 0.7rem; letter-spacing: 4px; color: var(--gold);">{{ p.location }}</div>
+            <h3>{{ p.title }}</h3>
             <div class="price">KES {{ "{:,}".format(p.price) }}</div>
-            <div class="prop-specs">
-                <span><b>{{ p.beds }}</b> Beds</span>
-                <span><b>{{ p.baths }}</b> Baths</span>
-                <span><b>{{ p.sqft }}</b> SQFT</span>
+            <div style="margin-top: 20px; font-size: 0.8rem; display: flex; gap: 20px; opacity: 0.6;">
+                <span>{{ p.beds }} Beds</span> | <span>{{ p.baths }} Baths</span> | <span>{{ p.sqft }} SQFT</span>
             </div>
-            <p style="margin-top: 30px; color: #888; font-weight: 300; line-height: 1.8;">{{ p.details[:250] }}...</p>
         </div>
     </div>
     {% endfor %}
-</section>
+</div>
 
 <section class="map-section">
-    <h2>OUR DOMAIN</h2>
-    <iframe class="map-frame" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d127641.171650308!2d36.7643121!3d-1.2833379!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x182f1172d84d49a7%3A0xf7cf0254b297924c!2sNairobi!5e0!3m2!1sen!2ske!4v1711234567890!5m2!1sen!2ske" allowfullscreen="" loading="lazy"></iframe>
+    <h2 style="font-family: 'Cinzel'; text-align: center; margin-bottom: 50px; letter-spacing: 10px;">GLOBAL REACH</h2>
+    <div class="map-card">
+        <iframe class="map-frame" src="http://googleusercontent.com/maps.google.com/4"></iframe>
+    </div>
 </section>
 
-<section class="contact-grid" id="inquire">
-    <div class="contact-info">
-        <p style="color:var(--gold); letter-spacing: 5px; font-size: 0.7rem; margin-bottom: 20px;">ACQUISITION CONCIERGE</p>
-        <h2>Secure Your Legacy</h2>
-        <p style="color:#666; line-height: 2;">Our partners provide discreet representation for high-net-worth individuals seeking Kenya's most prestigious assets.</p>
+<section class="contact-grid">
+    <div>
+        <p style="color: var(--gold); letter-spacing: 5px;">PRIVATE OFFICE</p>
+        <h2 style="font-family: 'Cinzel'; font-size: 3.5rem; margin: 20px 0;">Acquisition Concierge</h2>
+        <p style="color: #666; font-weight: 300; line-height: 2;">Discreet, data-driven, and highly personalized representation for Nairobi's elite property market.</p>
     </div>
-    <div class="contact-form">
-        <form action="/inquire" method="POST">
-            <input type="text" name="name" placeholder="FULL NAME" required>
-            <input type="text" name="phone" placeholder="PRIVATE PHONE (254...)" required>
-            <textarea name="message" placeholder="TELL US ABOUT YOUR REQUIREMENTS" rows="4"></textarea>
-            <button type="submit" class="btn-luxury">Request Consultation</button>
-        </form>
-    </div>
+    <form class="contact-form" id="leadForm">
+        <input type="text" name="name" id="name" placeholder="FULL NAME" required>
+        <input type="text" name="phone" id="phone" placeholder="PRIVATE PHONE (254...)" required>
+        <textarea name="message" id="message" placeholder="ACQUISITION REQUIREMENTS" rows="4"></textarea>
+        <button type="submit" class="btn-search" style="padding: 20px 60px;">Request Callback</button>
+    </form>
 </section>
 
 <script>
     gsap.registerPlugin(ScrollTrigger);
 
-    // Fade-in effect for Hero
-    gsap.from(".hero-content", { opacity: 0, y: 50, duration: 2, ease: "power4.out" });
+    // Hero Motion
+    gsap.from(".hero h1", { y: 100, opacity: 0, duration: 2, ease: "power4.out" });
 
-    // Smooth scroll reveal for property cards
-    gsap.utils.toArray('.property-card').forEach(card => {
-        gsap.from(card, {
-            scrollTrigger: {
-                trigger: card,
-                start: "top 80%",
-            },
-            opacity: 0,
-            y: 100,
-            duration: 1.5,
-            ease: "power3.out"
-        });
-    });
+    // AJAX Form Handling (Success Message)
+    document.getElementById('leadForm').onsubmit = async (e) => {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+        const res = await fetch('/inquire', { method: 'POST', body: formData });
+        if(res.ok) {
+            document.getElementById('success-modal').style.display = 'block';
+            e.target.reset();
+        }
+    };
 </script>
 
 </body>
