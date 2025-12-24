@@ -2,266 +2,172 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="google-site-verification" content="CZF4cbUIZkEh4c6cZWN-GXDnurC9WBuOGvL7wPvTq3s" />
-    <title>CALVIN AGENCIES | Kenya's Premier Real Estate Portfolio</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CALVIN | Private Real Estate Collection</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@200;300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@200;300;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
     <style>
-        :root {
-            --gold: #D4AF37;
-            --gold-bright: #F5E1A4;
-            --dark: #050505;
-            --glass: rgba(255, 255, 255, 0.03);
-            --border: rgba(212, 175, 55, 0.15);
-            --transition: all 0.7s cubic-bezier(0.19, 1, 0.22, 1);
-        }
+        :root { --gold: #D4AF37; --dark: #050505; --white: #ffffff; }
+        * { margin: 0; padding: 0; box-sizing: border-box; cursor: crosshair; }
+        body { background: var(--dark); color: var(--white); font-family: 'Montserrat', sans-serif; overflow-x: hidden; line-height: 1.6; }
 
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        html { scroll-behavior: smooth; }
-        body { background: var(--dark); color: #fff; margin: 0; font-family: 'Montserrat', sans-serif; overflow-x: hidden; }
+        /* LUXURY CURSOR */
+        #cursor { width: 20px; height: 20px; background: var(--gold); border-radius: 50%; position: fixed; pointer-events: none; z-index: 9999; mix-blend-mode: difference; transition: transform 0.1s ease; }
 
-        /* --- BUTTERY SMOOTH NAVIGATION --- */
-        nav {
-            position: fixed; top: 0; width: 100%; z-index: 1000;
-            padding: 20px 6%; display: flex; justify-content: space-between; align-items: center;
-            background: rgba(5, 5, 5, 0.85); backdrop-filter: blur(15px);
-            border-bottom: 1px solid var(--border);
+        /* NAVIGATION: MINIMALIST */
+        nav { 
+            position: fixed; width: 100%; padding: 40px 8%; display: flex; 
+            justify-content: space-between; align-items: center; z-index: 1000;
+            mix-blend-mode: difference;
         }
-        .logo { 
-            font-family: 'Cinzel'; font-size: 1.6rem; color: var(--gold); 
-            text-decoration: none; font-weight: 700; letter-spacing: 6px; 
-        }
-        .nav-links { display: flex; gap: 40px; }
-        .nav-links a { 
-            color: #fff; text-decoration: none; font-size: 0.75rem; 
-            letter-spacing: 3px; font-weight: 300; transition: var(--transition);
-        }
-        .nav-links a:hover { color: var(--gold); transform: translateY(-2px); }
+        .logo { font-family: 'Cinzel'; font-size: 2rem; letter-spacing: 12px; font-weight: 700; color: var(--white); text-decoration: none; }
+        .nav-links { display: flex; gap: 40px; font-size: 0.7rem; letter-spacing: 4px; text-transform: uppercase; }
 
-        /* --- CINEMATIC HERO --- */
-        .hero {
-            height: 95vh; display: flex; flex-direction: column; justify-content: center; 
-            align-items: center; text-align: center;
-            background: linear-gradient(rgba(0,0,0,0.4), var(--dark)), 
-                        url('https://images.pexels.com/photos/1732414/pexels-photo-1732414.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2');
-            background-size: cover; background-position: center; background-attachment: fixed;
+        /* HERO: THE ENTRANCE */
+        .hero { 
+            height: 100vh; position: relative; display: flex; flex-direction: column; 
+            justify-content: center; align-items: center; text-align: center;
+            background: linear-gradient(to bottom, rgba(5,5,5,0.2), var(--dark)), url('https://images.pexels.com/photos/323780/pexels-photo-323780.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2');
+            background-attachment: fixed; background-size: cover; background-position: center;
         }
-        .hero h1 { 
-            font-family: 'Cinzel'; font-size: clamp(2.5rem, 10vw, 5.5rem); 
-            letter-spacing: 18px; margin: 0; font-weight: 400;
-            animation: fadeIn 2s ease;
-        }
-        .hero p { 
-            color: var(--gold); letter-spacing: 8px; text-transform: uppercase; 
-            font-size: 0.9rem; margin-top: 30px; animation: fadeIn 3s ease;
-        }
+        .hero h1 { font-family: 'Cinzel'; font-size: clamp(3rem, 12vw, 8rem); line-height: 0.9; margin-bottom: 20px; opacity: 0; transform: translateY(50px); }
+        .hero p { font-size: 1.1rem; letter-spacing: 10px; text-transform: uppercase; color: var(--gold); opacity: 0; }
 
-        /* --- FLOATING CONCIERGE SEARCH --- */
-        .search-tray {
-            max-width: 1100px; width: 92%; margin: -80px auto 100px;
-            background: rgba(15, 15, 15, 0.98); padding: 40px;
-            border: 1px solid var(--border); backdrop-filter: blur(25px);
-            display: flex; flex-wrap: wrap; gap: 20px; z-index: 10; position: relative;
-            box-shadow: 0 50px 100px rgba(0,0,0,0.8);
-        }
-        .search-field { flex: 1; min-width: 220px; position: relative; }
-        .search-field i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: var(--gold); }
-        .search-field input, .search-field select {
-            width: 100%; background: #111; border: 1px solid #222; 
-            color: #fff; padding: 18px 15px 18px 45px; font-family: inherit; font-size: 0.85rem;
-        }
-        .btn-gold {
-            background: var(--gold); color: #000; border: none; padding: 0 50px;
-            font-weight: 700; cursor: pointer; text-transform: uppercase; letter-spacing: 3px;
-            transition: var(--transition);
-        }
-        .btn-gold:hover { background: #fff; transform: translateY(-5px); box-shadow: 0 15px 30px rgba(212, 175, 55, 0.3); }
-
-        /* --- THE COLLECTION GRID --- */
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 60px; padding: 0 6% 120px; }
-        .card { background: #0a0a0a; border: 1px solid rgba(255,255,255,0.03); overflow: hidden; position: relative; }
-        .card:hover { border-color: var(--gold); }
+        /* COLLECTION: EDITORIAL LAYOUT */
+        .collection { padding: 150px 8%; }
+        .section-header { margin-bottom: 100px; }
+        .section-header h2 { font-family: 'Cinzel'; font-size: 4rem; letter-spacing: 5px; }
         
-        .card-img-wrapper { width: 100%; height: 500px; overflow: hidden; position: relative; }
-        .card img { width: 100%; height: 100%; object-fit: cover; transition: 1.5s cubic-bezier(0.19, 1, 0.22, 1); filter: brightness(0.8); }
-        .card:hover img { transform: scale(1.1); filter: brightness(1.1); }
-        
-        .card-overlay { 
-            position: absolute; bottom: 0; left: 0; width: 100%; padding: 40px;
-            background: linear-gradient(transparent, rgba(0,0,0,0.95));
-        }
-        .card-overlay .location { color: var(--gold); font-size: 0.75rem; letter-spacing: 4px; text-transform: uppercase; }
-        .card-overlay h3 { font-family: 'Cinzel'; font-size: 1.8rem; margin: 15px 0; font-weight: 400; }
-        .price { font-size: 1.6rem; color: #fff; font-weight: 200; }
-        
-        .specs { display: flex; gap: 25px; margin-top: 25px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; font-size: 0.8rem; color: #888; }
-        .specs i { color: var(--gold); margin-right: 8px; }
+        .property-grid { display: flex; flex-direction: column; gap: 150px; }
+        .property-row { display: flex; gap: 80px; align-items: center; }
+        .property-row:nth-child(even) { flex-direction: row-reverse; }
 
-        /* --- MAP SECTION --- */
-        .map-section { padding: 120px 6%; background: #000; text-align: center; }
-        .map-section h2 { font-family: 'Cinzel'; font-size: 2.5rem; letter-spacing: 8px; margin-bottom: 60px; }
-        iframe { width: 100%; height: 600px; border: none; filter: invert(90%) hue-rotate(180deg) brightness(0.8) contrast(1.2); }
+        .prop-img-wrap { flex: 1.2; height: 700px; overflow: hidden; position: relative; }
+        .prop-img-wrap img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(100%) brightness(0.6); transition: 1.5s cubic-bezier(0.19, 1, 0.22, 1); }
+        .prop-img-wrap:hover img { filter: grayscale(0%) brightness(1); transform: scale(1.05); }
 
-        /* --- CONTACT CONCIERGE --- */
-        .contact-container { 
-            display: grid; grid-template-columns: 1fr 1fr; gap: 100px; padding: 150px 6%; 
-            background: var(--dark); border-top: 1px solid #111;
-        }
-        .contact-text h2 { font-family: 'Cinzel'; font-size: 3.5rem; margin-bottom: 30px; }
+        .prop-content { flex: 0.8; padding: 40px; }
+        .prop-content .tag { color: var(--gold); letter-spacing: 5px; font-size: 0.7rem; text-transform: uppercase; margin-bottom: 20px; display: block; }
+        .prop-content h3 { font-family: 'Cinzel'; font-size: 2.8rem; margin-bottom: 20px; font-weight: 400; }
+        .prop-content .price { font-size: 2rem; font-weight: 200; margin-bottom: 30px; }
+        .prop-content .details { color: #888; font-weight: 300; margin-bottom: 40px; border-left: 1px solid var(--gold); padding-left: 20px; }
+
+        /* MAP SECTION */
+        .map-section { padding: 100px 0; background: #000; text-align: center; }
+        .map-section h2 { font-family: 'Cinzel'; margin-bottom: 50px; letter-spacing: 10px; }
+        .dark-map { width: 100%; height: 600px; border: none; filter: grayscale(1) invert(1) contrast(1.2); opacity: 0.6; }
+
+        /* FOOTER & CONTACT */
+        .contact-section { padding: 150px 8%; display: grid; grid-template-columns: 1fr 1fr; gap: 100px; }
         .contact-form input, .contact-form textarea {
             width: 100%; background: transparent; border: none; border-bottom: 1px solid #333;
-            color: #fff; padding: 20px 0; margin-bottom: 40px; font-size: 1rem; transition: var(--transition);
+            color: white; padding: 20px 0; margin-bottom: 40px; font-size: 1rem; transition: 0.4s;
         }
-        .contact-form input:focus { border-color: var(--gold); outline: none; }
-
-        /* --- FLOATING WHATSAPP --- */
-        .wa-float {
-            position: fixed; bottom: 40px; right: 40px; background: #25D366; 
-            width: 65px; height: 65px; border-radius: 50%; display: flex; 
-            justify-content: center; align-items: center; font-size: 30px; 
-            color: white; z-index: 1000; box-shadow: 0 15px 30px rgba(0,0,0,0.4);
-            animation: pulse 2s infinite;
+        .contact-form input:focus { border-bottom-color: var(--gold); outline: none; }
+        .submit-btn { 
+            background: transparent; color: var(--gold); border: 1px solid var(--gold); 
+            padding: 20px 60px; text-transform: uppercase; letter-spacing: 5px; font-size: 0.8rem;
+            transition: 0.5s; cursor: pointer;
         }
+        .submit-btn:hover { background: var(--gold); color: black; }
 
-        footer { padding: 80px; text-align: center; color: #444; font-size: 0.7rem; letter-spacing: 5px; border-top: 1px solid #111; }
-
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.4); } 70% { box-shadow: 0 0 0 20px rgba(37, 211, 102, 0); } 100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); } }
-
-        @media (max-width: 768px) {
-            .grid { grid-template-columns: 1fr; padding: 0 4% 80px; }
-            .contact-container { grid-template-columns: 1fr; gap: 50px; }
-            .hero h1 { font-size: 2.8rem; letter-spacing: 8px; }
-            .search-tray { padding: 20px; }
+        @media (max-width: 1024px) {
+            .property-row { flex-direction: column !important; gap: 40px; }
+            .prop-img-wrap { height: 400px; width: 100%; }
+            .contact-section { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
 
+<div id="cursor"></div>
+
 <nav>
     <a href="/" class="logo">CALVIN</a>
     <div class="nav-links">
-        <a href="#collection">COLLECTION</a>
-        <a href="#contact">ENQUIRE</a>
+        <a href="#collection" style="color:white; text-decoration:none">Collection</a>
+        <a href="#contact" style="color:white; text-decoration:none">Inquire</a>
     </div>
 </nav>
 
 <section class="hero">
     <h1>ESTATE OF MIND</h1>
-    <p>Curating Kenya's Most Exclusive Residences</p>
+    <p>Nairobi's Most Exclusive Residential Assets</p>
 </section>
 
-<form action="/" method="GET" class="search-tray">
-    <div class="search-field">
-        <i class="fa fa-map-marker-alt"></i>
-        <input type="text" name="q" placeholder="Search Location (e.g. Runda)">
-    </div>
-    <div class="search-field">
-        <i class="fa fa-home"></i>
-        <select name="category">
-            <option value="">All Categories</option>
-            <option value="Villa">Executive Villas</option>
-            <option value="Apartment">Modern Penthouses</option>
-        </select>
-    </div>
-    <button type="submit" class="btn-gold">Explore</button>
-</form>
-
-<div id="collection">
-    <h2 style="text-align: center; font-family: 'Cinzel'; font-size: 2.5rem; letter-spacing: 8px; margin-bottom: 80px;">THE SIGNATURE COLLECTION</h2>
-    <div class="grid">
+<section class="collection" id="collection">
+    <div class="property-grid">
         {% for p in properties %}
-        <div class="card">
-            <div class="card-img-wrapper">
-                <img src="{{ url_for('static', filename=p.image) }}" loading="lazy" alt="{{ p.title }}">
-                <div class="card-overlay">
-                    <div class="location">{{ p.location }}</div>
-                    <h3>{{ p.title }}</h3>
-                    <div class="price">KES {{ "{:,}".format(p.price) if p.price else "POA" }}</div>
-                    <div class="specs">
-                        <span><i class="fa fa-bed"></i> {{ p.beds or '4' }} Beds</span>
-                        <span><i class="fa fa-bath"></i> {{ p.baths or '4' }} Baths</span>
-                        <span><i class="fa fa-vector-square"></i> {{ p.sqft or '3,500' }} SqFt</span>
-                    </div>
+        <div class="property-row">
+            <div class="prop-img-wrap">
+                <img src="{{ url_for('static', filename=p.image) }}" alt="{{ p.title }}">
+            </div>
+            <div class="prop-content">
+                <span class="tag">{{ p.location }} // {{ p.category }}</span>
+                <h3>{{ p.title }}</h3>
+                <div class="price">KES {{ "{:,}".format(p.price) }}</div>
+                <div class="details">{{ p.details[:200] }}...</div>
+                <div style="display: flex; gap: 30px; color: #555; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 2px;">
+                    <span><i class="fa fa-bed"></i> {{ p.beds }} Beds</span>
+                    <span><i class="fa fa-bath"></i> {{ p.baths }} Baths</span>
+                    <span><i class="fa fa-expand"></i> {{ p.sqft }} SqFt</span>
                 </div>
             </div>
         </div>
         {% endfor %}
     </div>
-</div>
+</section>
 
 <section class="map-section">
-    <h2>STRATEGIC HUB</h2>
-    <p style="color: #666; letter-spacing: 3px; margin-bottom: 40px;">Visit our Private Client Office in Westlands</p>
-    <iframe src="http://googleusercontent.com/maps.google.com/4" allowfullscreen="" loading="lazy"></iframe>
+    <h2>OUR DOMAIN</h2>
+    <iframe class="dark-map" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d127641.16870425313!2d36.75836267885547!3d-1.2831118671752326!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x182f1172d84d49a7%3A0xf7cf0254b297924c!2sNairobi!5e0!3m2!1sen!2ske!4v1700000000000"></iframe>
 </section>
 
-<section class="contact-container" id="contact">
-    <div class="contact-text">
-        <p style="color: var(--gold); letter-spacing: 4px; font-size: 0.8rem;">PRIVATE CONCIERGE</p>
-        <h2>The Gateway to Excellence</h2>
-        <p style="color: #888; line-height: 2; font-weight: 300;">Our senior partners are ready to guide you through Kenya's elite property market. Your inquiry will be handled with absolute discretion.</p>
+<section class="contact-section" id="contact">
+    <div>
+        <h2 style="font-family: 'Cinzel'; font-size: 3rem; margin-bottom: 20px;">The Consultation</h2>
+        <p style="color: #666; font-weight: 200;">Available for private viewing appointments and confidential portfolio discussions.</p>
     </div>
-    <div class="contact-form">
-        <form id="leadForm">
-            <input type="text" id="name" placeholder="YOUR FULL NAME" required>
-            <input type="text" id="phone" placeholder="PHONE NUMBER (e.g. 254...)" required>
-            <textarea id="message" rows="4" placeholder="HOW MAY WE ASSIST YOU?"></textarea>
-            <button type="submit" class="btn-gold" style="width: 100%; height: 70px;">Request a Callback</button>
-        </form>
-    </div>
+    <form class="contact-form" action="/inquire" method="POST">
+        <input type="text" name="name" placeholder="YOUR NAME" required>
+        <input type="text" name="phone" placeholder="PRIVATE PHONE" required>
+        <textarea name="message" placeholder="ACQUISITION REQUIREMENTS" rows="4"></textarea>
+        <button type="submit" class="submit-btn">Register Interest</button>
+    </form>
 </section>
-
-<footer>
-    <p>CALVIN AGENCIES &copy; 2025 | NAIROBI, KENYA | EXCELLENCE DEFINED</p>
-</footer>
-
-<a href="https://wa.me/254796250286" class="wa-float" target="_blank">
-    <i class="fab fa-whatsapp"></i>
-</a>
 
 <script>
-    // ASYNC FORM HANDLER - Connects to your WhatsApp API
-    document.getElementById('leadForm').onsubmit = async (e) => {
-        e.preventDefault();
-        const fd = new FormData();
-        fd.append('name', document.getElementById('name').value);
-        fd.append('phone', document.getElementById('phone').value);
-        fd.append('message', document.getElementById('message').value);
-        
-        try {
-            const response = await fetch('/inquire', { method: 'POST', body: fd });
-            if(response.ok) {
-                alert("Inquiry Sent. Calvin will contact you via WhatsApp shortly.");
-                e.target.reset();
-            }
-        } catch(err) {
-            alert("Connection error. Please use the WhatsApp button.");
-        }
-    }
-</script><!DOCTYPE html>
-<html>
-<head>
-    <title>Inquiry Received | Calvin Agencies</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel&family=Montserrat:wght@200&display=swap" rel="stylesheet">
-    <style>
-        body { background: #050505; color: white; display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh; margin: 0; font-family: 'Montserrat'; text-align: center; }
-        h1 { font-family: 'Cinzel'; color: #D4AF37; letter-spacing: 10px; font-size: 3rem; margin-bottom: 10px; }
-        p { letter-spacing: 3px; opacity: 0.7; }
-        .btn { margin-top: 30px; border: 1px solid #D4AF37; color: #D4AF37; padding: 15px 40px; text-decoration: none; font-size: 0.8rem; letter-spacing: 2px; transition: 0.5s; }
-        .btn:hover { background: #D4AF37; color: black; }
-    </style>
-</head>
-<body>
-    <h1>EXCELLENCE RECEIVED</h1>
-    <p>Your inquiry is being handled with absolute discretion.</p>
-    <p>A senior executive will contact you shortly.</p>
-    <a href="/" class="btn">RETURN TO PORTFOLIO</a>
-</body>
-</html>
+    // Cursor Movement
+    const cursor = document.getElementById('cursor');
+    document.addEventListener('mousemove', e => {
+        cursor.style.left = e.clientX + 'px';
+        cursor.style.top = e.clientY + 'px';
+    });
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Hero Reveal
+    gsap.to(".hero h1", { opacity: 1, y: 0, duration: 2, delay: 0.5, ease: "power4.out" });
+    gsap.to(".hero p", { opacity: 1, duration: 2, delay: 1, ease: "power4.out" });
+
+    // Property Glide
+    gsap.utils.toArray('.property-row').forEach(row => {
+        gsap.from(row, {
+            scrollTrigger: {
+                trigger: row,
+                start: "top 80%",
+            },
+            y: 100,
+            opacity: 0,
+            duration: 1.5,
+            ease: "expo.out"
+        });
+    });
+</script>
 
 </body>
 </html>
