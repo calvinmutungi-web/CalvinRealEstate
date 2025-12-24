@@ -1,17 +1,17 @@
-import os, requests
+import os
+import requests
 from flask import Flask, render_template, request, redirect, url_for, session
-from flask_sqlalchemy import SQLAlchemy
-from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
 app.secret_key = 'calvin_ultra_premium_2025'
 
-# --- DATABASE PATHING (FIXES ERROR 500) ---
+# --- DATABASE SETUP (FIXES ERROR 500) ---
 basedir = os.path.abspath(os.path.dirname(__file__))
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'calvin_hq.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['UPLOAD_FOLDER'] = os.path.join('static', 'uploads')
 
+from flask_sqlalchemy import SQLAlchemy
 db = SQLAlchemy(app)
 
 # --- MODELS ---
@@ -33,21 +33,22 @@ class Lead(db.Model):
     phone = db.Column(db.String(20))
     message = db.Column(db.Text)
 
-# --- WHATSAPP NOTIFICATION LOGIC ---
+# --- WHATSAPP LOGIC ---
 def notify_calvin(name, phone, message):
     api_key = "9531589"
     my_phone = "254796250286"
-    text = f"*New Lead from Calvin Agencies!*\n\n*Name:* {name}\n*Phone:* {phone}\n*Message:* {message}"
+    text = f"*New High-End Lead!*\n\n*Name:* {name}\n*Phone:* {phone}\n*Inquiry:* {message}"
     url = f"https://api.callmebot.com/whatsapp.php?phone={my_phone}&text={text.replace(' ', '+')}&apikey={api_key}"
-    try: requests.get(url)
-    except: pass
+    try:
+        requests.get(url, timeout=5)
+    except:
+        pass
 
-# --- AUTO-INITIALIZE ---
+# --- INITIALIZE SYSTEM ---
 with app.app_context():
     os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
     db.create_all()
 
-# --- ROUTES ---
 @app.route('/')
 def index():
     props = Property.query.order_by(Property.id.desc()).all()
@@ -61,7 +62,7 @@ def inquire():
     new_lead = Lead(name=name, phone=phone, message=msg)
     db.session.add(new_lead)
     db.session.commit()
-    notify_calvin(name, phone, msg) # Send WhatsApp
+    notify_calvin(name, phone, msg)
     return "SUCCESS"
 
 @app.route('/secret-vault-login', methods=['GET', 'POST'])
@@ -78,6 +79,7 @@ def admin():
     if request.method == 'POST':
         file = request.files.get('image')
         if file:
+            from werkzeug.utils import secure_filename
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             new_prop = Property(
@@ -106,7 +108,7 @@ def delete(id):
 def rebuild():
     db.drop_all()
     db.create_all()
-    return "Database Synchronized Successfully."
+    return "<h1>Database Cleared & Synchronized.</h1><p>The Error 500 is gone. <a href='/admin'>Go to Admin</a></p>"
 
 if __name__ == '__main__':
     app.run(debug=True)
