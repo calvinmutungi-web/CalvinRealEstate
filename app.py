@@ -116,9 +116,17 @@ def inquire():
 @app.route('/vault/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        if request.form['username'] == 'calvin' and request.form['password'] == 'signature2025':
+        # Safely get the password from the form
+        password = request.form.get('password') 
+        
+        # Check against your master key
+        if password == 'signature2025':
             session['admin'] = True
             return redirect(url_for('admin'))
+        else:
+            # If wrong, stay on login and show an error
+            return render_template('login.html', error="Access Denied: Invalid Key")
+            
     return render_template('login.html')
 
 @app.route('/vault/admin')
