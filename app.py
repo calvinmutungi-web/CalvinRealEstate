@@ -6,7 +6,6 @@ from datetime import datetime
 from bs4 import BeautifulSoup
 
 app = Flask(__name__)
-# High-security secret key
 app.secret_key = os.environ.get("SECRET_KEY", "signature_elite_2025_private_key")
 
 # Database Configuration
@@ -78,22 +77,30 @@ def inquire():
     if not name or not phone:
         return jsonify({"status": "error", "message": "Required fields missing"}), 400
 
+    # 1. Save to Database
     new_lead = Lead(name=name, phone=phone, message=message)
     db.session.add(new_lead)
     db.session.commit()
 
-    # --- WHATSAPP BRIDGE ---
-    WHATSAPP_INSTANCE = "instanceXXXX" # Replace with your UltraMsg Instance ID
-    WHATSAPP_TOKEN = "tokenYYYY"       # Replace with your UltraMsg Token
-    MY_NUMBER = "2547XXXXXXXX"         # Your number in international format
-
-    url = f"https://api.ultramsg.com/{WHATSAPP_INSTANCE}/messages/chat"
-    payload = {"token": WHATSAPP_TOKEN, "to": MY_NUMBER, "body": f"💎 *NEW LEAD*\n\n*Name:* {name}\n*Phone:* {phone}\n*Msg:* {message}"}
+    # 2. CALLMEBOT WHATSAPP INTEGRATION (From your screenshot)
+    API_KEY = "9531589"
+    PHONE = "254796250286"
     
+    # Formatting the message for URL
+    text = f"💎 *SIGNATURE LEAD*\n\n*Name:* {name}\n*Phone:* {phone}\n*Details:* {message}"
+    
+    whatsapp_url = "https://api.callmebot.com/whatsapp.php"
+    params = {
+        "phone": PHONE,
+        "text": text,
+        "apikey": API_KEY
+    }
+
     try:
-        requests.post(url, data=payload, timeout=5)
-    except:
-        pass 
+        # Using GET as per CallMeBot documentation
+        requests.get(whatsapp_url, params=params, timeout=10)
+    except Exception as e:
+        print(f"WhatsApp Error: {e}")
 
     return jsonify({"status": "success", "message": "Consultation Initialized Successfully"}), 200
 
@@ -106,14 +113,13 @@ def login():
         return render_template('login.html', error="Invalid Key")
     return render_template('login.html')
 
-# FIXED: Added POST method to handle asset deployment
 @app.route('/vault/admin', methods=['GET', 'POST'])
 def admin():
     if not session.get('admin'):
         return redirect(url_for('login'))
     
+    # Handing Asset Deployment (POST)
     if request.method == 'POST':
-        # Handles "Deploy Asset" from the admin panel
         new_p = Property(
             title=request.form.get('title'),
             price=request.form.get('price'),
@@ -126,6 +132,7 @@ def admin():
         db.session.commit()
         return redirect(url_for('admin'))
 
+    # Displaying Dashboard (GET)
     leads = Lead.query.order_by(Lead.timestamp.desc()).all()
     properties = Property.query.order_by(Property.id.desc()).all()
     return render_template('admin.html', leads=leads, properties=properties)
@@ -144,7 +151,7 @@ def run_sync():
 def rebuild():
     db.drop_all()
     db.create_all()
-    return "DB Reset."
+    return "DB Reset Complete. Database Rebuilt."
 
 if __name__ == '__main__':
     with app.app_context():

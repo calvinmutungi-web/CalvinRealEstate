@@ -180,10 +180,16 @@
         {% for p in properties %}
         <a href="#" class="item">
             <div class="item-img-wrap">
-                {% if p.image and p.image.startswith('http') %}
-                    <img src="{{ p.image }}" alt="Property">
+                {% if p.image %}
+                    {% if p.image.startswith('http') %}
+                        <img src="{{ p.image }}" alt="{{ p.title }}" loading="lazy" 
+                             onerror="this.src='https://images.pexels.com/photos/323780/pexels-photo-323780.jpeg'">
+                    {% else %}
+                        <img src="{{ url_for('static', filename=p.image) }}" alt="{{ p.title }}" loading="lazy" 
+                             onerror="this.src='https://images.pexels.com/photos/323780/pexels-photo-323780.jpeg'">
+                    {% endif %}
                 {% else %}
-                    <img src="{{ url_for('static', filename=p.image) }}" alt="Property">
+                    <img src="https://images.pexels.com/photos/323780/pexels-photo-323780.jpeg" alt="Luxury Asset">
                 {% endif %}
             </div>
             <div class="item-details">
