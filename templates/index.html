@@ -1,10 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CALVIN | Private Real Estate Office</title>
-    
     <script async src="https://www.googletagmanager.com/gtag/js?id=CZF4cbUIZkEh4c6cZWN-GXDnurC9WBuOGvL7wPvTq3s"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -13,274 +9,266 @@
       gtag('config', 'CZF4cbUIZkEh4c6cZWN-GXDnurC9WBuOGvL7wPvTq3s');
     </script>
 
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@100;200;300;400;500&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>CALVIN | Private Real Estate Office</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Montserrat:wght@100;200;300;400;600&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 
     <style>
         :root { 
-            --gold: #D4AF37; 
-            --dark: #050505; 
-            --light: #ffffff; 
-            --subtle: rgba(255,255,255,0.08);
-            --glass: rgba(255, 255, 255, 0.02);
+            --gold: #C5A059; --dark: #080808; --light: #ffffff; 
+            --subtle: rgba(255,255,255,0.05); --glass: rgba(10, 10, 10, 0.7);
         }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        
         body { 
-            background: var(--dark); 
-            color: var(--light); 
-            font-family: 'Montserrat', sans-serif; 
-            overflow-x: hidden; 
-            scroll-behavior: smooth;
-            -webkit-font-smoothing: antialiased;
+            background: var(--dark); color: var(--light); font-family: 'Montserrat', sans-serif; 
+            line-height: 1.6; overflow-x: hidden;
         }
 
-        /* 1. NAVIGATION: MINIMALIST LUXE */
+        /* CUSTOM CURSOR (Desktop Only) */
+        #cursor { width: 20px; height: 20px; border: 1px solid var(--gold); border-radius: 50%; position: fixed; pointer-events: none; z-index: 9999; transition: transform 0.1s; display: none; }
+        @media (min-width: 1024px) { #cursor { display: block; } }
+
+        /* NAVIGATION */
         nav { 
-            position: fixed; width: 100%; padding: clamp(20px, 4vw, 40px) 8%; 
+            position: fixed; width: 100%; padding: 30px 6%; 
             display: flex; justify-content: space-between; align-items: center; z-index: 1000;
-            background: linear-gradient(to bottom, rgba(5,5,5,0.9), transparent);
-            backdrop-filter: blur(15px);
+            mix-blend-mode: difference;
         }
-        .logo { 
-            font-family: 'Cinzel'; font-size: 1.4rem; letter-spacing: 12px; 
-            color: var(--light); text-decoration: none; font-weight: 700; 
+        .logo { font-family: 'Cinzel'; font-size: 1.5rem; letter-spacing: 10px; color: var(--light); text-decoration: none; font-weight: 600; }
+        
+        /* HERO SECTION */
+        .hero { height: 100vh; width: 100%; position: relative; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+        .hero-video-bg { 
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
+            object-fit: cover; z-index: -1; filter: brightness(0.4) grayscale(0.3);
+            transform: scale(1.1); /* For Ken Burns effect via GSAP */
         }
-        .nav-actions { display: flex; gap: clamp(15px, 3vw, 40px); }
-        .nav-link { 
-            color: #fff; text-decoration: none; font-size: 0.6rem; letter-spacing: 3px; 
-            text-transform: uppercase; padding: 5px 0; border-bottom: 1px solid transparent;
-            transition: 0.4s ease; font-weight: 400;
-        }
-        .nav-link:hover { border-bottom: 1px solid var(--gold); color: var(--gold); }
+        .hero-content { text-align: center; z-index: 10; padding: 0 20px; }
+        .hero-content span { font-size: 0.7rem; letter-spacing: 8px; color: var(--gold); text-transform: uppercase; margin-bottom: 20px; display: block; font-weight: 300; }
+        .hero-content h1 { font-family: 'Cinzel'; font-size: clamp(3rem, 10vw, 9rem); letter-spacing: clamp(10px, 3vw, 40px); line-height: 1; margin-bottom: 40px; }
 
-        /* 2. HERO: THE FILM NOIR ENTRANCE */
-        .hero-wrap { 
-            position: relative; height: 100vh; overflow: hidden; 
-            display: flex; align-items: center; justify-content: center;
+        /* LUXE SEARCH BAR */
+        .search-container {
+            background: var(--glass); backdrop-filter: blur(20px);
+            padding: 10px; border: 1px solid var(--subtle);
+            border-radius: 4px; display: flex; flex-wrap: wrap; gap: 5px;
+            max-width: 900px; margin: 0 auto;
         }
-        .hero-img { 
+        .search-group { flex: 1; min-width: 200px; padding: 15px 25px; text-align: left; position: relative; }
+        .search-group:not(:last-child)::after { content: ''; position: absolute; right: 0; top: 20%; height: 60%; width: 1px; background: var(--subtle); }
+        .search-group label { display: block; font-size: 0.55rem; color: var(--gold); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px; }
+        .search-group input, .search-group select { 
+            background: transparent; border: none; color: white; width: 100%; 
+            font-size: 0.9rem; outline: none; font-family: 'Montserrat';
+        }
+        .search-btn { background: var(--gold); color: black; border: none; padding: 0 40px; text-transform: uppercase; letter-spacing: 2px; font-weight: 600; cursor: pointer; transition: 0.4s; }
+        .search-btn:hover { background: white; }
+
+        /* COLLECTION GRID */
+        .portfolio { padding: 150px 6%; }
+        .section-header { margin-bottom: 80px; }
+        .section-header h2 { font-family: 'Cinzel'; font-size: 3rem; font-weight: 400; }
+        
+        .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 100px 40px; }
+        .item { text-decoration: none; color: inherit; display: block; cursor: pointer; }
+        .item-img-wrap { width: 100%; aspect-ratio: 16/11; overflow: hidden; position: relative; margin-bottom: 30px; }
+        .item-img-wrap img { width: 100%; height: 100%; object-fit: cover; transition: 1.5s cubic-bezier(0.19, 1, 0.22, 1); filter: saturate(0.8) brightness(0.8); }
+        .item:hover img { transform: scale(1.08); filter: saturate(1) brightness(1); }
+        
+        .item-details span { color: var(--gold); font-size: 0.65rem; letter-spacing: 3px; text-transform: uppercase; }
+        .item-details h3 { font-family: 'Cinzel'; font-size: 1.8rem; margin: 10px 0; font-weight: 400; }
+        .item-details p { opacity: 0.5; font-weight: 200; letter-spacing: 1px; }
+
+        /* CRISP MAP SECTION */
+        .map-container { 
+            width: 100%; height: 70vh; margin: 100px 0; position: relative; overflow: hidden;
+            border-top: 1px solid var(--subtle); border-bottom: 1px solid var(--subtle);
+        }
+        .map-frame { 
+            width: 100%; height: 100%; border: none;
+            filter: invert(90%) hue-rotate(180deg) grayscale(1) contrast(1.5) brightness(0.6);
+            pointer-events: none; /* Allows scrolling over the map */
+        }
+        .map-overlay { 
             position: absolute; inset: 0; 
-            background: linear-gradient(to bottom, rgba(5,5,5,0.1), var(--dark) 98%), 
-                        url('https://images.pexels.com/photos/323780/pexels-photo-323780.jpeg?auto=compress&cs=tinysrgb&w=1600');
-            background-size: cover; background-position: center; z-index: -1;
-            transform: scale(1.1);
-        }
-        .hero-txt { text-align: center; max-width: 90%; }
-        .hero-txt h1 { 
-            font-family: 'Cinzel'; font-size: clamp(3rem, 10vw, 8rem); 
-            letter-spacing: clamp(10px, 3vw, 30px); font-weight: 400; 
-            margin-bottom: 10px; text-indent: clamp(10px, 3vw, 30px);
-        }
-        .hero-txt p { 
-            color: var(--gold); letter-spacing: 8px; text-transform: uppercase; 
-            font-size: clamp(0.6rem, 1.5vw, 0.8rem); margin-bottom: 40px; opacity: 0.8; 
+            background: radial-gradient(circle, transparent 20%, var(--dark) 90%);
+            pointer-events: none;
         }
 
-        /* 3. SEARCH: THE ARCHITECTURAL TOOLBAR */
-        .search-row { 
-            display: inline-flex; flex-wrap: wrap; gap: 20px; background: var(--glass); 
-            padding: 20px 40px; border: 1px solid var(--subtle); border-radius: 2px;
-            backdrop-filter: blur(20px); justify-content: center;
+        /* CONTACT FORM */
+        .contact { padding: 150px 6%; display: grid; grid-template-columns: 1fr 1fr; gap: 100px; align-items: start; }
+        .contact-info h2 { font-family: 'Cinzel'; font-size: 4rem; line-height: 1.1; margin-bottom: 30px; }
+        .luxe-input { 
+            width: 100%; background: transparent; border: none; border-bottom: 1px solid #222; 
+            padding: 20px 0; color: white; font-family: 'Montserrat'; font-size: 1rem;
+            margin-bottom: 40px; outline: none; transition: 0.4s;
         }
-        .filter-item { text-align: left; }
-        .filter-item label { font-size: 0.5rem; color: var(--gold); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 5px; display: block; }
-        .filter-item input, .filter-item select { 
-            background: transparent; border: none; border-bottom: 1px solid #222; 
-            color: #fff; padding: 8px 0; outline: none; min-width: 160px; font-size: 0.8rem; 
-        }
-        .go-btn { 
-            background: var(--gold); color: #000; border: none; padding: 15px 40px; 
-            font-weight: 600; letter-spacing: 2px; cursor: pointer; text-transform: uppercase; transition: 0.3s;
-        }
-        .go-btn:hover { background: #fff; }
-
-        /* 4. GALLERY: THE STAGGERED FLUID GRID */
-        .collection { 
-            padding: 120px 8%; display: grid; grid-template-columns: repeat(2, 1fr); 
-            gap: clamp(80px, 12vw, 200px) 60px;
-        }
-        .photo-card { text-decoration: none; color: inherit; display: block; position: relative; }
-        /* The High-End Stagger effect */
-        .photo-card:nth-child(even) { transform: translateY(120px); }
-
-        .img-box { width: 100%; aspect-ratio: 16/10; overflow: hidden; background: #111; position: relative; }
-        .img-box img { 
-            width: 100%; height: 100%; object-fit: cover; 
-            filter: grayscale(1) brightness(0.7); 
-            transition: 1.8s cubic-bezier(0.19, 1, 0.22, 1); 
-        }
-        .photo-card:hover img { filter: grayscale(0) brightness(1); transform: scale(1.05); }
-
-        .card-meta { padding: 35px 0; border-top: 1px solid var(--subtle); margin-top: 20px; }
-        .card-meta span { color: var(--gold); font-size: 0.6rem; letter-spacing: 4px; text-transform: uppercase; }
-        .card-meta h3 { 
-            font-family: 'Cinzel'; font-size: clamp(1.5rem, 3vw, 2.5rem); 
-            margin: 15px 0; font-weight: 400; letter-spacing: 2px;
-        }
-        .card-price { font-size: 1.1rem; font-weight: 200; opacity: 0.5; letter-spacing: 2px; }
-
-        /* 5. THE MAP: ARCHITECTURAL BLUEPRINT */
-        .map-section {
-            position: relative; height: 80vh; width: 100%; 
-            margin: 200px 0; background: #000;
-            mask-image: linear-gradient(to bottom, transparent, black 15%, black 85%, transparent);
-        }
-        .map-frame {
-            position: absolute; width: 100%; height: 100%;
-            filter: invert(1) grayscale(1) contrast(1.2) brightness(0.3);
-            opacity: 0.4; z-index: 1; border: none;
-        }
-        .map-overlay {
-            position: relative; z-index: 5; height: 100%;
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            pointer-events: none; text-align: center;
-        }
-        .map-overlay h2 { 
-            font-family: 'Cinzel'; font-size: clamp(3rem, 12vw, 8rem); 
-            letter-spacing: 40px; text-indent: 40px; opacity: 0.1; 
+        .luxe-input:focus { border-color: var(--gold); }
+        
+        /* SUCCESS OVERLAY */
+        #success-panel {
+            position: fixed; inset: 0; background: var(--dark); z-index: 2000;
+            display: none; align-items: center; justify-content: center; text-align: center;
         }
 
-        /* 6. CONTACT: THE CONCIERGE TERMINAL */
-        .contact-sec { padding: 150px 8%; display: grid; grid-template-columns: 1fr 1fr; gap: 100px; }
-        .contact-sec h2 { font-family: 'Cinzel'; font-size: clamp(2.5rem, 5vw, 4.5rem); margin-bottom: 30px; line-height: 1.1; }
-        .contact-sec p { color: #666; font-size: 1.1rem; line-height: 2; font-weight: 300; max-width: 500px; }
-
-        .form-luxe { display: flex; flex-direction: column; gap: 30px; }
-        .form-luxe input, .form-luxe textarea {
-            background: transparent; border: none; border-bottom: 1px solid #222;
-            color: #fff; padding: 20px 0; font-size: 1rem; outline: none; transition: 0.5s;
-        }
-        .form-luxe input:focus { border-color: var(--gold); }
-
-        @media (max-width: 1024px) {
-            .collection { grid-template-columns: 1fr; padding-bottom: 200px; }
-            .photo-card:nth-child(even) { transform: translateY(0); }
-            .contact-sec { grid-template-columns: 1fr; }
-            .search-row { width: 100%; padding: 30px 20px; }
+        /* MOBILE OVERRIDES */
+        @media (max-width: 900px) {
+            .grid { grid-template-columns: 1fr; gap: 60px; }
+            .contact { grid-template-columns: 1fr; padding-top: 50px; }
+            .search-container { flex-direction: column; }
+            .search-group:not(:last-child)::after { display: none; }
+            .search-btn { padding: 20px; }
+            .hero-content h1 { font-size: 3.5rem; letter-spacing: 10px; }
         }
     </style>
 </head>
 <body>
 
+<div id="cursor"></div>
+
+<div id="success-panel">
+    <div>
+        <h2 style="font-family:'Cinzel'; font-size: 3rem; color: var(--gold);">ENTRY GRANTED</h2>
+        <p style="letter-spacing: 4px; margin-top: 20px; font-weight: 200;">The Private Office will contact you shortly.</p>
+        <button onclick="location.reload()" class="search-btn" style="margin-top: 40px; padding: 15px 40px;">Close</button>
+    </div>
+</div>
+
 <nav>
     <a href="/" class="logo">CALVIN</a>
-    <div class="nav-actions">
-        <a href="#collection" class="nav-link">Our Portfolio</a>
-        <a href="#contact" class="nav-link">Private Consultation</a>
-    </div>
+    <div style="font-size: 0.6rem; letter-spacing: 4px; opacity: 0.6;">PRIVATE REAL ESTATE OFFICE</div>
 </nav>
 
-<section class="hero-wrap">
-    <div class="hero-img" id="heroBg"></div>
-    <div class="hero-txt">
-        <p>Curating Kenya's Most Prestigious Enclaves</p>
+<section class="hero">
+    <img src="https://images.pexels.com/photos/7031406/pexels-photo-7031406.jpeg?auto=compress&cs=tinysrgb&w=1920" class="hero-video-bg" alt="Luxury Interior">
+    
+    <div class="hero-content">
+        <span>Exclusive Access Only</span>
         <h1>SIGNATURE</h1>
         
-        <form class="search-row" action="/" method="GET">
-            <div class="filter-item">
+        <form class="search-container" action="/" method="GET">
+            <div class="search-group">
                 <label>Location</label>
                 <input type="text" name="q" placeholder="Karen, Runda, Muthaiga...">
             </div>
-            <div class="filter-item">
-                <label>Asset Class</label>
+            <div class="search-group">
+                <label>Asset Type</label>
                 <select name="category">
-                    <option value="">All Properties</option>
+                    <option value="">Select Class</option>
                     <option value="Villa">Executive Villas</option>
                     <option value="Penthouse">Luxury Penthouses</option>
                     <option value="Land">Prime Acreage</option>
                 </select>
             </div>
-            <button type="submit" class="go-btn">Explore</button>
+            <button type="submit" class="search-btn">Explore</button>
         </form>
     </div>
 </section>
 
-<section class="collection" id="collection">
-    {% for p in properties %}
-    <a href="#" class="photo-card">
-        <div class="img-box">
-            <img src="{{ url_for('static', filename=p.image) }}" alt="Luxury Estate">
-        </div>
-        <div class="card-meta">
-            <span>Market Intelligence | {{ p.location }}</span>
-            <h3>{{ p.title }}</h3>
-            <p class="card-price">KES {{ "{:,}".format(p.price) if p.price else "Inquire" }}</p>
-        </div>
-    </a>
-    {% endfor %}
-</section>
+<section class="portfolio" id="collection">
+    <div class="section-header">
+        <h2>The Collection</h2>
+    </div>
 
-<section class="map-section">
-    <iframe class="map-frame" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d127641.1738596644!2d36.7570417!3d-1.2833333!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x182f1172d84d49a7%3A0xf7cf0254b297924c!2sNairobi!5e0!3m2!1sen!2ske!4v1700000000000"></iframe>
-    <div class="map-overlay">
-        <h2>DOMAIN</h2>
+    <div class="grid">
+        {% for p in properties %}
+        <a href="#" class="item">
+            <div class="item-img-wrap">
+                {% if p.image and p.image.startswith('http') %}
+                    <img src="{{ p.image }}" alt="Property">
+                {% else %}
+                    <img src="{{ url_for('static', filename=p.image) }}" alt="Property">
+                {% endif %}
+            </div>
+            <div class="item-details">
+                <span>Intelligence | {{ p.location }}</span>
+                <h3>{{ p.title }}</h3>
+                <p>{{ p.price if p.price else "Upon Request" }}</p>
+            </div>
+        </a>
+        {% endfor %}
     </div>
 </section>
 
-<section class="contact-sec" id="contact">
-    <div class="contact-txt">
-        <p style="color: var(--gold); letter-spacing: 5px; margin-bottom: 20px;">ACQUISITION</p>
-        <h2>Secure Your Legacy.</h2>
-        <p>Discreet representation for high-net-worth individuals and corporate entities seeking Kenya's most exclusive off-market primary residential assets.</p>
+<section class="map-container">
+    <iframe class="map-frame" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d31910.150720459345!2d36.786526!3d-1.28333!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x182f1172d84d49a7%3A0xf7cf0254b2aeb73!2sNairobi!5e0!3m2!1sen!2ske!4v1700000000000!5m2!1sen!2ske"></iframe>
+    <div class="map-overlay"></div>
+</section>
+
+<section class="contact" id="contact">
+    <div class="contact-info">
+        <span>Acquisitions</span>
+        <h2>Secure Your <br><span style="color: var(--gold);">Legacy.</span></h2>
+        <p style="margin-top: 40px; font-weight: 300; opacity: 0.7; max-width: 400px;">
+            We provide discreet representation for the world's most discerning investors. Initialize a private consultation to view off-market assets.
+        </p>
     </div>
-    <form class="form-luxe" id="leadForm">
-        <input type="text" name="name" placeholder="LEGAL NAME" required>
-        <input type="text" name="phone" placeholder="PRIVATE PHONE (254...)" required>
-        <textarea name="message" placeholder="ACQUISITION REQUIREMENTS" rows="3"></textarea>
-        <button type="submit" class="go-btn" style="height: 70px;">Initialize Consultation</button>
+
+    <form id="leadForm">
+        <input type="text" name="client_name" class="luxe-input" placeholder="LEGAL NAME" required>
+        <input type="text" name="client_phone" class="luxe-input" placeholder="PRIVATE PHONE (e.g. 254...)" required>
+        <textarea name="client_message" class="luxe-input" placeholder="ACQUISITION REQUIREMENTS" rows="4"></textarea>
+        <button type="submit" class="search-btn" style="height: 70px; width: 100%;">Initialize Consultation</button>
     </form>
 </section>
+
+<footer style="padding: 100px 6%; border-top: 1px solid var(--subtle); text-align: center; font-size: 0.6rem; letter-spacing: 5px; opacity: 0.4;">
+    © 2025 CALVIN PRIVATE OFFICE | NAIROBI | LONDON | DUBAI
+</footer>
 
 <script>
     gsap.registerPlugin(ScrollTrigger);
 
-    // 1. Smooth Hero Parallax
-    gsap.to("#heroBg", {
-        yPercent: 30,
-        ease: "none",
-        scrollTrigger: {
-            trigger: ".hero-wrap",
-            start: "top top",
-            end: "bottom top",
-            scrub: true
-        }
+    // Custom Cursor Logic
+    const cursor = document.querySelector('#cursor');
+    document.addEventListener('mousemove', e => {
+        gsap.to(cursor, {x: e.clientX - 10, y: e.clientY - 10, duration: 0.1});
     });
 
-    // 2. Staggered Card Reveals
-    gsap.utils.toArray('.photo-card').forEach((card, i) => {
-        gsap.from(card, {
-            scrollTrigger: {
-                trigger: card,
-                start: "top 90%",
-            },
-            y: 100,
-            opacity: 0,
-            duration: 1.5,
-            ease: "power4.out"
+    // Hero Ken Burns Effect
+    gsap.to(".hero-video-bg", {
+        scale: 1,
+        duration: 10,
+        ease: "none",
+        repeat: -1,
+        yoyo: true
+    });
+
+    // Reveal Animations
+    gsap.utils.toArray('.item').forEach(item => {
+        gsap.from(item, {
+            scrollTrigger: { trigger: item, start: "top 90%" },
+            y: 100, opacity: 0, duration: 1.5, ease: "power4.out"
         });
     });
 
-    // 3. Map Ghost Effect
-    gsap.from(".map-overlay h2", {
-        scale: 0.8,
-        opacity: 0,
-        scrollTrigger: {
-            trigger: ".map-section",
-            start: "top center",
-            end: "bottom center",
-            scrub: 1
-        }
-    });
-
-    // 4. Form Handling (WhatsApp/DB)
+    // Form Submission with God-Tier UX
     document.getElementById('leadForm').onsubmit = async (e) => {
         e.preventDefault();
-        const res = await fetch('/inquire', { method: 'POST', body: new FormData(e.target) });
-        if(res.ok) {
-            alert("Your inquiry has been received. Our Private Office will contact you shortly.");
-            e.target.reset();
+        const btn = e.target.querySelector('button');
+        const originalText = btn.innerText;
+        btn.innerText = "AUTHENTICATING...";
+        btn.disabled = true;
+
+        try {
+            const res = await fetch('/inquire', { 
+                method: 'POST', 
+                body: new FormData(e.target) 
+            });
+            const data = await res.json();
+            
+            if(data.status === 'success') {
+                gsap.to("#success-panel", { display: 'flex', opacity: 1, duration: 1 });
+            }
+        } catch (err) {
+            btn.innerText = "CONNECTION ERROR";
+            setTimeout(() => { btn.innerText = originalText; btn.disabled = false; }, 2000);
         }
     };
 </script>
