@@ -1,0 +1,44 @@
+[
+  {
+    "title": "The Obsidian Manor",
+    "location": "Runda, Nairobi",
+    "price": "KSh 280,000,000",
+    "category": "Villa",
+    "image": "https://i.ibb.co/VWxKnKBc/karen.jpg"
+  },
+  {
+    "title": "Ivory Ridge Estate",
+    "location": "Karen, Nairobi",
+    "price": "KSh 145,000,000",
+    "category": "Villa",
+    "image": "https://i.ibb.co/VWxKnKBc/karen.jpg"
+  },
+  {
+    "title": "Skyline Penthouse",
+    "location": "Westlands",
+    "price": "KSh 65,000,000",
+    "category": "Penthouse",
+    "image": "https://i.ibb.co/PGwHYmS3/lavington.jpg"
+  },
+  {
+    "title": "The Sanctuary",
+    "location": "Muthaiga",
+    "price": "Price Upon Request",
+    "category": "Villa",
+    "image": "https://i.ibb.co/VWxKnKBc/karen.jpg"
+  },
+  {
+    "title": "Emerald Valley Acreage",
+    "location": "Tigoni",
+    "price": "KSh 90,000,000",
+    "category": "Land",
+    "image": "https://i.ibb.co/PGwHYmS3/lavington.jpg"
+  },
+  {
+    "title": "Azure Garden Residence",
+    "location": "Lavington",
+    "price": "KSh 110,000,000",
+    "category": "Villa",
+    "image": "https://i.ibb.co/PGwHYmS3/lavington.jpg"
+  }
+]
