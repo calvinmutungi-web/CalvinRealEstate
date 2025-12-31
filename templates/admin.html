@@ -2,77 +2,129 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>CALVIN | Management Vault</title>
+    <title>CALVIN | The Vault</title>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        :root { --gold: #D4AF37; --dark: #050505; --glass: rgba(255,255,255,0.03); }
-        body { background: var(--dark); color: #fff; font-family: 'Montserrat'; margin: 0; padding: 40px; }
-        .header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #222; padding-bottom: 20px; margin-bottom: 40px; }
-        h1 { font-family: 'Cinzel'; letter-spacing: 5px; color: var(--gold); margin: 0; }
-        
-        .grid { display: grid; grid-template-columns: 1fr 2fr; gap: 40px; }
-        .card { background: var(--glass); border: 1px solid #222; padding: 30px; border-radius: 4px; }
-        
-        input, select, textarea { 
-            width: 100%; background: transparent; border: 1px solid #333; 
-            color: #fff; padding: 12px; margin-top: 10px; margin-bottom: 20px; outline: none;
-        }
-        .btn { background: var(--gold); color: #000; border: none; padding: 15px 30px; font-weight: 700; cursor: pointer; width: 100%; letter-spacing: 2px; }
-        
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        th { text-align: left; color: var(--gold); font-size: 0.7rem; letter-spacing: 2px; padding: 10px; border-bottom: 1px solid #222; }
-        td { padding: 15px 10px; border-bottom: 1px solid #111; font-size: 0.85rem; }
-        .logout { color: #666; text-decoration: none; font-size: 0.7rem; letter-spacing: 2px; }
+        :root { --gold: #D4AF37; --dark: #050505; }
+        body { background: var(--dark); color: white; font-family: 'Montserrat', sans-serif; }
+        h1, h3 { font-family: 'Cinzel', serif; }
+        .text-gold { color: var(--gold); }
+        .bg-gold { background: var(--gold); }
+        .glass { background: rgba(255,255,255,0.03); border: 1px solid #222; }
     </style>
 </head>
-<body>
-    <div class="header">
-        <h1>THE VAULT</h1>
-        <a href="/" class="logout">EXIT TO SITE</a>
-    </div>
+<body class="p-8 min-h-screen">
+    <div class="max-w-7xl mx-auto">
+        <div class="flex justify-between items-center border-b border-gray-800 pb-6 mb-10">
+            <h1 class="text-4xl text-gold tracking-widest">THE VAULT</h1>
+            <a href="/logout" class="text-gray-500 text-sm tracking-wider">EXIT SECURELY</a>
+        </div>
 
-    <div class="grid">
-        <div class="card">
-            <h3 style="margin-top:0; letter-spacing: 2px;">NEW ASSET</h3>
-            <form method="POST" enctype="multipart/form-data">
-                <input type="text" name="title" placeholder="Property Title" required>
-                <input type="number" name="price" placeholder="Price (KES)" required>
-                <input type="text" name="location" placeholder="Location (e.g. Runda)" required>
-                <select name="category">
-                    <option value="Villa">Villa</option>
-                    <option value="Penthouse">Penthouse</option>
-                    <option value="Land">Land</option>
-                </select>
-                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
-                    <input type="number" name="beds" placeholder="Beds">
-                    <input type="number" name="baths" placeholder="Baths">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <div class="bg-green-900/50 border border-green-700 p-4 rounded mb-8">
+            {% for message in messages %}
+            <p class="text-gold">{{ message }}</p>
+            {% endfor %}
+        </div>
+        {% endif %}
+        {% endwith %}
+
+        <div class="grid grid-cols-1 lg:grid-cols-[1fr_2fr] gap-10">
+            <div class="glass p-8 rounded">
+                <h3 class="text-2xl text-gold tracking-wider mb-6">DEPLOY NEW ASSET</h3>
+                <form method="POST" enctype="multipart/form-data" class="space-y-4">
+                    <input type="text" name="title" placeholder="Property Title" class="w-full bg-transparent border border-gray-700 p-3 text-white" required>
+                    <input type="number" name="price" placeholder="Price (KES)" class="w-full bg-transparent border border-gray-700 p-3 text-white" required>
+                    <input type="text" name="location" placeholder="Location (e.g. Runda)" class="w-full bg-transparent border border-gray-700 p-3 text-white" required>
+                    <select name="category" class="w-full bg-transparent border border-gray-700 p-3 text-white">
+                        <option value="Villa">Villa</option>
+                        <option value="Penthouse">Penthouse</option>
+                        <option value="Land">Land</option>
+                    </select>
+                    <div class="grid grid-cols-2 gap-4">
+                        <input type="number" name="beds" placeholder="Beds" class="bg-transparent border border-gray-700 p-3 text-white">
+                        <input type="number" name="baths" placeholder="Baths" class="bg-transparent border border-gray-700 p-3 text-white">
+                    </div>
+                    <input type="number" name="sqm" placeholder="SQM" class="w-full bg-transparent border border-gray-700 p-3 text-white">
+                    <textarea name="details" placeholder="Architectural Details" rows="4" class="w-full bg-transparent border border-gray-700 p-3 text-white"></textarea>
+                    <label class="text-sm text-gray-500">IMAGE (High Res Only)</label>
+                    <input type="file" name="image" id="image" class="w-full">
+                    <img id="preview" class="w-full h-64 object-cover my-4 hidden rounded">
+                    <button type="submit" class="bg-gold text-black w-full py-4 font-bold tracking-wider">DEPLOY</button>
+                </form>
+            </div>
+
+            <div>
+                <div class="glass p-8 rounded mb-10">
+                    <h3 class="text-2xl text-gold tracking-wider mb-6">ACTIVE LEADS (WhatsApp Notified)</h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full">
+                            <thead>
+                                <tr class="text-left text-gold text-xs tracking-wider border-b border-gray-800">
+                                    <th class="pb-4">DATE</th><th>NAME</th><th>EMAIL</th><th>MESSAGE</th><th>ACTION</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for lead in leads %}
+                                <tr class="border-b border-gray-900">
+                                    <td class="py-4">{{ lead.created_at.strftime('%d %b %Y') }}</td>
+                                    <td class="text-gold">{{ lead.name }}</td>
+                                    <td>{{ lead.email }}</td>
+                                    <td class="opacity-70">{{ lead.message }}</td>
+                                    <td>
+                                        <form method="POST" action="{{ url_for('delete_lead', id=lead.id) }}" onsubmit="return confirm('Delete this lead?')">
+                                            <button type="submit" class="text-red-500 text-sm">Delete</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-                <input type="text" name="sqft" placeholder="SQ.FT">
-                <textarea name="details" placeholder="Architectural Details" rows="4"></textarea>
-                <label style="font-size: 0.7rem; color: #666;">IMAGE (High Res Only)</label>
-                <input type="file" name="image" required>
-                <button type="submit" class="btn">DEPLOY ASSET</button>
-            </form>
-        </div>
 
-        <div class="card">
-            <h3 style="margin-top:0; letter-spacing: 2px;">ACTIVE LEADS (WhatsApp Tracked)</h3>
-            <table>
-                <thead>
-                    <tr><th>DATE</th><th>NAME</th><th>PHONE</th><th>REQUIREMENTS</th></tr>
-                </thead>
-                <tbody>
-                    {% for lead in leads %}
-                    <tr>
-                        <td>{{ lead.timestamp.strftime('%d %b') }}</td>
-                        <td style="color: var(--gold);">{{ lead.name }}</td>
-                        <td>{{ lead.phone }}</td>
-                        <td style="opacity: 0.7;">{{ lead.message }}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+                <div class="glass p-8 rounded">
+                    <h3 class="text-2xl text-gold tracking-wider mb-6">ACTIVE LISTINGS</h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full">
+                            <thead>
+                                <tr class="text-left text-gold text-xs tracking-wider border-b border-gray-800">
+                                    <th class="pb-4">PREVIEW</th><th>TITLE</th><th>PRICE</th><th>LOCATION</th><th>ACTION</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for listing in listings %}
+                                <tr class="border-b border-gray-900">
+                                    <td class="py-4"><img src="{{ listing.image_url or '/static/placeholder.jpg' }}" class="w-32 h-32 object-cover rounded"></td>
+                                    <td class="text-gold">{{ listing.title }}</td>
+                                    <td>{{ listing.price }} KSh</td>
+                                    <td>{{ listing.location }}</td>
+                                    <td>
+                                        <form method="POST" action="{{ url_for('delete_listing', id=listing.id) }}" onsubmit="return confirm('Delete this asset? Irreversible.')">
+                                            <button type="submit" class="text-red-500 text-sm">Delete</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+
+    <script>
+        // Image preview
+        document.getElementById('image').addEventListener('change', (e) => {
+            const preview = document.getElementById('preview');
+            if (e.target.files[0]) {
+                preview.src = URL.createObjectURL(e.target.files[0]);
+                preview.classList.remove('hidden');
+            }
+        });
+    </script>
 </body>
 </html>

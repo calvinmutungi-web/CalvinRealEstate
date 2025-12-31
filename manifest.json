@@ -1,0 +1,12 @@
+{
+  "short_name": "Calvin RE",
+  "name": "Calvin Real Estate Agencies",
+  "icons": [
+    {"src": "/icon-192.png", "type": "image/png", "sizes": "192x192"},
+    {"src": "/icon-512.png", "type": "image/png", "sizes": "512x512"}
+  ],
+  "start_url": "/",
+  "background_color": "#050505",
+  "display": "standalone",
+  "theme_color": "#D4AF37"
+}
