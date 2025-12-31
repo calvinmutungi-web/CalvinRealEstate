@@ -1,6 +1,10 @@
-Flask==3.0.0
-Flask-SQLAlchemy==3.1.1
-requests==2.31.0
-gunicorn==21.2.0
-Werkzeug==3.0.1
-beautifulsoup4==4.12.2
+Flask
+Flask-SQLAlchemy
+Werkzeug
+Pillow
+requests
+urllib3
+flask-wtf          # <--- the culprit
+flask-caching      # if you kept caching
+numpy    
+beautifulsoup4     # if you kept recommendations
