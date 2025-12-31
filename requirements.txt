@@ -7,4 +7,5 @@ urllib3
 flask-wtf          # <--- the culprit
 flask-caching      # if you kept caching
 numpy    
-beautifulsoup4     # if you kept recommendations
+beautifulsoup4
+gunicorn     # if you kept recommendations
